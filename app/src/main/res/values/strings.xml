@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Sudoku</string>
+    <string name="number_tile_to_remove">Nombre de cases a enlever</string>
+    <string name="number_tile_to_remove_hint">Nb a enlever</string>
+    <string name="tile_to_remove_default">40</string>
+    <string name="valid_button">Valider</string>
+
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="height">8</string>
+    <string name="nine">9</string>
+    <string name="square">■</string>
+    <string name="round">●</string>
+
+    <string name="show_conflicts">Afficher les erreurs possibles:</string>
+    <string name="sudoku_logo_content_description">Sudoku logo</string>
+    <string name="play_button">Jouer</string>
+
+    <string name="game_result_win">Vous avez gagné !</string>
+    <string name="game_result_abort">Vous avez abandonné !</string>
+
+    <string name="restart">Recommencer la partie</string>
+    <string name="main_menu">Menu principal</string>
+    <string name="Abort">Abandonner</string>
+    <string name="new_game">Nouvelle partie</string>
+
+    <string name="dialog_cancel">Annuler</string>
+    <string name="dialog_no">Non</string>
+    <string name="dialog_yes">Oui</string>
+    <string name="dialog_abort">Abandonner</string>
+
+    <string name="dialog_main_menu_title">Retour au menu principal</string>
+    <string name="dialog_main_menu_message">Êtes-vous sûr de vouloir arrêter et revenir au menu
+        principal?</string>
+    <string name="dialog_main_menu_yes">Menu principal?</string>
+    <string name="dialog_main_menu_no">Annuler</string>
+
+    <string name="dialog_restart_title">Recommencer?</string>
+    <string name="dialog_restart_this_game">Recommencer cette partie</string>
+    <string name="dialog_restart_new_game">Recommencer une nouvelle partie</string>
+    <string name="dialog_valid">Valider</string>
+
+    <string name="dialog_abort_title">Solution?</string>
+    <string name="dialog_abort_message">Êtes-vous sûr de vouloir abandonner la partie? La solution
+        sera relevée.</string>
+</resources>

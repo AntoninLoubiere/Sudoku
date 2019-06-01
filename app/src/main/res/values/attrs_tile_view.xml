@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="TileView">
+        <attr name="number_tile" format="integer"/>
+        <attr name="number_font_color" format="color"/>
+        <attr name="size_font" format="float" />
+        <attr name="user_modifiable" format="boolean"/>
+    </declare-styleable>
+</resources>
