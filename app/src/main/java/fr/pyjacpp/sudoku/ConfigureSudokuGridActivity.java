@@ -72,7 +72,7 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
                 try {
                     int input = Integer.parseInt(String.valueOf(s));
 
-                    if (input >= 2 && input <= 70) {
+                    if (input >= 20 && input <= 70) {
                         seekBarNumberTileToRemove.setProgress(input - 20);
 
                         editTextNumberTileToRemove.setTextColor(Color.BLACK);
