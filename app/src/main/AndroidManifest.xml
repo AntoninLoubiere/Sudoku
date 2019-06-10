@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CreditsActivity"></activity>
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait">
@@ -21,6 +22,7 @@
         </activity>
         <activity
             android:name=".ConfigureSudokuGridActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainMenuActivity"
@@ -31,7 +33,6 @@
         </activity>
         <activity
             android:name=".SudokuActivity"
-            android:configChanges="screenSize"
             android:screenOrientation="portrait" />
     </application>
 

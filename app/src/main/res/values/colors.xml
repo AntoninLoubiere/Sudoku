@@ -4,20 +4,25 @@
     <color name="colorPrimaryDark">#ff194f5b</color>
     <color name="colorAccent">#ffc8375b</color>
     <color name="background_color">#FFF</color>
-    <color name="selected_background_color">#FFD600</color>
+    <color name="selected_background_color">#ffcc00</color>
+    <color name="splash_screen_text_color">#fff</color>
 
     <color name="border_color">#ff2c89a0</color>
     <color name="border_color_tile_view" >#ff3cbfdc</color>
     <color name="user_number_color">#ff2c89a0</color>
     <color name="selected_number_color_background">#FFAB00</color>
-    <color name="conflict_color">#FE9A2E</color>
+    <color name="conflict_color">#fe962f</color>
     <color name="user_conflict_color">#FE2E2E</color>
 
-    <color name="text_win">#ff2ca02c</color>
+    <color name="text_win">#ff37c837</color>
     <color name="text_lose">#ffc83737</color>
+    <color name="text_hint">#ffffd700</color>
 
     <color name="positive">#37c837</color>
     <color name="negative">#ffc8375b</color>
+
+    <color name="button_action">#00000000</color>
+    <color name="button_action_click">#33E1E1E1</color>
 
     <color name="popup_background">#802B2B2B</color>
 </resources>

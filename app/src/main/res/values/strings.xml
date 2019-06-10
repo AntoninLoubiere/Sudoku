@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Sudoku</string>
+    <string name="by_author">Par Antonin Loubiére</string>
     <string name="number_tile_to_remove">Nombre de cases a enlever</string>
     <string name="number_tile_to_remove_hint">Nb a enlever</string>
     <string name="tile_to_remove_default">40</string>
+
     <string name="valid_button">Valider</string>
+    <string name="back_button">Retour</string>
 
     <string name="one">1</string>
     <string name="two">2</string>
@@ -18,8 +21,10 @@
     <string name="round">●</string>
 
     <string name="show_conflicts">Afficher les erreurs possibles:</string>
+
     <string name="sudoku_logo_content_description">Sudoku logo</string>
     <string name="play_button">Jouer</string>
+    <string name="main_menu_bottom_line" >Version: 1.1 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
@@ -34,10 +39,10 @@
     <string name="dialog_yes">Oui</string>
     <string name="dialog_abort">Abandonner</string>
 
-    <string name="dialog_main_menu_title">Retour au menu principal</string>
+    <string name="dialog_main_menu_title">Retour au menu principal?</string>
     <string name="dialog_main_menu_message">Êtes-vous sûr de vouloir arrêter et revenir au menu
         principal?</string>
-    <string name="dialog_main_menu_yes">Menu principal?</string>
+    <string name="dialog_main_menu_yes">Menu principal</string>
     <string name="dialog_main_menu_no">Annuler</string>
 
     <string name="dialog_restart_title">Recommencer?</string>
@@ -47,5 +52,26 @@
 
     <string name="dialog_abort_title">Solution?</string>
     <string name="dialog_abort_message">Êtes-vous sûr de vouloir abandonner la partie? La solution
-        sera relevée.</string>
+        sera révélée.</string>
+    <string name="hint">Indice</string>
+    <string name="hint_mode_text">Choisissez une case pour l\'indice</string>
+    <string name="hint_new_click_ask">Veuillez recliquer pour confirmer</string>
+
+    <string name="credits">Credits</string>
+    <string name="credits_code_title">Code</string>
+    <string name="credits_code_content">
+        - Code principal: Antonin Loubière (github.com/AntoninLoubière)\n\n
+        - Création des grille de sudoku (complétées): Mfgravesjr (github.com/mfgravesjr)
+    </string>
+    <string name="credits_design_title">Mise en page</string>
+    <string name="credits_design_content">
+        - Design général (Si non précisé): Antonin Loubiére (github.com/AntoninLoubière)\n\n
+        - Icones: Google (github.com/google/material-design-icons)
+    </string>
+    <string name="credits_licenses_title">Licenses</string>
+    <string name="credits_licenses_content">
+        - Icones: Apache 2.0 (apache.org/licenses/LICENSE-2.0)\n\n
+        - Ce qui reste: GNU General Public License v3.0 (gnu.org/licenses/gpl-3.0.html)
+    </string>
+
 </resources>
