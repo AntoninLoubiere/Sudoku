@@ -23,27 +23,32 @@ public class MainMenuActivity extends AppCompatActivity {
                 R.anim.logo_shake_animation));
 
         final Button playButton = findViewById(R.id.playButton);
+        final Button tutorialButton = findViewById(R.id.tutorialButton);
         final Button creditsButton = findViewById(R.id.creditsButton);
 
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
 
-        int width = size.x;
-        int height = size.y;
-        int min = width > height ? height : width; // get min
 
+        logo.getLayoutParams().height = (int) (size.x * 0.625f);
+        logo.getLayoutParams().width = (int) (size.x * 0.625f);
 
-        logo.getLayoutParams().height = (int) (min * 0.625f);
-        logo.getLayoutParams().width = (int) (min * 0.625f);
-
-        playButton.setTextSize(min * 0.058333333f);
-        creditsButton.setTextSize(min * 0.0375f);
+        playButton.setTextSize(size.x * 0.058333333f);
+        tutorialButton.setTextSize(size.x * 0.041666667f);
+        creditsButton.setTextSize(size.x * 0.0375f);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),
                         ConfigureSudokuGridActivity.class));
+            }
+        });
+        tutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),
+                        TutorialRulesActivity.class));
             }
         });
         creditsButton.setOnClickListener(new View.OnClickListener() {

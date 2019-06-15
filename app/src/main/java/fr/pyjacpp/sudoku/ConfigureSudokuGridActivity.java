@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +32,11 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
                 true);
 
         setContentView(R.layout.activity_configure_sudoku_grid);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         seekBarNumberTileToRemove = findViewById(R.id.seekBarNumberTileToRemove);
         editTextNumberTileToRemove = findViewById(R.id.editTextNumberTileToRemove);
@@ -88,7 +91,6 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -111,5 +113,11 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
