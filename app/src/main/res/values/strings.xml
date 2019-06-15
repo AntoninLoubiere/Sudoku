@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Sudoku</string>
-    <string name="by_author">Par Antonin Loubiére</string>
+    <string name="by_author">Par Antonin Loubière</string>
     <string name="number_tile_to_remove">Nombre de cases a enlever</string>
     <string name="number_tile_to_remove_hint">Nb a enlever</string>
     <string name="tile_to_remove_default">40</string>
@@ -24,15 +24,19 @@
 
     <string name="sudoku_logo_content_description">Sudoku logo</string>
     <string name="play_button">Jouer</string>
-    <string name="main_menu_bottom_line" >Version: 1.1 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
+    <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
+    <string name="main_menu_bottom_line">Version: 1.1 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
 
     <string name="restart">Recommencer la partie</string>
     <string name="main_menu">Menu principal</string>
-    <string name="Abort">Abandonner</string>
+    <string name="abort">Abandonner</string>
     <string name="new_game">Nouvelle partie</string>
+    <string name="undo">Annuler</string>
+    <string name="redo">Rétablir</string>
+
 
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_no">Non</string>
@@ -48,14 +52,18 @@
     <string name="dialog_restart_title">Recommencer?</string>
     <string name="dialog_restart_this_game">Recommencer cette partie</string>
     <string name="dialog_restart_new_game">Recommencer une nouvelle partie</string>
+    <string name="dialog_restart_game_start">Vous voulez:</string>
     <string name="dialog_valid">Valider</string>
 
     <string name="dialog_abort_title">Solution?</string>
     <string name="dialog_abort_message">Êtes-vous sûr de vouloir abandonner la partie? La solution
         sera révélée.</string>
+
+
     <string name="hint">Indice</string>
     <string name="hint_mode_text">Choisissez une case pour l\'indice</string>
     <string name="hint_new_click_ask">Veuillez recliquer pour confirmer</string>
+
 
     <string name="credits">Credits</string>
     <string name="credits_code_title">Code</string>
@@ -65,13 +73,56 @@
     </string>
     <string name="credits_design_title">Mise en page</string>
     <string name="credits_design_content">
-        - Design général (Si non précisé): Antonin Loubiére (github.com/AntoninLoubière)\n\n
+        - Design général (Si non précisé): Antonin Loubière (github.com/AntoninLoubière)\n\n
         - Icones: Google (github.com/google/material-design-icons)
     </string>
     <string name="credits_licenses_title">Licenses</string>
     <string name="credits_licenses_content">
         - Icones: Apache 2.0 (apache.org/licenses/LICENSE-2.0)\n\n
         - Ce qui reste: GNU General Public License v3.0 (gnu.org/licenses/gpl-3.0.html)
+    </string>
+
+
+    <string name="tutorial_rules_title">Régles</string>
+    <string name="tutorial_rules_content">
+        Dans un sudoku, il faut qu\'il y ait seulement 1 chiffre entre 1 et 9 par ligne, colone et
+        carré. Vous allez avoir une grille et le but est de réussir à la compléter en respectant la
+        régle précédement énoncée.
+    </string>
+    <string name="tutorial_tutorial_title">Tutoriel</string>
+    <string name="tutorial_tutorial_content">
+        Pour commencer, choisissez un nombre de nombres à enlever (40 par défault) et activée ou non
+        l\'aide, qui montre si deux nombres ne respectent pas la régle (conseiller de l\'activer).\n
+        Une grille avec des case manquante va apparaître, c\'est à vous de la remplir.\n
+        Pour remplir un numéro dans la grille, il suffit de cliquer sur cette case et de cliquer sur
+        le numéro corespondant dans la fenêtre qui apparait au milieux de l\'écran.
+    </string>
+    <string name="tutorial_icons_title">Icônes</string>
+    <string name="tutorial_icons_content">
+        Pour vous aider, vous possédez plusiers icônes:
+    </string>
+    <string name="tutorial_icons_abort">
+        Permet d\'abandonner et de montrer la solution de la grille
+    </string>
+    <string name="tutorial_icons_hint">
+        Permet d\'avoir un indice sur la case de son
+    </string>
+    <string name="tutorial_icons_restart">
+        Permet de recommencer soit la partie en cours et donc de recommencer la grille du début,
+        soit de faire une nouvelle partie
+    </string>
+    <string name="tutorial_icons_main_menu">
+        Permet de revenir au menu principal
+    </string>
+    <string name="tutorial_icons_undo">
+        Permet d\'annuler les poses des nombres
+    </string>
+    <string name="tutorial_icons_redo">
+        Permet de rétablir les annulations
+    </string>
+    <string name="tutorial_icons_content_end">
+        Si en cours de partie vous avez un doute, restez appuyer sur cet icône et regarder en
+        bas quel texte s\'affiche
     </string>
 
 </resources>

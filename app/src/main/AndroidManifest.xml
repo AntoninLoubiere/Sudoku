@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreditsActivity"></activity>
+        <activity android:name=".TutorialRulesActivity"></activity>
+        <activity android:name=".CreditsActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait">

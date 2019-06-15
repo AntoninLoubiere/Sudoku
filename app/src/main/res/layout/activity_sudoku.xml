@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
-            android:contentDescription="@string/Abort"
+            android:contentDescription="@string/abort"
             android:src="@drawable/ic_action_abort" />
 
         <ImageView
@@ -53,6 +53,26 @@
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/hint"
             android:src="@drawable/ic_action_hint"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/buttonActionUndo"
+            style="?android:attr/selectableItemBackground"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/undo"
+                android:src="@drawable/ic_action_undo_disable"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/buttonActionRedo"
+            style="?android:attr/selectableItemBackground"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/redo"
+            android:src="@drawable/ic_action_redo_disable"
             android:layout_weight="1" />
 
         <ImageView
