@@ -2,12 +2,22 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_margin="20dp">
+
+    <TextView
+        android:id="@+id/textIntroduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_restart_game_start"
+        android:textColor="#000"
+        android:textSize="24sp"/>
 
     <RadioGroup
         android:id="@+id/restartGameRadioGroup"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textIntroduction">
 
         <RadioButton
             android:id="@+id/restartThisGameButton"
