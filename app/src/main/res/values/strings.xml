@@ -15,7 +15,7 @@
     <string name="five">5</string>
     <string name="six">6</string>
     <string name="seven">7</string>
-    <string name="height">8</string>
+    <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="square">■</string>
     <string name="round">●</string>
@@ -25,7 +25,7 @@
     <string name="sudoku_logo_content_description">Sudoku logo</string>
     <string name="play_button">Jouer</string>
     <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
-    <string name="main_menu_bottom_line">Version: 1.1 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
+    <string name="main_menu_bottom_line">Version: 1.2 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
