@@ -7,6 +7,7 @@
 
     <string name="valid_button">Valider</string>
     <string name="back_button">Retour</string>
+    <string name="quit">Quitter</string>
 
     <string name="one">1</string>
     <string name="two">2</string>
@@ -23,9 +24,11 @@
     <string name="show_conflicts">Afficher les erreurs possibles:</string>
 
     <string name="sudoku_logo_content_description">Sudoku logo</string>
-    <string name="play_button">Jouer</string>
+    <string name="play_button">Nouvelle partie</string>
+    <string name="continue_play_button">Continuer la partie</string>
     <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
-    <string name="main_menu_bottom_line">Version: 1.2 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
+    <string name="version">v2.0</string>
+    <string name="main_menu_bottom_line">Version: 2.0 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
@@ -59,6 +62,15 @@
     <string name="dialog_abort_message">Êtes-vous sûr de vouloir abandonner la partie? La solution
         sera révélée.</string>
 
+    <string name="dialog_quit_title">Quitter l\'application?</string>
+    <string name="dialog_quit_message">Êtes-vous sûr de vouloir quitter l\'application?</string>
+    <string name="dialog_quit_yes">Quitter</string>
+    <string name="dialog_quit_no">Annuler</string>
+
+    <string name="dialog_reset_statistics_title">Réinitialiser ?</string>
+    <string name="dialog_reset_statistics_message">Voulez vous vraimment remettre à zéro toutes les
+        statistiques (cette action est irréversible) ?</string>
+
 
     <string name="hint">Indice</string>
     <string name="hint_mode_text">Choisissez une case pour l\'indice</string>
@@ -73,8 +85,8 @@
     </string>
     <string name="credits_design_title">Mise en page</string>
     <string name="credits_design_content">
-        - Design général (Si non précisé): Antonin Loubière (github.com/AntoninLoubière)\n\n
-        - Icones: Google (github.com/google/material-design-icons)
+        - Icones: Google (github.com/google/material-design-icons)\n\n
+        - Design général (le reste): Antonin Loubière (github.com/AntoninLoubière)
     </string>
     <string name="credits_licenses_title">Licenses</string>
     <string name="credits_licenses_content">
@@ -91,15 +103,15 @@
     </string>
     <string name="tutorial_tutorial_title">Tutoriel</string>
     <string name="tutorial_tutorial_content">
-        Pour commencer, choisissez un nombre de nombres à enlever (40 par défault) et activée ou non
-        l\'aide, qui montre si deux nombres ne respectent pas la régle (conseiller de l\'activer).\n
-        Une grille avec des case manquante va apparaître, c\'est à vous de la remplir.\n
+        Pour commencer, choisissez un nombre de nombres à enlever (40 par défault) et activez ou non
+        l\'aide, qui montre si deux nombres ne respectent pas la régle (conseillé de l\'activer).\n
+        Une grille avec des cases manquantes va apparaître, c\'est à vous de la remplir.\n
         Pour remplir un numéro dans la grille, il suffit de cliquer sur cette case et de cliquer sur
         le numéro corespondant dans la fenêtre qui apparait au milieux de l\'écran.
     </string>
     <string name="tutorial_icons_title">Icônes</string>
     <string name="tutorial_icons_content">
-        Pour vous aider, vous possédez plusiers icônes:
+        Pour vous aider, vous possédez plusieurs icônes:
     </string>
     <string name="tutorial_icons_abort">
         Permet d\'abandonner et de montrer la solution de la grille
@@ -121,8 +133,32 @@
         Permet de rétablir les annulations
     </string>
     <string name="tutorial_icons_content_end">
+        \n
         Si en cours de partie vous avez un doute, restez appuyer sur cet icône et regarder en
         bas quel texte s\'affiche
     </string>
+
+    <string name="statistics_title">Statistiques</string>
+    <string name="statistics_reset_date">Statistiques à partir du %s, %s</string>
+    <string name="statistics_number_game">Vous avez fait %d partie(s)</string>
+    <string name="statistics_number_game_win">Vous avez gagné %d partie(s) soit %.1f%%</string>
+    <string name="statistics_number_game_abort">Vous avez abondonné %d partie(s) soit %.1f%%
+    </string>
+    <string name="statistics_number_numbers_completed">Vous avez complété %d case(s)</string>
+    <string name="statistics_number_numbers_completed_just">Vous avez complété une case avec la
+        bonne réponse, %d fois soit %.1f%%</string>
+    <string name="statistics_number_numbers_completed_wrong">Vous avez complété une case avec une
+        mauvaise réponse, ou avec rien %d fois soit %.1f%%</string>
+    <string name="statistics_number_numbers_completed_average">En moyenne, vous complétez %.1f
+        case(s)
+    </string>
+    <string name="statistics_number_numbers_completed_max">Le maximum de cases complétés en une
+        partie, avec la bonne réponse est %d case(s)</string>
+    <string name="statistics_number_hint">Vous avez utilisé %d indice(s)</string>
+    <string name="statistics_number_hint_average">Vous utilisez en moyenne %.1f indice(s)</string>
+    <string name="statistics_number_hint_max">Le maximum d\'indices utilisés en une partie est %d
+        indice(s)
+    </string>
+    <string name="statistics_reset">Réinitialiser</string>
 
 </resources>

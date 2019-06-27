@@ -3,12 +3,10 @@
     android:layout_height="match_parent">
 
     <fr.pyjacpp.sudoku.TileView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:background="@drawable/tile_view_background"
         android:paddingTop="60dp"
-        android:paddingBottom="60dp"
-        android:paddingLeft="60dp"
-        android:paddingStart="60dp" />
+        android:paddingBottom="60dp" />
 
 </FrameLayout>

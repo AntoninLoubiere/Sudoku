@@ -7,8 +7,13 @@
     <color name="selected_background_color">#ffcc00</color>
     <color name="splash_screen_text_color">#fff</color>
 
+    <color name="main_menu_button_start_color">#5fc3d3</color>
+    <color name="main_menu_button_end_color">#2c89a0</color>
+    <color name="main_menu_button_start_color_selected">#85a8ad</color>
+    <color name="main_menu_button_end_color_selected">#52727a</color>
+
     <color name="border_color">#ff2c89a0</color>
-    <color name="border_color_tile_view" >#ff3cbfdc</color>
+    <color name="border_color_tile_view">#ff3cbfdc</color>
     <color name="user_number_color">#ff2c89a0</color>
     <color name="selected_number_color_background">#FFAB00</color>
     <color name="conflict_color">#fe962f</color>
@@ -22,5 +27,8 @@
     <color name="negative">#ffc8375b</color>
 
     <color name="background_color_button">#fff</color>
+    <color name="background_color_button_clicked">#ccc</color>
     <color name="popup_background">#802c89a0</color>
+
+    <color name="separator_color">#AAA</color>
 </resources>

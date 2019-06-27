@@ -19,6 +19,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         ImageView logo = findViewById(R.id.logo);
+        TextView version = findViewById(R.id.version);
         TextView author = findViewById(R.id.authorTextView);
         ProgressBar progressBar = findViewById(R.id.progressBar);
 
@@ -29,6 +30,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         logo.getLayoutParams().height = size.x / 2;
 
         author.setTextSize(size.x * 0.045833333f);
+        version.setTextSize(size.x * 0.072916667f);
 
         progressBar.getLayoutParams().width = (int) (size.x * 0.208333333f);
         progressBar.getLayoutParams().height = (int) (size.x * 0.208333333f);
@@ -41,5 +43,13 @@ public class SplashScreenActivity extends AppCompatActivity {
                 finish();
             }
         }, DELAY_TIME);
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                // import preferences
+                ((SudokuApplication) getApplicationContext()).importPreferences();
+            }
+        });
     }
 }

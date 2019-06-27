@@ -1,26 +1,26 @@
 package fr.pyjacpp.sudoku;
 
-public class NumberChange {
+class NumberChange {
 
     private int x;
     private int y;
-    private int number;
+    private SudokuNumbersEnum number;
 
-    NumberChange(int x, int y, int number) {
+    NumberChange(int x, int y, SudokuNumbersEnum number) {
         this.x = x;
         this.y = y;
         this.number = number;
     }
 
-    public int getX() {
+    int getX() {
         return x;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public int getNumber() {
+    SudokuNumbersEnum getNumber() {
         return number;
     }
 }

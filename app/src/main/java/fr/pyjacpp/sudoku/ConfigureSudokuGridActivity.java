@@ -83,7 +83,8 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
                         return;
                     }
 
-                } catch (NumberFormatException ignored) { }
+                } catch (NumberFormatException ignored) {
+                }
 
                 editTextNumberTileToRemove.setTextColor(Color.RED);
                 validButton.setEnabled(false);
@@ -108,6 +109,8 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
                 sudokuIntent.putExtra("numberTilesToRemove",
                         Integer.parseInt(editTextNumberTileToRemove.getText().toString()));
                 sudokuIntent.putExtra("showConflictSwitch", showConflictIsChecked);
+
+                ((SudokuApplication) getApplicationContext()).setCurrentSudokuGrid(null);
 
                 startActivity(sudokuIntent);
                 finish();
