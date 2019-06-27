@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatisticsActivity">
+
+    <TextView
+        android:id="@+id/activityTitle"
+        style="@style/Text.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/statistics_title"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/separatorTop"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+
+        android:background="@color/separator_color"
+        app:layout_constraintTop_toBottomOf="@id/activityTitle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/separatorTop">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/reinitTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_reset_date" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+
+                android:background="@color/separator_color" />
+
+            <TextView
+                android:id="@+id/numberGameDidTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_game" />
+
+            <TextView
+                android:id="@+id/numberGameWinTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_game_win"
+                android:textColor="@color/text_win" />
+
+            <TextView
+                android:id="@+id/numberGameAbortTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_game_abort"
+                android:textColor="@color/text_lose" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/separator_color" />
+
+            <TextView
+                android:id="@+id/numberNumbersCompletedTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_numbers_completed" />
+
+            <TextView
+                android:id="@+id/numberNumbersCompletedAverageTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_numbers_completed_average" />
+
+            <TextView
+                android:id="@+id/numberNumbersCompletedJustTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_numbers_completed_just"
+                android:textColor="@color/text_win" />
+
+            <TextView
+                android:id="@+id/numberNumbersCompletedMaxTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_numbers_completed_max"
+                android:textColor="@color/text_win" />
+
+            <TextView
+                android:id="@+id/numberNumbersCompletedWrongTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_numbers_completed_wrong"
+                android:textColor="@color/text_lose" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/separator_color" />
+
+            <TextView
+                android:id="@+id/numberHintTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_hint" />
+
+            <TextView
+                android:id="@+id/numberHintAverageTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_hint_average" />
+
+            <TextView
+                android:id="@+id/numberHintMaxTextView"
+                style="@style/Text.Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_number_hint_max" />
+
+            <Button
+                android:id="@+id/reinitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/statistics_reset"
+                android:textAllCaps="false"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

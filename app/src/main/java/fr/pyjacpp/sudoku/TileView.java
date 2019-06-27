@@ -18,7 +18,7 @@ public class TileView extends View {
     private TextPaint numberTextPaint;
     private TextPaint.FontMetrics numberTextPaintMetrics;
 
-    private int number = 1;
+    private SudokuNumbersEnum number = SudokuNumbersEnum.Blank;
     private int numberFontColor = Color.BLACK;
     private float sizeFont = 25;
     private boolean userModifiable = false;
@@ -49,8 +49,10 @@ public class TileView extends View {
                 attrs, R.styleable.TileView, defStyle, 0);
 
 
-        number = a.getInteger(R.styleable.TileView_number_tile,
-                number);
+        int number = a.getInteger(R.styleable.TileView_number_tile,
+                0);
+
+        this.number = SudokuNumbersEnum.get(number);
 
         sizeFont = a.getFloat(R.styleable.TileView_size_font,
                 sizeFont);
@@ -98,38 +100,18 @@ public class TileView extends View {
         int contentHeight = getHeight() - paddingTop - paddingBottom;
 
         // Draw the text.
-        canvas.drawText(getTextNumber(),
+        canvas.drawText(number.getTextNumber(),
                 paddingLeft + (contentWidth) / 2f,
                 paddingTop + (contentHeight) / 2f -
                         (numberTextPaintMetrics.ascent + numberTextPaintMetrics.descent) / 2f,
                 numberTextPaint);
     }
 
-    private String getTextNumber() {
-        switch (number) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-                return String.valueOf(number);
-            case 10:
-                return "■";
-            case 11:
-                return "";
-            case 12:
-                return "●";
-
-            default:
-                return "";
-        }
+    public SudokuNumbersEnum getNumber() {
+        return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(SudokuNumbersEnum number) {
         this.number = number;
         invalidateTextPaintAndMeasurements();
         invalidate();
@@ -165,7 +147,7 @@ public class TileView extends View {
 
         if (previousConflict != isInConflict()) {
             if (isInConflict())
-                numberTextPaint.setColor(getResources().getColor( userModifiable ?
+                numberTextPaint.setColor(getResources().getColor(userModifiable ?
                         R.color.user_conflict_color : R.color.conflict_color));
             else
                 numberTextPaint.setColor(numberFontColor);
@@ -185,15 +167,11 @@ public class TileView extends View {
         return false;
     }
 
-    public int getNumber() {
-        return number;
+    public boolean isUserModifiable() {
+        return userModifiable;
     }
 
     public void setUserModifiable(boolean userModifiable) {
         this.userModifiable = userModifiable;
-    }
-
-    public boolean isUserModifiable() {
-        return userModifiable;
     }
 }
