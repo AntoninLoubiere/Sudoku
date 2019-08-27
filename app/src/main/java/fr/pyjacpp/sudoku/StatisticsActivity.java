@@ -4,12 +4,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -47,6 +48,7 @@ public class StatisticsActivity extends AppCompatActivity {
                         .show();
             }
         });
+        new GregorianCalendar().getTime();
     }
 
     @Override
@@ -61,16 +63,79 @@ public class StatisticsActivity extends AppCompatActivity {
 
         TextView resetTextView =
                 findViewById(R.id.reinitTextView);
-        String timeSpan = DateUtils.getRelativeTimeSpanString(
-                getGlobalStatistics().getResetDate().getTime(),
-                System.currentTimeMillis(),
-                DateUtils.MINUTE_IN_MILLIS).toString().toLowerCase();
+
+        String timeSpent = getTimeSpent(getGlobalStatistics().getResetDate());
 
         resetTextView.setText(
                 String.format(getResources().getString(
                         R.string.statistics_reset_date),
                         dateFormat.format(getGlobalStatistics().getResetDate()),
-                        timeSpan));
+                        timeSpent));
+    }
+
+    private String getTimeSpent(Date resetDate) {
+       long  timeDifferenceInMillis = System.currentTimeMillis() - resetDate.getTime();
+
+       if (timeDifferenceInMillis < 1000 * 60) {
+           return getResources().getString(R.string.time_spent_now);
+
+       } else if (timeDifferenceInMillis < 1000 * 60 * 60) {
+           long numberMinutes = timeDifferenceInMillis / (1000 * 60);
+
+           if (numberMinutes <= 1) {
+               return getResources().getString(R.string.time_spent_minute_single);
+           } else {
+               return String.format(getResources().getString(R.string.time_spent_minute_multiple),
+                       numberMinutes);
+           }
+
+       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24) {
+           long numberHours = timeDifferenceInMillis / (1000 * 60 * 60);
+
+           if (numberHours <= 1) {
+               return getResources().getString(R.string.time_spent_hour_single);
+           } else {
+               return String.format(getResources().getString(R.string.time_spent_hour_multiple),
+                       numberHours);
+           }
+
+       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * 7) {
+           long numberDay = timeDifferenceInMillis / (1000 * 60 * 60 * 24);
+
+           if (numberDay <= 1) {
+               return getResources().getString(R.string.time_spent_day_single);
+           } else {
+               return String.format(getResources().getString(R.string.time_spent_day_multiple),
+                       numberDay);
+           }
+       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * (365 / 12f)) {
+           long numberWeek = timeDifferenceInMillis / (1000 * 60 * 60 * 24 * 7);
+
+           if (numberWeek <= 1) {
+               return getResources().getString(R.string.time_spent_week_single);
+           } else {
+               return String.format(getResources().getString(R.string.time_spent_week_multiple),
+                       numberWeek);
+           }
+       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * 365.25f) {
+           long numberMonth = (long) (timeDifferenceInMillis / (1000 * 60 * 60 * 24 * (365 / 12f)));
+
+           if (numberMonth <= 1) {
+               return getResources().getString(R.string.time_spent_month_single);
+           } else {
+               return String.format(getResources().getString(R.string.time_spent_month_multiple),
+                       numberMonth);
+           }
+       } else {
+           long numberYear = (long) (timeDifferenceInMillis / (1000 * 60 * 60 * 24 * 365.25f));
+
+           if (numberYear <= 1) {
+               return getResources().getString(R.string.time_spent_year_single);
+           } else {
+               return String.format(getResources().getString(R.string.time_spent_year_multiple),
+                       numberYear);
+           }
+       }
     }
 
     private void setTextStatistics() {
