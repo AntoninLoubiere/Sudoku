@@ -4,6 +4,6 @@
     android:startOffset="1000"
     android:fillAfter="true">
     <translate
-        android:fromXDelta="-105%"
-        android:toXDelta="0%"/>
+        android:fromXDelta="0%"
+        android:toXDelta="105%"/>
 </set>

@@ -119,6 +119,34 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center"
+                android:contentDescription="@string/swap_color"
+                android:src="@drawable/ic_swap_color" />
+
+            <TextView
+                style="@style/Text.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/swap_color" />
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tutorial_icons_swap_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
                 android:contentDescription="@string/undo"
                 android:src="@drawable/ic_action_undo" />
 

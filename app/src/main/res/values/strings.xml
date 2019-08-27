@@ -27,8 +27,8 @@
     <string name="play_button">Nouvelle partie</string>
     <string name="continue_play_button">Continuer la partie</string>
     <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
-    <string name="version">v2.0</string>
-    <string name="main_menu_bottom_line">Version: 2.0 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
+    <string name="version">v2.1</string>
+    <string name="main_menu_bottom_line">Version: 2.1 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
@@ -42,8 +42,6 @@
 
 
     <string name="dialog_cancel">Annuler</string>
-    <string name="dialog_no">Non</string>
-    <string name="dialog_yes">Oui</string>
     <string name="dialog_abort">Abandonner</string>
 
     <string name="dialog_main_menu_title">Retour au menu principal?</string>
@@ -90,7 +88,7 @@
     </string>
     <string name="credits_licenses_title">Licenses</string>
     <string name="credits_licenses_content">
-        - Icones: Apache 2.0 (apache.org/licenses/LICENSE-2.0)\n\n
+        - Icones: Apache 2.0 (apache.org/licenses/LICENSE- )\n\n
         - Ce qui reste: GNU General Public License v3.0 (gnu.org/licenses/gpl-3.0.html)
     </string>
 
@@ -105,60 +103,90 @@
     <string name="tutorial_tutorial_content">
         Pour commencer, choisissez un nombre de nombres à enlever (40 par défault) et activez ou non
         l\'aide, qui montre si deux nombres ne respectent pas la régle (conseillé de l\'activer).\n
-        Une grille avec des cases manquantes va apparaître, c\'est à vous de la remplir.\n
-        Pour remplir un numéro dans la grille, il suffit de cliquer sur cette case et de cliquer sur
-        le numéro corespondant dans la fenêtre qui apparait au milieux de l\'écran.
+        Une grille avec des cases manquantes va apparaître, c\'est à vous de la remplir. Chaque
+        grille dispose d\'un identifiant unique visible en base de la grille, vous pouvez cliquer
+        dessus pour copier cet identifiant dans le presse papier.\nPour remplir un numéro dans la
+        grille, il suffit de cliquer sur cette case et de cliquer sur le numéro corespondant dans la
+        fenêtre qui apparait au milieux de l\'écran. Vous pouvez changer la couleur d\'une case en
+        choisissant une des 9 couleurs proposées en bas de l\'écran. La couleur séléctionnée se
+        tourneras à 45°. Cliquer sur la case que vous voullez colorier.Puis si c\'est une case qui
+        ne pas être modifier, la couleur seras appliquée instantanément. Sinon il faut choisir un
+        nomnbre pour mettre à jour la couleur.
     </string>
     <string name="tutorial_icons_title">Icônes</string>
     <string name="tutorial_icons_content">
         Pour vous aider, vous possédez plusieurs icônes:
     </string>
     <string name="tutorial_icons_abort">
-        Permet d\'abandonner et de montrer la solution de la grille
+        Permet d\'abandonner et de montrer la solution de la grille.
     </string>
     <string name="tutorial_icons_hint">
-        Permet d\'avoir un indice sur la case de son
+        Permet d\'avoir un indice sur une case choisis.
     </string>
     <string name="tutorial_icons_restart">
         Permet de recommencer soit la partie en cours et donc de recommencer la grille du début,
-        soit de faire une nouvelle partie
+        soit de faire une nouvelle partie.
     </string>
     <string name="tutorial_icons_main_menu">
-        Permet de revenir au menu principal
+        Permet de revenir au menu principal.
     </string>
     <string name="tutorial_icons_undo">
-        Permet d\'annuler les poses des nombres
+        Permet d\'annuler les poses des nombres.
     </string>
     <string name="tutorial_icons_redo">
-        Permet de rétablir les annulations
+        Permet de rétablir les annulations.
     </string>
     <string name="tutorial_icons_content_end">
         \n
         Si en cours de partie vous avez un doute, restez appuyer sur cet icône et regarder en
-        bas quel texte s\'affiche
+        bas quel texte s\'affiche.
     </string>
 
     <string name="statistics_title">Statistiques</string>
-    <string name="statistics_reset_date">Statistiques à partir du %s, %s</string>
-    <string name="statistics_number_game">Vous avez fait %d partie(s)</string>
-    <string name="statistics_number_game_win">Vous avez gagné %d partie(s) soit %.1f%%</string>
-    <string name="statistics_number_game_abort">Vous avez abondonné %d partie(s) soit %.1f%%
+    <string name="statistics_reset_date">Statistiques à partir du %s, %s.</string>
+    <string name="statistics_number_game">Vous avez fait %d partie(s).</string>
+    <string name="statistics_number_game_win">Vous avez gagné %d partie(s) soit %.1f%%.</string>
+    <string name="statistics_number_game_abort">Vous avez abondonné %d partie(s) soit %.1f%%.
     </string>
     <string name="statistics_number_numbers_completed">Vous avez complété %d case(s)</string>
     <string name="statistics_number_numbers_completed_just">Vous avez complété une case avec la
-        bonne réponse, %d fois soit %.1f%%</string>
+        bonne réponse, %d fois soit %.1f%%.</string>
     <string name="statistics_number_numbers_completed_wrong">Vous avez complété une case avec une
-        mauvaise réponse, ou avec rien %d fois soit %.1f%%</string>
+        mauvaise réponse, ou avec rien %d fois soit %.1f%%.</string>
     <string name="statistics_number_numbers_completed_average">En moyenne, vous complétez %.1f
-        case(s)
+        case(s).
     </string>
     <string name="statistics_number_numbers_completed_max">Le maximum de cases complétés en une
-        partie, avec la bonne réponse est %d case(s)</string>
-    <string name="statistics_number_hint">Vous avez utilisé %d indice(s)</string>
-    <string name="statistics_number_hint_average">Vous utilisez en moyenne %.1f indice(s)</string>
+        partie, avec la bonne réponse est %d case(s).</string>
+    <string name="statistics_number_hint">Vous avez utilisé %d indice(s).</string>
+    <string name="statistics_number_hint_average">Vous utilisez en moyenne %.1f indice(s).</string>
     <string name="statistics_number_hint_max">Le maximum d\'indices utilisés en une partie est %d
-        indice(s)
+        indice(s).
     </string>
     <string name="statistics_reset">Réinitialiser</string>
+    <string name="swap_color">Échanger une couleur</string>
+    <string name="swap_color_choose_color">Choisissez la couleur finale</string>
+    <string name="swap_color_choose_number">Cliquez sur la case à changer</string>
+    <string name="swap_color_confirm_click_ask">Veuillez recliquer pour confirmer</string>
+    <string name="seed_edit_text">Identifiant de la grille</string>
+    <string name="seed_text">Grille: %1$s</string>
+    <string name="seedEditTextDefault">40-</string>
+    <string name="id_grid_copy">Identifiant de la grille copié</string>
 
+    <string name="time_spent_now">maintenant</string>
+    <string name="time_spent_minute_single">il y a 1 minute</string>
+    <string name="time_spent_minute_multiple">il y a %1$d minutes</string>
+    <string name="time_spent_hour_single">il y a 1 heure</string>
+    <string name="time_spent_hour_multiple">il y  a %1$d heures</string>
+    <string name="time_spent_day_single">il y a 1 jour</string>
+    <string name="time_spent_day_multiple">il y a %1$d jours</string>
+    <string name="time_spent_week_single">il y a 1 semaine</string>
+    <string name="time_spent_week_multiple">il y a %1$d semaines</string>
+    <string name="time_spent_month_single">il y a 1 mois</string>
+    <string name="time_spent_month_multiple">il y a %1$d mois</string>
+    <string name="time_spent_year_single">il y a 1 année</string>
+    <string name="time_spent_year_multiple">il y a %1$d années</string>
+    <string name="tutorial_icons_swap_color">Permet d\'échanger toutes les cases d\'une couleurs en une autre. Pour cela, choisisez d\'abord la couleur finale puis cliquez sur une des cases à changer.</string>
+
+    <string name="error_label_configure_sudoku_size_error">Le premier nombre doi être entre 20 et 70</string>
 </resources>

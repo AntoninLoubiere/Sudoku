@@ -22,13 +22,14 @@
     <color name="text_win">#ff37c837</color>
     <color name="text_lose">#ffc83737</color>
     <color name="text_hint">#ffffd700</color>
+    <color name="text_information">#F57C00</color>
 
     <color name="positive">#37c837</color>
     <color name="negative">#ffc8375b</color>
 
-    <color name="background_color_button">#fff</color>
-    <color name="background_color_button_clicked">#ccc</color>
-    <color name="popup_background">#802c89a0</color>
+    <color name="background_color_button">#99FFFFFF</color>
+    <color name="background_color_button_clicked">#99CCCCCC</color>
+    <color name="popup_background">#402B89A1</color>
 
     <color name="separator_color">#AAA</color>
 </resources>

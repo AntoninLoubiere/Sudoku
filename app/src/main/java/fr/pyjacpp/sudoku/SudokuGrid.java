@@ -1,11 +1,14 @@
 package fr.pyjacpp.sudoku;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
+
+import fr.pyjacpp.sudoku.undochange.UndoChange;
 
 /*
  *
@@ -54,29 +57,44 @@ import java.util.Stack;
  * colOrigin + i*9
  */
 
-class SudokuGrid {
+public class SudokuGrid {
+    private static final int MAX_LENGTH_SEED = 18;
+
     private SudokuNumbersEnum[][] sudokuGrid = new SudokuNumbersEnum[9][9];
     private SudokuNumbersEnum[][] userModify = new SudokuNumbersEnum[9][9];
+    private int[][] colorGrid = new int[9][9];
     private int numberTileToRemove;
     private int numberTileRemaining = 0;
 
-    private Stack<NumberChange> undoList = new Stack<>();
-    private Stack<NumberChange> redoList = new Stack<>();
+    private Random random = new Random();
+
+    private Stack<UndoChange> undoList = new Stack<>();
+    private Stack<UndoChange> redoList = new Stack<>();
     private boolean gameFinish = false;
     private boolean gameWin = false;
     private boolean gameStatisticsCount = false;
 
-    SudokuGrid(int numberTileToRemove) {
+    private int colorChooseSelected = 8;
+
+    private long seed;
+
+    SudokuGrid(int numberTileToRemove, long seed) {
         this.numberTileToRemove = numberTileToRemove;
 
         initGrid();
+
+        random.setSeed(seed);
+        this.seed = seed;
+
+        removeSomeTiles();
+
         do {
 
             if (generateGrid())
                 break;
 
         } while (true);
-        removeSomeTiles();
+
     }
 
     /**
@@ -143,6 +161,7 @@ class SudokuGrid {
             for (int y = 0; y < 9; y++) {
                 sudokuGrid[x][y] = SudokuNumbersEnum.One;
                 userModify[x][y] = SudokuNumbersEnum.NotModifiable; // -1 -> not modifiable number
+                colorGrid[x][y] = Color.WHITE;
             }
         }
     }
@@ -171,7 +190,7 @@ class SudokuGrid {
 
         //loads all boxes with numbers 1 through 9
         for (int i = 0; i < 81; i++) {
-            if (i % 9 == 0) Collections.shuffle(arr);
+            if (i % 9 == 0) Collections.shuffle(arr, random);
             int perBox = ((i / 3) % 3) * 9 + ((i % 27) / 9) * 3 + (i / 27) * 27 + (i % 3);
             grid[perBox] = arr.get(i % 9);
         }
@@ -310,7 +329,6 @@ class SudokuGrid {
     }
 
     private void removeSomeTiles() {
-        Random random = new Random();
         int numberDisable = 0;
         while (numberDisable < numberTileToRemove / 2) {
             int x = random.nextInt(9);
@@ -434,11 +452,11 @@ class SudokuGrid {
         return sudokuGrid[x][y];
     }
 
-    SudokuNumbersEnum getUserModify(int x, int y) {
+    public SudokuNumbersEnum getUserModify(int x, int y) {
         return userModify[x][y];
     }
 
-    void setUserModify(int x, int y, SudokuNumbersEnum value) {
+    public void setUserModify(int x, int y, SudokuNumbersEnum value) {
         userModify[x][y] = value;
     }
 
@@ -458,11 +476,11 @@ class SudokuGrid {
         return numberTileToRemove;
     }
 
-    Stack<NumberChange> getUndoList() {
+    Stack<UndoChange> getUndoList() {
         return undoList;
     }
 
-    Stack<NumberChange> getRedoList() {
+    Stack<UndoChange> getRedoList() {
         return redoList;
     }
 
@@ -483,6 +501,7 @@ class SudokuGrid {
                     numberTileRemaining++;
                     userModify[x][y] = SudokuNumbersEnum.Blank;
                 }
+                colorGrid[x][y] = Color.WHITE;
             }
         }
     }
@@ -532,4 +551,45 @@ class SudokuGrid {
             }
         }
     }
+
+    int getColorChooseSelected() {
+        return colorChooseSelected;
+    }
+
+    void setColorChooseSelected(int colorChooseSelected) {
+        this.colorChooseSelected = colorChooseSelected;
+    }
+
+    public int getColorGrid(int x, int y) {
+        return colorGrid[x][y];
+    }
+
+    public void setColorGrid(int x, int y, int color) {
+        colorGrid[x][y] = color;
+    }
+
+    void reCalculateNumberNumberRemaining() {
+        numberTileRemaining = 0;
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                if (userModify[x][y].isModifiable() && !userModify[x][y].isNumber())
+                    numberTileRemaining++;
+            }
+        }
+    }
+
+    static long generateRandomSeed() {
+        Random random = new Random();
+        long seed = Math.abs(random.nextLong());
+        if (String.valueOf(seed).length() > MAX_LENGTH_SEED)
+            return generateRandomSeed();  // to long
+        else
+            return seed;
+    }
+
+    long getSeed() {
+        return seed;
+    }
+
+
 }

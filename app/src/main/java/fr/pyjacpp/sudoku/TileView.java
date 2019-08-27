@@ -4,7 +4,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,6 +30,8 @@ public class TileView extends View {
     private boolean userModifiable = false;
 
     private boolean selected = false;
+
+    private int backgroundColor = Color.WHITE;
 
     private boolean[] inConflict = new boolean[3]; // conflict: 0:row, 1:column, 2:square
 
@@ -66,8 +74,7 @@ public class TileView extends View {
 
         a.recycle();
 
-        setBackgroundResource(selected ? R.drawable.selected_tile_view_background :
-                R.drawable.tile_view_background);
+        setBackground(getBackgroundNumber());
 
         numberTextPaint = new TextPaint();
         numberTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -107,10 +114,6 @@ public class TileView extends View {
                 numberTextPaint);
     }
 
-    public SudokuNumbersEnum getNumber() {
-        return number;
-    }
-
     public void setNumber(SudokuNumbersEnum number) {
         this.number = number;
         invalidateTextPaintAndMeasurements();
@@ -135,9 +138,7 @@ public class TileView extends View {
     public void setSelected(boolean selected) {
         if (this.selected != selected) {
             this.selected = selected;
-
-            setBackgroundResource(selected ? R.drawable.selected_tile_view_background :
-                    R.drawable.tile_view_background);
+            setBackground(getBackgroundNumber());
         }
     }
 
@@ -163,15 +164,31 @@ public class TileView extends View {
         if (0 <= type && type < 3)
             return inConflict[type];
         else
-            Log.e("TileView", "Invalid type 0, 1 or 3 no " + type);
+            Log.e("TileView", "Invalid type 0, 1 or 3; no " + type);
         return false;
-    }
-
-    public boolean isUserModifiable() {
-        return userModifiable;
     }
 
     public void setUserModifiable(boolean userModifiable) {
         this.userModifiable = userModifiable;
+    }
+
+    private Drawable getBackgroundNumber() {
+        if (selected) {
+            return getResources().getDrawable(R.drawable.selected_tile_view_background);
+        } else {
+            GradientDrawable background = (GradientDrawable) getResources().getDrawable(
+                    R.drawable.tile_view_background);
+            background.setColor(backgroundColor);
+            return background;
+        }
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
+        if( this.backgroundColor != backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            setBackground(getBackgroundNumber());
+            invalidate();
+        }
     }
 }

@@ -43,13 +43,5 @@ public class SplashScreenActivity extends AppCompatActivity {
                 finish();
             }
         }, DELAY_TIME);
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                // import preferences
-                ((SudokuApplication) getApplicationContext()).importPreferences();
-            }
-        });
     }
 }

@@ -67,12 +67,12 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/show_conflicts"
-                    android:textSize="20sp" />
+                    android:text="@string/show_conflicts" />
 
                 <Switch
                     android:id="@+id/switchShowConflict"
@@ -86,7 +86,24 @@
                     tools:checked="true" />
             </LinearLayout>
 
+            <TextView
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/seed_edit_text"/>
 
+
+            <EditText
+                style="@style/Text"
+                android:id="@+id/seedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789- "
+                android:hint="@string/seed_edit_text"
+                android:inputType="numberSigned"
+                android:maxLines="1"
+                android:maxLength="26"
+                android:text="@string/seedEditTextDefault"/>
         </LinearLayout>
     </ScrollView>
 

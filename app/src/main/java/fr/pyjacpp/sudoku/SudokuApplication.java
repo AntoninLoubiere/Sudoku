@@ -15,33 +15,58 @@ public class SudokuApplication extends Application {
     private final static String SUDOKU_PREFERENCES = "SudokuPreferences";
     private final static String SUDOKU_PREFERENCES_GRID = "SudokuGrid";
     private final static String SUDOKU_PREFERENCES_STATISTICS_GLOBAL = "SudokuStatisticsGlobal";
+    private final static String SUDOKU_PREFERENCES_VERSION_ID = "SudokuVersionId";
+
+    private final static int CURRENT_VERSION_ID = 1;
 
     private SudokuGrid currentSudokuGrid = null;
-    private SudokuStatistics sudokuGlobalStatistics;
+    private SudokuStatistics sudokuGlobalStatistics = null;
+    private boolean preferencesLoaded = false;
 
     private SharedPreferences preferences;
+
+    private Runnable versionEndRunnable = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
         preferences = getSharedPreferences(SUDOKU_PREFERENCES, Context.MODE_PRIVATE);
+
+
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                importPreferences();
+            }
+        });
     }
 
     public void importPreferences() {
         // import preferences save
+        boolean version_id_load = false;
+
         for (Map.Entry<String, ?> params: preferences.getAll().entrySet()) {
             try {
                 switch (params.getKey()) {
                     case SUDOKU_PREFERENCES_GRID:
                         // import grid
                         importGrid((String) params.getValue());
+                        break;
 
                     case SUDOKU_PREFERENCES_STATISTICS_GLOBAL:
                         // import global statistics
                         importStatistics((String) params.getValue());
+                        break;
+
+                    case SUDOKU_PREFERENCES_VERSION_ID:
+                        version_id_load = true;
+                        importVersionId((Integer) params.getValue());
+                        break;
 
                     default:
                         removeSaveParams(params.getKey());
+                        break;
                 }
             } catch (ClassCastException ignored) {
                 Log.w("SudokuApplication", "There is a problem in preferences, there is " +
@@ -54,6 +79,32 @@ public class SudokuApplication extends Application {
             Log.i("SudokuApplication", "There aren't statistics save");
             sudokuGlobalStatistics = new SudokuStatistics();
         }
+        if (!version_id_load) {
+            Log.i("SudokuApplication", "There aren't version save");
+            importVersionId(0);
+        }
+
+        if (versionEndRunnable != null) {
+            versionEndRunnable.run();
+            versionEndRunnable = null;
+        }
+        preferencesLoaded = true;
+    }
+
+    private void importVersionId(Integer version) {
+        if (version < 1) {
+            versionEndRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    currentSudokuGrid = null;
+                }
+            };
+        }
+        if (version != CURRENT_VERSION_ID) {
+            SharedPreferences.Editor prefEditor = preferences.edit();
+            prefEditor.putInt(SUDOKU_PREFERENCES_VERSION_ID, CURRENT_VERSION_ID);
+            prefEditor.apply();
+        }
     }
 
     private void importGrid(String sudokuGridJson) {
@@ -61,7 +112,7 @@ public class SudokuApplication extends Application {
             Log.i("SudokuApplication", "Import grid");
             Gson gson = new Gson();
             currentSudokuGrid = gson.fromJson(sudokuGridJson, SudokuGrid.class);
-        } catch (JsonSyntaxException ignored) {
+        } catch (Exception ignored) {
             Log.w("SudokuApplication", "Can't import the grid, check the format");
         }
     }
@@ -131,5 +182,9 @@ public class SudokuApplication extends Application {
 
     public SudokuStatistics getSudokuGlobalStatistics() {
         return sudokuGlobalStatistics;
+    }
+
+    public boolean preferencesIsLoad() {
+        return preferencesLoaded;
     }
 }
