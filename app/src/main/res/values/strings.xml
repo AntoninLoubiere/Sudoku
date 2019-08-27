@@ -103,13 +103,15 @@
     <string name="tutorial_tutorial_content">
         Pour commencer, choisissez un nombre de nombres à enlever (40 par défault) et activez ou non
         l\'aide, qui montre si deux nombres ne respectent pas la régle (conseillé de l\'activer).\n
-        Une grille avec des cases manquantes va apparaître, c\'est à vous de la remplir.\n
-        Pour remplir un numéro dans la grille, il suffit de cliquer sur cette case et de cliquer sur
-        le numéro corespondant dans la fenêtre qui apparait au milieux de l\'écran. Vous pouvez
-        changer la couleur d\'une case en choisissant une des 9 couleurs proposées en bas de l\'écran.
-         La couleur séléctionnée se tourneras à 45°. Cliquer sur la case que vous voullez colorier.
-        Puis si c\'est une case qui ne pas être modifier, la couleur seras appliquée instantanément.
-        Sinon il faut choisir un nomnbre pour mettre à jour la couleur.
+        Une grille avec des cases manquantes va apparaître, c\'est à vous de la remplir. Chaque
+        grille dispose d\'un identifiant unique visible en base de la grille, vous pouvez cliquer
+        dessus pour copier cet identifiant dans le presse papier.\nPour remplir un numéro dans la
+        grille, il suffit de cliquer sur cette case et de cliquer sur le numéro corespondant dans la
+        fenêtre qui apparait au milieux de l\'écran. Vous pouvez changer la couleur d\'une case en
+        choisissant une des 9 couleurs proposées en bas de l\'écran. La couleur séléctionnée se
+        tourneras à 45°. Cliquer sur la case que vous voullez colorier.Puis si c\'est une case qui
+        ne pas être modifier, la couleur seras appliquée instantanément. Sinon il faut choisir un
+        nomnbre pour mettre à jour la couleur.
     </string>
     <string name="tutorial_icons_title">Icônes</string>
     <string name="tutorial_icons_content">

@@ -72,8 +72,6 @@ public class SudokuApplication extends Application {
                 Log.w("SudokuApplication", "There is a problem in preferences, there is " +
                         "a cast error !");
             }
-
-            preferencesLoaded = true;
         }
 
         // init the preferences which isn't save
@@ -90,6 +88,7 @@ public class SudokuApplication extends Application {
             versionEndRunnable.run();
             versionEndRunnable = null;
         }
+        preferencesLoaded = true;
     }
 
     private void importVersionId(Integer version) {
