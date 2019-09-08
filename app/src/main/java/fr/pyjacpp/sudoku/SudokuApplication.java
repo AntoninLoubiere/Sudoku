@@ -76,11 +76,11 @@ public class SudokuApplication extends Application {
 
         // init the preferences which isn't save
         if (sudokuGlobalStatistics == null) {
-            Log.i("SudokuApplication", "There aren't statistics save");
+            // Log.i("SudokuApplication", "There aren't statistics save"); // LOG_DISABLED
             sudokuGlobalStatistics = new SudokuStatistics();
         }
         if (!version_id_load) {
-            Log.i("SudokuApplication", "There aren't version save");
+            // Log.i("SudokuApplication", "There aren't version save"); // LOG_DISABLED
             importVersionId(0);
         }
 
@@ -99,6 +99,13 @@ public class SudokuApplication extends Application {
                     currentSudokuGrid = null;
                 }
             };
+        } else if (version < 2) {
+            /*versionEndRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    currentSudokuGrid = null;
+                }
+            };*/
         }
         if (version != CURRENT_VERSION_ID) {
             SharedPreferences.Editor prefEditor = preferences.edit();
@@ -109,18 +116,23 @@ public class SudokuApplication extends Application {
 
     private void importGrid(String sudokuGridJson) {
         try {
-            Log.i("SudokuApplication", "Import grid");
+            // Log.i("SudokuApplication", "Import grid"); // LOG_DISABLED
+
             Gson gson = new Gson();
+
             currentSudokuGrid = gson.fromJson(sudokuGridJson, SudokuGrid.class);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
             Log.w("SudokuApplication", "Can't import the grid, check the format");
+            e.printStackTrace();
         }
     }
 
     private void importStatistics(String globalStatisticsJson) {
         try {
-            Log.i("SudokuApplication", "Import statistics");
+            // Log.i("SudokuApplication", "Import statistics"); // LOG_DISABLED
+
             Gson gson = new Gson();
+
             sudokuGlobalStatistics = gson.fromJson(globalStatisticsJson, SudokuStatistics.class);
         } catch (JsonSyntaxException ignored) {
             Log.w("SudokuApplication", "Can't import statistics, check the format");
@@ -129,7 +141,7 @@ public class SudokuApplication extends Application {
 
     private void removeSaveParams(String key) {
         if (preferences.contains(key)) {
-            Log.i("SudokuApplication", "Remove the statistic: " + key);
+            // Log.i("SudokuApplication", "Remove the statistic: " + key); // LOG_DISABLED
             SharedPreferences.Editor editor = preferences.edit();
             editor.remove(key);
             editor.apply();
@@ -138,11 +150,13 @@ public class SudokuApplication extends Application {
 
     public void saveGrid() {
         if (currentSudokuGrid != null) { // if the home activity is stop
-            Log.i("SudokuApplication", "Save grid");
+            Log.i("SudokuApplication", "Save grid"); // LOG_DISABLED
 
             // save the grid
             SharedPreferences.Editor prefEditor = preferences.edit();
+
             Gson gson = new Gson();
+
             prefEditor.putString(SUDOKU_PREFERENCES_GRID, gson.toJson(currentSudokuGrid));
             prefEditor.apply();
         }
@@ -150,7 +164,7 @@ public class SudokuApplication extends Application {
 
     public void saveStatistics() {
         if (sudokuGlobalStatistics != null) { // if the home activity is stop
-            Log.i("SudokuApplication", "Save statistics");
+            // Log.i("SudokuApplication", "Save statistics"); // LOG_DISABLED
 
             // save the statistics
             SharedPreferences.Editor prefEditor = preferences.edit();
