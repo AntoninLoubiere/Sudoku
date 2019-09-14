@@ -17,7 +17,7 @@ public class SudokuApplication extends Application {
     private final static String SUDOKU_PREFERENCES_STATISTICS_GLOBAL = "SudokuStatisticsGlobal";
     private final static String SUDOKU_PREFERENCES_VERSION_ID = "SudokuVersionId";
 
-    private final static int CURRENT_VERSION_ID = 1;
+    private final static int CURRENT_VERSION_ID = 2;
 
     private SudokuGrid currentSudokuGrid = null;
     private SudokuStatistics sudokuGlobalStatistics = null;
@@ -100,12 +100,12 @@ public class SudokuApplication extends Application {
                 }
             };
         } else if (version < 2) {
-            /*versionEndRunnable = new Runnable() {
+            versionEndRunnable = new Runnable() {
                 @Override
                 public void run() {
                     currentSudokuGrid = null;
                 }
-            };*/
+            };
         }
         if (version != CURRENT_VERSION_ID) {
             SharedPreferences.Editor prefEditor = preferences.edit();
