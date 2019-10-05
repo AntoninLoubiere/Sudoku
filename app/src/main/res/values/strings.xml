@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Sudoku</string>
-    <string name="by_author">Par Antonin Loubière</string>
-    <string name="number_tile_to_remove">Nombre de cases a enlever</string>
-    <string name="number_tile_to_remove_hint">Nb a enlever</string>
+    <string name="by_author">By Antonin Loubière</string>
+    <string name="number_tile_to_remove">Number of squares to remove</string>
+    <string name="number_tile_to_remove_hint">Nb to remove</string>
     <string name="tile_to_remove_default">40</string>
 
-    <string name="valid_button">Valider</string>
-    <string name="back_button">Retour</string>
-    <string name="quit">Quitter</string>
+    <string name="valid_button">Valid</string>
+    <string name="back_button">Back</string>
+    <string name="quit">Quit</string>
 
     <string name="one">1</string>
     <string name="two">2</string>
@@ -21,172 +21,123 @@
     <string name="square">■</string>
     <string name="round">●</string>
 
-    <string name="show_conflicts">Afficher les erreurs possibles:</string>
+    <string name="show_conflicts">Show possible errors</string>
 
     <string name="sudoku_logo_content_description">Sudoku logo</string>
-    <string name="play_button">Nouvelle partie</string>
-    <string name="continue_play_button">Continuer la partie</string>
-    <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
-    <string name="version">v2.1</string>
-    <string name="main_menu_bottom_line">Version: 2.1 - Sudoku © 2019 Antonin Loubière - License: GNU-3</string>
+    <string name="play_button">New game</string>
+    <string name="continue_play_button">Continue the game</string>
+    <string name="tutorial_and_rules">Tutorial &amp; Rules</string>
+    <string name="version">v3.0</string>
+    <string name="main_menu_bottom_line">Version: 3.0 - Sudoku © 2019 Antonin Loubière - License: GPL-3</string>
 
-    <string name="game_result_win">Vous avez gagné !</string>
-    <string name="game_result_abort">Vous avez abandonné !</string>
+    <string name="game_result_win">You have won</string>
+    <string name="game_result_abort">You have aborted</string>
 
-    <string name="restart">Recommencer la partie</string>
-    <string name="main_menu">Menu principal</string>
-    <string name="abort">Abandonner</string>
-    <string name="new_game">Nouvelle partie</string>
-    <string name="undo">Annuler</string>
-    <string name="redo">Rétablir</string>
+    <string name="restart">Restart the game</string>
+    <string name="main_menu">Main menu</string>
+    <string name="abort">Abort</string>
+    <string name="new_game">New game</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
 
 
-    <string name="dialog_cancel">Annuler</string>
-    <string name="dialog_abort">Abandonner</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_abort">Abort</string>
 
-    <string name="dialog_main_menu_title">Retour au menu principal?</string>
-    <string name="dialog_main_menu_message">Êtes-vous sûr de vouloir arrêter et revenir au menu
-        principal?</string>
-    <string name="dialog_main_menu_yes">Menu principal</string>
-    <string name="dialog_main_menu_no">Annuler</string>
+    <string name="dialog_main_menu_title">Main menu ?</string>
+    <string name="dialog_main_menu_message">Are you sure to stop and go to the main menu ?</string>
+    <string name="dialog_main_menu_yes">Main menu</string>
+    <string name="dialog_main_menu_no">Cancel</string>
 
-    <string name="dialog_restart_title">Recommencer?</string>
-    <string name="dialog_restart_this_game">Recommencer cette partie</string>
-    <string name="dialog_restart_new_game">Recommencer une nouvelle partie</string>
-    <string name="dialog_restart_game_start">Vous voulez:</string>
-    <string name="dialog_valid">Valider</string>
+    <string name="dialog_restart_title">Restart ?</string>
+    <string name="dialog_restart_this_game">Restart this game</string>
+    <string name="dialog_restart_new_game">Start a new game</string>
+    <string name="dialog_restart_game_start">You want:</string>
+    <string name="dialog_valid">Valid</string>
 
     <string name="dialog_abort_title">Solution?</string>
-    <string name="dialog_abort_message">Êtes-vous sûr de vouloir abandonner la partie? La solution
-        sera révélée.</string>
+    <string name="dialog_abort_message">Are you sure to abort ? The solution will be show.</string>
 
-    <string name="dialog_quit_title">Quitter l\'application?</string>
-    <string name="dialog_quit_message">Êtes-vous sûr de vouloir quitter l\'application?</string>
-    <string name="dialog_quit_yes">Quitter</string>
-    <string name="dialog_quit_no">Annuler</string>
+    <string name="dialog_quit_title">Quit the application ?</string>
+    <string name="dialog_quit_message">Are you sure to quit the application ?</string>
+    <string name="dialog_quit_yes">Quit</string>
+    <string name="dialog_quit_no">Cancel</string>
 
-    <string name="dialog_reset_statistics_title">Réinitialiser ?</string>
-    <string name="dialog_reset_statistics_message">Voulez vous vraimment remettre à zéro toutes les
-        statistiques (cette action est irréversible) ?</string>
+    <string name="dialog_reset_statistics_title">Reset ?</string>
+    <string name="dialog_reset_statistics_message">Are you sure to reset statistics ? You can\'t undo this action.</string>
 
 
-    <string name="hint">Indice</string>
-    <string name="hint_mode_text">Choisissez une case pour l\'indice</string>
-    <string name="hint_new_click_ask">Veuillez recliquer pour confirmer</string>
+    <string name="hint">Hint</string>
+    <string name="hint_mode_text">Choose a number for an hint</string>
+    <string name="hint_new_click_ask">Click again to confirm</string>
 
 
     <string name="credits">Credits</string>
     <string name="credits_code_title">Code</string>
-    <string name="credits_code_content">
-        - Code principal: Antonin Loubière (github.com/AntoninLoubière)\n\n
-        - Création des grille de sudoku (complétées): Mfgravesjr (github.com/mfgravesjr)
-    </string>
-    <string name="credits_design_title">Mise en page</string>
-    <string name="credits_design_content">
-        - Icones: Google (github.com/google/material-design-icons)\n\n
-        - Design général (le reste): Antonin Loubière (github.com/AntoninLoubière)
-    </string>
+    <string name="credits_code_content">"         - Main code: Antonin Loubière (github.com/AntoninLoubière)           - Sudoku grid creation (complete): Mfgravesjr (github.com/mfgravesjr)     "</string>
+    <string name="credits_design_title">Design</string>
+    <string name="credits_design_content">"         - Icons: Google (github.com/google/material-design-icons)           - Other design (what is left): Antonin Loubière (github.com/AntoninLoubière)"</string>
     <string name="credits_licenses_title">Licenses</string>
-    <string name="credits_licenses_content">
-        - Icones: Apache 2.0 (apache.org/licenses/LICENSE- )\n\n
-        - Ce qui reste: GNU General Public License v3.0 (gnu.org/licenses/gpl-3.0.html)
-    </string>
+    <string name="credits_licenses_content">"\n        - Icons: Apache 2.0 (apache.org/licenses/LICENSE)\n\n\n        - What is left: GPL General Public License v3.0 (gnu.org/licenses/gpl-3.0.html)\n    "</string>
 
 
-    <string name="tutorial_rules_title">Régles</string>
-    <string name="tutorial_rules_content">
-        Dans un sudoku, il faut qu\'il y ait seulement 1 chiffre entre 1 et 9 par ligne, colone et
-        carré. Vous allez avoir une grille et le but est de réussir à la compléter en respectant la
-        régle précédement énoncée.
-    </string>
-    <string name="tutorial_tutorial_title">Tutoriel</string>
-    <string name="tutorial_tutorial_content">
-        Pour commencer, choisissez un nombre de nombres à enlever (40 par défault) et activez ou non
-        l\'aide, qui montre si deux nombres ne respectent pas la régle (conseillé de l\'activer).\n
-        Une grille avec des cases manquantes va apparaître, c\'est à vous de la remplir. Chaque
-        grille dispose d\'un identifiant unique visible en base de la grille, vous pouvez cliquer
-        dessus pour copier cet identifiant dans le presse papier.\nPour remplir un numéro dans la
-        grille, il suffit de cliquer sur cette case et de cliquer sur le numéro corespondant dans la
-        fenêtre qui apparait au milieux de l\'écran. Vous pouvez changer la couleur d\'une case en
-        choisissant une des 9 couleurs proposées en bas de l\'écran. La couleur séléctionnée se
-        tourneras à 45°. Cliquer sur la case que vous voullez colorier.Puis si c\'est une case qui
-        ne pas être modifier, la couleur seras appliquée instantanément. Sinon il faut choisir un
-        nomnbre pour mettre à jour la couleur.
-    </string>
-    <string name="tutorial_icons_title">Icônes</string>
-    <string name="tutorial_icons_content">
-        Pour vous aider, vous possédez plusieurs icônes:
-    </string>
-    <string name="tutorial_icons_abort">
-        Permet d\'abandonner et de montrer la solution de la grille.
-    </string>
-    <string name="tutorial_icons_hint">
-        Permet d\'avoir un indice sur une case choisis.
-    </string>
-    <string name="tutorial_icons_restart">
-        Permet de recommencer soit la partie en cours et donc de recommencer la grille du début,
-        soit de faire une nouvelle partie.
-    </string>
-    <string name="tutorial_icons_main_menu">
-        Permet de revenir au menu principal.
-    </string>
-    <string name="tutorial_icons_undo">
-        Permet d\'annuler les poses des nombres.
-    </string>
-    <string name="tutorial_icons_redo">
-        Permet de rétablir les annulations.
-    </string>
-    <string name="tutorial_icons_content_end">
-        \n
-        Si en cours de partie vous avez un doute, restez appuyer sur cet icône et regarder en
-        bas quel texte s\'affiche.
-    </string>
+    <string name="tutorial_rules_title">Rules</string>
+    <string name="tutorial_rules_content">In a sudoku grid, each of the nine blocks has to contain all the numbers 1-9 within its squares. Each number can only appear once in a row, column or box. Your goal is to complete a grid with this rule.</string>
+    <string name="tutorial_tutorial_title">Tutorial</string>
+    <string name="tutorial_tutorial_content">To start, choose the number of numbers to remove (40 by default) and allow or not the help which show if you have place a number twice. You can choose an id for the grid. Keep blank this part to create a random grid. You can also choose the way to sort notes.\nA grid with squares missing will appear you goal is to complete this grid. Each grid have an unique id which is show at the bottom, you can click on it to copy the id.\nTo fill a square with a number, you have just to click on the square, and choose corrects numbers. Click on the green button to valid, the red button is to cancel. If you would like select only one number, double click on it. To erase a number click on the blank button. You can change the color of a square by choosing a color at the bottom. And clicking on the corresponding square, valid and that it.</string>
+    <string name="tutorial_icons_title">Icons</string>
+    <string name="tutorial_icons_content">To help you, there is some icons:</string>
+    <string name="tutorial_icons_abort">Abort the gale and show the solution.</string>
+    <string name="tutorial_icons_hint">Give an hint on a square.</string>
+    <string name="tutorial_icons_restart">Restart the current game or start a new game.</string>
+    <string name="tutorial_icons_main_menu">Go to main menu.</string>
+    <string name="tutorial_icons_undo">Undo an action.</string>
+    <string name="tutorial_icons_redo">Redo.</string>
+    <string name="tutorial_icons_content_end">If you are uncertain, you can stay click on an icon and look at the bottom the description of the icon.</string>
 
-    <string name="statistics_title">Statistiques</string>
-    <string name="statistics_reset_date">Statistiques à partir du %s, %s.</string>
-    <string name="statistics_number_game">Vous avez fait %d partie(s).</string>
-    <string name="statistics_number_game_win">Vous avez gagné %d partie(s) soit %.1f%%.</string>
-    <string name="statistics_number_game_abort">Vous avez abondonné %d partie(s) soit %.1f%%.
-    </string>
-    <string name="statistics_number_numbers_completed">Vous avez complété %d case(s)</string>
-    <string name="statistics_number_numbers_completed_just">Vous avez complété une case avec la
-        bonne réponse, %d fois soit %.1f%%.</string>
-    <string name="statistics_number_numbers_completed_wrong">Vous avez complété une case avec une
-        mauvaise réponse, ou avec rien %d fois soit %.1f%%.</string>
-    <string name="statistics_number_numbers_completed_average">En moyenne, vous complétez %.1f
-        case(s).
-    </string>
-    <string name="statistics_number_numbers_completed_max">Le maximum de cases complétés en une
-        partie, avec la bonne réponse est %d case(s).</string>
-    <string name="statistics_number_hint">Vous avez utilisé %d indice(s).</string>
-    <string name="statistics_number_hint_average">Vous utilisez en moyenne %.1f indice(s).</string>
-    <string name="statistics_number_hint_max">Le maximum d\'indices utilisés en une partie est %d
-        indice(s).
-    </string>
-    <string name="statistics_reset">Réinitialiser</string>
-    <string name="swap_color">Échanger une couleur</string>
-    <string name="swap_color_choose_color">Choisissez la couleur finale</string>
-    <string name="swap_color_choose_number">Cliquez sur la case à changer</string>
-    <string name="swap_color_confirm_click_ask">Veuillez recliquer pour confirmer</string>
-    <string name="seed_edit_text">Identifiant de la grille</string>
-    <string name="seed_text">Grille: %1$s</string>
+    <string name="statistics_title">Statistics</string>
+    <string name="statistics_reset_date">Statistics from %s, %s.</string>
+    <string name="statistics_number_game">You have done %d game(s).</string>
+    <string name="statistics_number_game_win">You have won %d game(s): %.1f%%.</string>
+    <string name="statistics_number_game_abort">You have aborted %d game(s): %.1f%%.</string>
+    <string name="statistics_number_numbers_completed">You have complete %d square(s).</string>
+    <string name="statistics_number_numbers_completed_just">You have completed %d square(s) with a right answer: %.1f%%.</string>
+    <string name="statistics_number_numbers_completed_wrong">You have completed %d square(s) with a wrong answer: %.1f%%.</string>
+    <string name="statistics_number_numbers_completed_average">Your average of squares complete is %.1f per game.</string>
+    <string name="statistics_number_numbers_completed_max">Your maximum of square(s) completed in one game is %d.</string>
+    <string name="statistics_number_hint">You have used %d hint(s).</string>
+    <string name="statistics_number_hint_average">Your average of hint(s) is %.1f hint(s).</string>
+    <string name="statistics_number_hint_max">The max of hint in one game is %d hint(s).</string>
+    <string name="statistics_reset">Reset</string>
+    <string name="swap_color">Swap a color</string>
+    <string name="swap_color_choose_color">Choose the final color</string>
+    <string name="swap_color_choose_number">Click on the number to change</string>
+    <string name="swap_color_confirm_click_ask">Click again to confirm</string>
+    <string name="seed_edit_text">Grid id</string>
+    <string name="seed_text">Grid: %1$s</string>
     <string name="seedEditTextDefault">40-</string>
-    <string name="id_grid_copy">Identifiant de la grille copié</string>
+    <string name="id_grid_copy">Grid id copied</string>
 
-    <string name="time_spent_now">maintenant</string>
-    <string name="time_spent_minute_single">il y a 1 minute</string>
-    <string name="time_spent_minute_multiple">il y a %1$d minutes</string>
-    <string name="time_spent_hour_single">il y a 1 heure</string>
-    <string name="time_spent_hour_multiple">il y  a %1$d heures</string>
-    <string name="time_spent_day_single">il y a 1 jour</string>
-    <string name="time_spent_day_multiple">il y a %1$d jours</string>
-    <string name="time_spent_week_single">il y a 1 semaine</string>
-    <string name="time_spent_week_multiple">il y a %1$d semaines</string>
-    <string name="time_spent_month_single">il y a 1 mois</string>
-    <string name="time_spent_month_multiple">il y a %1$d mois</string>
-    <string name="time_spent_year_single">il y a 1 année</string>
-    <string name="time_spent_year_multiple">il y a %1$d années</string>
-    <string name="tutorial_icons_swap_color">Permet d\'échanger toutes les cases d\'une couleurs en une autre. Pour cela, choisisez d\'abord la couleur finale puis cliquez sur une des cases à changer.</string>
+    <string name="time_spent_now">now</string>
+    <string name="time_spent_minute_single">1 minute ago</string>
+    <string name="time_spent_minute_multiple">%1$d minutes ago</string>
+    <string name="time_spent_hour_single">1 hour ago</string>
+    <string name="time_spent_hour_multiple">%1$d hours ago</string>
+    <string name="time_spent_day_single">1 day ago</string>
+    <string name="time_spent_day_multiple">%1$d days ago</string>
+    <string name="time_spent_week_single">1 week ago</string>
+    <string name="time_spent_week_multiple">%1$d weeks ago</string>
+    <string name="time_spent_month_single">1 month ago</string>
+    <string name="time_spent_month_multiple">%1$d month ago</string>
+    <string name="time_spent_year_single">1 year ago</string>
+    <string name="time_spent_year_multiple">%1$d years ago</string>
+    <string name="tutorial_icons_swap_color">Swap all squares from the same color to an other color. To do this, first choose the final color, then click on the square to change.</string>
 
-    <string name="error_label_configure_sudoku_size_error">Le premier nombre doi être entre 20 et 70</string>
+    <string name="error_label_configure_sudoku_size_error">The first number must be between 20 and 70</string>
+    <string name="sort_notes">Sorting notes</string>
+    <string name="sort_notes_add">In order of addition</string>
+    <string name="sort_notes_sort">In ascending order</string>
+    <string name="settings">Settings</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="tutorial_icons_settings">Go to settings of the current grid.</string>
 </resources>

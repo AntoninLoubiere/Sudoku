@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Stack;
@@ -61,7 +62,7 @@ public class SudokuGrid {
     private static final int MAX_LENGTH_SEED = 18;
 
     private SudokuNumbersEnum[][] sudokuGrid = new SudokuNumbersEnum[9][9];
-    private SudokuNumbersEnum[][] userModify = new SudokuNumbersEnum[9][9];
+    private SudokuNumberList[][] userModify = new SudokuNumberList[9][9];
     private int[][] colorGrid = new int[9][9];
     private int numberTileToRemove;
     private int numberTileRemaining = 0;
@@ -73,18 +74,20 @@ public class SudokuGrid {
     private boolean gameFinish = false;
     private boolean gameWin = false;
     private boolean gameStatisticsCount = false;
+    private boolean sortNotes = false;
 
     private int colorChooseSelected = 8;
 
     private long seed;
 
-    SudokuGrid(int numberTileToRemove, long seed) {
+    SudokuGrid(int numberTileToRemove, long seed, boolean sortNotes) {
         this.numberTileToRemove = numberTileToRemove;
 
         initGrid();
 
         random.setSeed(seed);
         this.seed = seed;
+        this.sortNotes = sortNotes;
 
         removeSomeTiles();
 
@@ -153,17 +156,13 @@ public class SudokuGrid {
         return true;
     }
 
-    /**
-     * Init the grid
-     */
-    private void initGrid() {
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                sudokuGrid[x][y] = SudokuNumbersEnum.One;
-                userModify[x][y] = SudokuNumbersEnum.NotModifiable; // -1 -> not modifiable number
-                colorGrid[x][y] = Color.WHITE;
-            }
-        }
+    static long generateRandomSeed() {
+        Random random = new Random();
+        long seed = Math.abs(random.nextLong());
+        if (String.valueOf(seed).length() > MAX_LENGTH_SEED)
+            return generateRandomSeed();  // to long
+        else
+            return seed;
     }
 
     /*
@@ -179,6 +178,19 @@ public class SudokuGrid {
             Log.i("SudokuGrid", (i%9 == 8?"LINE":""));
         }
     }*/
+
+    /**
+     * Init the grid
+     */
+    private void initGrid() {
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                sudokuGrid[x][y] = SudokuNumbersEnum.One;
+                userModify[x][y] = new SudokuNumberList(SudokuNumbersEnum.NotModifiable); // -1 -> not modifiable number
+                colorGrid[x][y] = Color.WHITE;
+            }
+        }
+    }
 
     /**
      * Generates a valid 9 by 9 Sudoku grid with 1 through 9 appearing only once in every box, row, and column
@@ -333,11 +345,11 @@ public class SudokuGrid {
         while (numberDisable < numberTileToRemove / 2) {
             int x = random.nextInt(9);
             int y = random.nextInt(9);
-            if (userModify[x][y] != SudokuNumbersEnum.Blank) {
+            if (userModify[x][y].getUniqueNumber() == SudokuNumbersEnum.NotModifiable) {
                 int reverseX = x * -1 + 8;
                 int reverseY = y * -1 + 8;
-                userModify[x][y] = SudokuNumbersEnum.Blank;
-                userModify[reverseX][reverseY] = SudokuNumbersEnum.Blank;
+                userModify[x][y] = new SudokuNumberList();
+                userModify[reverseX][reverseY] = new SudokuNumberList();
 
                 if (x == reverseX && reverseY == y) // same tile
                     numberTileRemaining += 1;
@@ -361,8 +373,8 @@ public class SudokuGrid {
 
             for (int x = 0; x < 9; x++) {
                 SudokuNumbersEnum number;
-                if (userModify[x][y].isModifiable()) {
-                    number = userModify[x][y];
+                if (userModify[x][y].getUniqueNumber().isModifiable()) {
+                    number = userModify[x][y].getUniqueNumber();
                 } else {
                     number = sudokuGrid[x][y];
                 }
@@ -394,8 +406,8 @@ public class SudokuGrid {
 
             for (int y = 0; y < 9; y++) {
                 SudokuNumbersEnum number;
-                if (userModify[x][y].isModifiable()) {
-                    number = userModify[x][y];
+                if (userModify[x][y].getUniqueNumber().isModifiable()) {
+                    number = userModify[x][y].getUniqueNumber();
                 } else {
                     number = sudokuGrid[x][y];
                 }
@@ -425,8 +437,8 @@ public class SudokuGrid {
             for (int x = square % 3 * 3; x < square % 3 * 3 + 3; x++) {
                 for (int y = square / 3 * 3; y < square / 3 * 3 + 3; y++) {
                     SudokuNumbersEnum number;
-                    if (userModify[x][y].isModifiable()) {
-                        number = userModify[x][y];
+                    if (userModify[x][y].getUniqueNumber().isModifiable()) {
+                        number = userModify[x][y].getUniqueNumber();
                     } else {
                         number = sudokuGrid[x][y];
                     }
@@ -452,12 +464,27 @@ public class SudokuGrid {
         return sudokuGrid[x][y];
     }
 
-    public SudokuNumbersEnum getUserModify(int x, int y) {
+    public SudokuNumberList getUserModify(int x, int y) {
         return userModify[x][y];
     }
 
-    public void setUserModify(int x, int y, SudokuNumbersEnum value) {
+    public void setUserModify(int x, int y, SudokuNumberList value) {
         userModify[x][y] = value;
+    }
+
+    void setUserModify(int x, int y, SudokuNumbersEnum value) {
+        userModify[x][y].setUniqueValue(value);
+    }
+
+    public void setUserModify(int x, int y, SudokuNumbersEnum[] value) {
+        userModify[x][y].getList().clear();
+        userModify[x][y].getList().addAll(Arrays.asList(value));
+    }
+
+    void setUserModify(int x, int y, ArrayList<SudokuNumbersEnum> buttonPopupSelectedNumbers) {
+        userModify[x][y].getList().clear();
+        if (buttonPopupSelectedNumbers.size() >= 1)
+            userModify[x][y].getList().addAll(buttonPopupSelectedNumbers);
     }
 
     int getNumberTileRemaining() {
@@ -497,9 +524,13 @@ public class SudokuGrid {
         numberTileRemaining = 0;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                if (userModify[x][y].isModifiable()) {
+                if (userModify[x][y].getUniqueNumber().isModifiable()) {
                     numberTileRemaining++;
-                    userModify[x][y] = SudokuNumbersEnum.Blank;
+                    if (userModify[x][y].isUnique()) {
+                        userModify[x][y].setUniqueValue(SudokuNumbersEnum.Blank);
+                    } else {
+                        userModify[x][y].getList().clear();
+                    }
                 }
                 colorGrid[x][y] = Color.WHITE;
             }
@@ -527,17 +558,17 @@ public class SudokuGrid {
 
                 for (int x = 0; x < 9; x++) {
                     for (int y = 0; y < 9; y++) {
-                        if (userModify[x][y] == SudokuNumbersEnum.Hint)
+                        if (userModify[x][y].getUniqueNumber() == SudokuNumbersEnum.Hint)
                             numberHint++;
 
-                        if (gameWin && userModify[x][y].isNumber()) {
+                        if (gameWin && userModify[x][y].getUniqueNumber().isNumber()) {
                             numberNumberCompleted++;
                             numberNumberCompletedJust++;
-                        } else if (userModify[x][y].isNumber() &&
-                                userModify[x][y] == sudokuGrid[x][y]) {
+                        } else if (userModify[x][y].getUniqueNumber().isNumber() &&
+                                userModify[x][y].getUniqueNumber() == sudokuGrid[x][y]) {
                             numberNumberCompleted++;
                             numberNumberCompletedJust++;
-                        } else if (userModify[x][y].isModifiable()) {
+                        } else if (userModify[x][y].getUniqueNumber().isModifiable()) {
                             numberNumberCompleted++;
                         }
 
@@ -572,24 +603,22 @@ public class SudokuGrid {
         numberTileRemaining = 0;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                if (userModify[x][y].isModifiable() && !userModify[x][y].isNumber())
+                if (userModify[x][y].getUniqueNumber().isModifiable() &&
+                        !userModify[x][y].getUniqueNumber().isNumber())
                     numberTileRemaining++;
             }
         }
-    }
-
-    static long generateRandomSeed() {
-        Random random = new Random();
-        long seed = Math.abs(random.nextLong());
-        if (String.valueOf(seed).length() > MAX_LENGTH_SEED)
-            return generateRandomSeed();  // to long
-        else
-            return seed;
     }
 
     long getSeed() {
         return seed;
     }
 
+    boolean getSortNotes() {
+        return sortNotes;
+    }
 
+    void setSortNotes(boolean value) {
+        sortNotes = value;
+    }
 }

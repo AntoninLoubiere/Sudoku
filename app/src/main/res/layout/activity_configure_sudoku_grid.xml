@@ -7,13 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".ConfigureSudokuGridActivity">
 
+    <TextView
+        android:id="@+id/title"
+        style="@style/Text.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_game"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/separatorTitle"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+
+        android:background="@color/separator_color"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/validButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/separatorTitle">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,13 +42,11 @@
 
             <TextView
                 android:id="@+id/textView"
+                style="@style/Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:foregroundGravity="center"
-                android:gravity="center"
                 android:text="@string/number_tile_to_remove"
-                android:textSize="24sp" />
+                android:textAlignment="center" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,6 +111,7 @@
 
 
             <EditText
+                style="@style/Text"
                 android:id="@+id/seedEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +120,35 @@
                 android:inputType="numberSigned"
                 android:maxLines="1"
                 android:maxLength="26"
-                android:text="@string/seedEditTextDefault" />
+                android:text="@string/seedEditTextDefault"/>
+
+            <TextView
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_notes"/>
+
+            <RadioGroup
+                android:id="@+id/sortNotesGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    style="@style/Text"
+                    android:id="@+id/sortNotesAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sort_notes_add" />
+
+                <RadioButton
+                    style="@style/Text"
+                    android:id="@+id/sortNotesSort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sort_notes_sort" />
+
+            </RadioGroup>
         </LinearLayout>
     </ScrollView>
 

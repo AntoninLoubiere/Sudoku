@@ -3,6 +3,7 @@ package fr.pyjacpp.sudoku;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 public class MainMenuActivity extends AppCompatActivity {
 
     private Button continueButton;
+    private Handler updateHandler;
+    private Runnable updateRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +83,28 @@ public class MainMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        continueButton.setEnabled(((SudokuApplication) getApplicationContext())
-                .getCurrentSudokuGrid() != null);
+        if (!getSudokuApplication().preferencesIsLoad()) {
+            updateHandler = new Handler();
+            updateRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (getSudokuApplication().preferencesIsLoad()) {
+                        updateHandler = null;
+                        updateRunnable = null;
+                        continueButton.setEnabled(
+                                getSudokuApplication().getCurrentSudokuGrid() != null
+                        );
+                    } else {
+                        updateHandler.postDelayed(updateRunnable, 100);
+                    }
+                }
+            };
+
+            updateHandler.postDelayed(updateRunnable, 100);
+        }
+
+        continueButton.setEnabled(getSudokuApplication().getCurrentSudokuGrid() != null);
+
         super.onStart();
     }
 
@@ -103,5 +126,9 @@ public class MainMenuActivity extends AppCompatActivity {
                             }
                         })
                 .show();
+    }
+
+    private SudokuApplication getSudokuApplication() {
+        return (SudokuApplication) getApplicationContext();
     }
 }

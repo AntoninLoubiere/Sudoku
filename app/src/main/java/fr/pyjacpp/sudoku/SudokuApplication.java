@@ -16,11 +16,18 @@ public class SudokuApplication extends Application {
     private final static String SUDOKU_PREFERENCES_GRID = "SudokuGrid";
     private final static String SUDOKU_PREFERENCES_STATISTICS_GLOBAL = "SudokuStatisticsGlobal";
     private final static String SUDOKU_PREFERENCES_VERSION_ID = "SudokuVersionId";
+    private final static String SUDOKU_PREFERENCES_LAST_NUMBER_TILE_USED = "SudokuLastTileUsed";
+    private final static String SUDOKU_PREFERENCES_LAST_SORT_USED  = "SudokuLastSortUsed";
+    private final static String SUDOKU_PREFERENCES_LAST_CONFLICT  = "SudokuLastConflict";
 
-    private final static int CURRENT_VERSION_ID = 2;
+
+    private final static int CURRENT_VERSION_ID = 3;
 
     private SudokuGrid currentSudokuGrid = null;
     private SudokuStatistics sudokuGlobalStatistics = null;
+    private int lastNumberTileUse = 40;
+    private boolean lastSortUsed = false; // this boolean if is need to sort
+    private boolean lastConflict = true;
     private boolean preferencesLoaded = false;
 
     private SharedPreferences preferences;
@@ -30,23 +37,21 @@ public class SudokuApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        preferences = getSharedPreferences(SUDOKU_PREFERENCES, Context.MODE_PRIVATE);
 
-
-
-        new Handler().post(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
+                preferences = getSharedPreferences(SUDOKU_PREFERENCES, Context.MODE_PRIVATE);
                 importPreferences();
             }
-        });
+        }).start();
     }
 
     public void importPreferences() {
         // import preferences save
         boolean version_id_load = false;
 
-        for (Map.Entry<String, ?> params: preferences.getAll().entrySet()) {
+        for (Map.Entry<String, ?> params : preferences.getAll().entrySet()) {
             try {
                 switch (params.getKey()) {
                     case SUDOKU_PREFERENCES_GRID:
@@ -62,6 +67,18 @@ public class SudokuApplication extends Application {
                     case SUDOKU_PREFERENCES_VERSION_ID:
                         version_id_load = true;
                         importVersionId((Integer) params.getValue());
+                        break;
+
+                    case SUDOKU_PREFERENCES_LAST_NUMBER_TILE_USED:
+                        lastNumberTileUse = (Integer) params.getValue();
+                        break;
+
+                    case SUDOKU_PREFERENCES_LAST_SORT_USED:
+                        lastSortUsed = (Boolean) params.getValue();
+                        break;
+
+                    case SUDOKU_PREFERENCES_LAST_CONFLICT:
+                        lastConflict = (Boolean) params.getValue();
                         break;
 
                     default:
@@ -92,18 +109,12 @@ public class SudokuApplication extends Application {
     }
 
     private void importVersionId(Integer version) {
-        if (version < 1) {
+        if (version < 3) {
             versionEndRunnable = new Runnable() {
                 @Override
                 public void run() {
                     currentSudokuGrid = null;
-                }
-            };
-        } else if (version < 2) {
-            versionEndRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    currentSudokuGrid = null;
+                    saveGrid();
                 }
             };
         }
@@ -150,7 +161,7 @@ public class SudokuApplication extends Application {
 
     public void saveGrid() {
         if (currentSudokuGrid != null) { // if the home activity is stop
-            Log.i("SudokuApplication", "Save grid"); // LOG_DISABLED
+            // Log.i("SudokuApplication", "Save grid"); // LOG_DISABLED
 
             // save the grid
             SharedPreferences.Editor prefEditor = preferences.edit();
@@ -200,5 +211,40 @@ public class SudokuApplication extends Application {
 
     public boolean preferencesIsLoad() {
         return preferencesLoaded;
+    }
+
+    public int getLastNumberTileUse() {
+        return lastNumberTileUse;
+    }
+
+    public void setLastNumberTileUse(int lastNumberTileUse) {
+        this.lastNumberTileUse = lastNumberTileUse;
+    }
+
+    public boolean getLastSortUsed() {
+        return lastSortUsed;
+    }
+
+    public void setLastSortUsed(boolean lastSortUsed) {
+        this.lastSortUsed = lastSortUsed;
+    }
+
+    public boolean getLastConflict() {
+        return lastConflict;
+    }
+
+    public void setLastConflict(boolean lastConflict) {
+        this.lastConflict = lastConflict;
+    }
+
+    public void saveLastOptions() {
+        SharedPreferences.Editor prefEditor = preferences.edit();
+        prefEditor.putInt(SUDOKU_PREFERENCES_LAST_NUMBER_TILE_USED,
+                lastNumberTileUse);
+        prefEditor.putBoolean(SUDOKU_PREFERENCES_LAST_CONFLICT,
+                lastConflict);
+        prefEditor.putBoolean(SUDOKU_PREFERENCES_LAST_SORT_USED,
+                lastSortUsed);
+        prefEditor.apply();
     }
 }

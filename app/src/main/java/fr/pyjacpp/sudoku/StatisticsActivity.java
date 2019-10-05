@@ -26,7 +26,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         setTextStatistics();
 
-        Button resetButton = findViewById(R.id.reinitButton);
+        Button resetButton = findViewById(R.id.resetButton);
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,68 +74,68 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private String getTimeSpent(Date resetDate) {
-       long  timeDifferenceInMillis = System.currentTimeMillis() - resetDate.getTime();
+        long timeDifferenceInMillis = System.currentTimeMillis() - resetDate.getTime();
 
-       if (timeDifferenceInMillis < 1000 * 60) {
-           return getResources().getString(R.string.time_spent_now);
+        if (timeDifferenceInMillis < 1000 * 60) {
+            return getResources().getString(R.string.time_spent_now);
 
-       } else if (timeDifferenceInMillis < 1000 * 60 * 60) {
-           long numberMinutes = timeDifferenceInMillis / (1000 * 60);
+        } else if (timeDifferenceInMillis < 1000 * 60 * 60) {
+            long numberMinutes = timeDifferenceInMillis / (1000 * 60);
 
-           if (numberMinutes <= 1) {
-               return getResources().getString(R.string.time_spent_minute_single);
-           } else {
-               return String.format(getResources().getString(R.string.time_spent_minute_multiple),
-                       numberMinutes);
-           }
+            if (numberMinutes <= 1) {
+                return getResources().getString(R.string.time_spent_minute_single);
+            } else {
+                return String.format(getResources().getString(R.string.time_spent_minute_multiple),
+                        numberMinutes);
+            }
 
-       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24) {
-           long numberHours = timeDifferenceInMillis / (1000 * 60 * 60);
+        } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24) {
+            long numberHours = timeDifferenceInMillis / (1000 * 60 * 60);
 
-           if (numberHours <= 1) {
-               return getResources().getString(R.string.time_spent_hour_single);
-           } else {
-               return String.format(getResources().getString(R.string.time_spent_hour_multiple),
-                       numberHours);
-           }
+            if (numberHours <= 1) {
+                return getResources().getString(R.string.time_spent_hour_single);
+            } else {
+                return String.format(getResources().getString(R.string.time_spent_hour_multiple),
+                        numberHours);
+            }
 
-       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * 7) {
-           long numberDay = timeDifferenceInMillis / (1000 * 60 * 60 * 24);
+        } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * 7) {
+            long numberDay = timeDifferenceInMillis / (1000 * 60 * 60 * 24);
 
-           if (numberDay <= 1) {
-               return getResources().getString(R.string.time_spent_day_single);
-           } else {
-               return String.format(getResources().getString(R.string.time_spent_day_multiple),
-                       numberDay);
-           }
-       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * (365 / 12f)) {
-           long numberWeek = timeDifferenceInMillis / (1000 * 60 * 60 * 24 * 7);
+            if (numberDay <= 1) {
+                return getResources().getString(R.string.time_spent_day_single);
+            } else {
+                return String.format(getResources().getString(R.string.time_spent_day_multiple),
+                        numberDay);
+            }
+        } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * (365 / 12f)) {
+            long numberWeek = timeDifferenceInMillis / (1000 * 60 * 60 * 24 * 7);
 
-           if (numberWeek <= 1) {
-               return getResources().getString(R.string.time_spent_week_single);
-           } else {
-               return String.format(getResources().getString(R.string.time_spent_week_multiple),
-                       numberWeek);
-           }
-       } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * 365.25f) {
-           long numberMonth = (long) (timeDifferenceInMillis / (1000 * 60 * 60 * 24 * (365 / 12f)));
+            if (numberWeek <= 1) {
+                return getResources().getString(R.string.time_spent_week_single);
+            } else {
+                return String.format(getResources().getString(R.string.time_spent_week_multiple),
+                        numberWeek);
+            }
+        } else if (timeDifferenceInMillis < 1000 * 60 * 60 * 24 * 365.25f) {
+            long numberMonth = (long) (timeDifferenceInMillis / (1000 * 60 * 60 * 24 * (365 / 12f)));
 
-           if (numberMonth <= 1) {
-               return getResources().getString(R.string.time_spent_month_single);
-           } else {
-               return String.format(getResources().getString(R.string.time_spent_month_multiple),
-                       numberMonth);
-           }
-       } else {
-           long numberYear = (long) (timeDifferenceInMillis / (1000 * 60 * 60 * 24 * 365.25f));
+            if (numberMonth <= 1) {
+                return getResources().getString(R.string.time_spent_month_single);
+            } else {
+                return String.format(getResources().getString(R.string.time_spent_month_multiple),
+                        numberMonth);
+            }
+        } else {
+            long numberYear = (long) (timeDifferenceInMillis / (1000 * 60 * 60 * 24 * 365.25f));
 
-           if (numberYear <= 1) {
-               return getResources().getString(R.string.time_spent_year_single);
-           } else {
-               return String.format(getResources().getString(R.string.time_spent_year_multiple),
-                       numberYear);
-           }
-       }
+            if (numberYear <= 1) {
+                return getResources().getString(R.string.time_spent_year_single);
+            } else {
+                return String.format(getResources().getString(R.string.time_spent_year_multiple),
+                        numberYear);
+            }
+        }
     }
 
     private void setTextStatistics() {

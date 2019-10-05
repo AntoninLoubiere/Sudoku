@@ -14,6 +14,7 @@
 
     <color name="border_color">#ff2c89a0</color>
     <color name="border_color_tile_view">#ff3cbfdc</color>
+    <color name="number">#000</color>
     <color name="user_number_color">#ff2c89a0</color>
     <color name="selected_number_color_background">#FFAB00</color>
     <color name="conflict_color">#fe962f</color>
@@ -30,6 +31,8 @@
     <color name="background_color_button">#99FFFFFF</color>
     <color name="background_color_button_clicked">#99CCCCCC</color>
     <color name="popup_background">#402B89A1</color>
+    <color name="popup_button_select">#9937c837</color>
+    <color name="popup_button_un_select">#99c83737</color>
 
     <color name="separator_color">#AAA</color>
 </resources>

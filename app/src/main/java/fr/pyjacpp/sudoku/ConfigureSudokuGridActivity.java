@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
@@ -23,19 +25,13 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
     EditText editTextSeed;
     Button validButton;
     Switch showConflictSwitch;
+
     boolean showConflictIsChecked = true; // default value
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        int numberTileToRemove = getIntent().getIntExtra("numberTilesToRemove",
-                40);
-
-        boolean showConflict = getIntent().getBooleanExtra("showConflictSwitch",
-                true);
-
         setContentView(R.layout.activity_configure_sudoku_grid);
 
         if (getSupportActionBar() != null) {
@@ -49,10 +45,17 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
         validButton = findViewById(R.id.validButton);
         showConflictSwitch = findViewById(R.id.switchShowConflict);
 
-        updateNumberToRemove(numberTileToRemove);
-        editTextNumberTileToRemove.setText(String.valueOf(numberTileToRemove));
-        showConflictSwitch.setChecked(showConflict);
-        showConflictIsChecked = showConflict;
+        updateNumberToRemove(getApplicationSudoku().getLastNumberTileUse());
+        editTextNumberTileToRemove.setText(String.valueOf(
+                getApplicationSudoku().getLastNumberTileUse()
+        ));
+
+        showConflictSwitch.setChecked(getApplicationSudoku().getLastConflict());
+        showConflictIsChecked = getApplicationSudoku().getLastConflict();
+
+        ((RadioGroup) findViewById(R.id.sortNotesGroup)).check(
+                getApplicationSudoku().getLastSortUsed() ? R.id.sortNotesSort : R.id.sortNotesAdd
+        );
 
         seekBarNumberTileToRemove.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -132,7 +135,7 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
                 if (text.length() >= 4) {
                     int i = 3;
                     while (i < text.length()) {
-                        if (text.charAt(i) =='-' || text.charAt(i) == ' ') {
+                        if (text.charAt(i) == '-' || text.charAt(i) == ' ') {
                             text.deleteCharAt(i);
                             if (cursorPosition > i)
                                 cursorPosition--;
@@ -182,10 +185,17 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
         validButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveLastOption();
+
                 Intent sudokuIntent = new Intent(getApplicationContext(), SudokuActivity.class);
+
                 sudokuIntent.putExtra("numberTilesToRemove",
                         Integer.parseInt(editTextNumberTileToRemove.getText().toString()));
                 sudokuIntent.putExtra("showConflictSwitch", showConflictIsChecked);
+                sudokuIntent.putExtra("getSortNotes", (
+                        (RadioButton) findViewById(R.id.sortNotesSort)).isChecked()
+                );
+
                 if (editTextSeed.length() > 3) {
                     try {
                         sudokuIntent.putExtra("seed", Long.parseLong(editTextSeed.getText()
@@ -237,8 +247,7 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
             editTextSeed.setError(null);
 
             validButton.setEnabled(true);
-        }
-        else {
+        } else {
             editTextNumberTileToRemove.setTextColor(Color.RED);
             editTextSeed.setTextColor(Color.RED);
             editTextSeed.setError(getString(R.string.error_label_configure_sudoku_size_error));
@@ -250,5 +259,22 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private SudokuApplication getApplicationSudoku() {
+        return (SudokuApplication) getApplicationContext();
+    }
+
+    private void saveLastOption() {
+        getApplicationSudoku().setLastNumberTileUse(
+                Integer.parseInt(editTextNumberTileToRemove.getText().toString())
+        );
+
+        getApplicationSudoku().setLastConflict(showConflictIsChecked);
+
+        getApplicationSudoku().setLastSortUsed(
+                ((RadioButton) findViewById(R.id.sortNotesSort)).isChecked()
+        );
+        getApplicationSudoku().saveLastOptions();
     }
 }

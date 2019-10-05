@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 import fr.pyjacpp.sudoku.SudokuActivity;
 import fr.pyjacpp.sudoku.SudokuGrid;
-import fr.pyjacpp.sudoku.SudokuNumbersEnum;
+import fr.pyjacpp.sudoku.SudokuNumberList;
 
 public class UndoChange {
 
     private UndoEnum type;
 
-    private SudokuNumbersEnum number; // change number
+    private SudokuNumberList number; // change number
     private int color; // change number and color change
     private int x; // change number and change color
     private int y; // change number and change color
@@ -21,10 +21,10 @@ public class UndoChange {
     private int startColor; // swap color change
     private int endColor; // swap color change
 
-    public UndoChange(int x, int y, SudokuNumbersEnum number, int color) {
+    public UndoChange(int x, int y, SudokuNumberList number, int color) {
         this.x = x;
         this.y = y;
-        this.number = number;
+        this.number = number.copy();
         this.color = color;
 
         this.type = UndoEnum.Number;
@@ -49,7 +49,9 @@ public class UndoChange {
     public UndoChange doUndo(SudokuGrid grid, final SudokuActivity activity) {
         switch (type) {
             case Number:
-                if (grid.getUserModify(x, y).isModifiable()) {
+                if (grid.getUserModify(x, y).getUniqueNumber().isModifiable()) {
+                    activity.remainingNumberChange(grid.getUserModify(x, y), number);
+
                     UndoChange reverseUndo = new UndoChange(
                             x, y, grid.getUserModify(x, y), grid.getColorGrid(x, y)
                     );

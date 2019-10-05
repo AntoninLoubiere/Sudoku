@@ -4,16 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -25,15 +20,16 @@ public class TileView extends View {
     private TextPaint.FontMetrics numberTextPaintMetrics;
 
     private SudokuNumbersEnum number = SudokuNumbersEnum.Blank;
-    private int numberFontColor = Color.BLACK;
-    private float sizeFont = 25;
-    private boolean userModifiable = false;
+    private SudokuNumberList numberList = null;
+    private float baseSizeFont = 25;
+
+    private NumberTypeEnum type = NumberTypeEnum.Number;
 
     private boolean selected = false;
 
     private int backgroundColor = Color.WHITE;
 
-    private boolean[] inConflict = new boolean[3]; // conflict: 0:row, 1:column, 2:square
+    private boolean conflict = false; // conflict: 0:row, 1:column, 2:square
 
 
     public TileView(Context context) {
@@ -62,14 +58,8 @@ public class TileView extends View {
 
         this.number = SudokuNumbersEnum.get(number);
 
-        sizeFont = a.getFloat(R.styleable.TileView_size_font,
-                sizeFont);
-
-        numberFontColor = a.getColor(R.styleable.TileView_number_font_color,
-                numberFontColor);
-
-        userModifiable = a.getBoolean(R.styleable.TileView_user_modifiable,
-                userModifiable);
+        baseSizeFont = a.getFloat(R.styleable.TileView_size_font,
+                baseSizeFont);
 
 
         a.recycle();
@@ -80,7 +70,6 @@ public class TileView extends View {
         numberTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         numberTextPaint.setTextAlign(Paint.Align.CENTER);
         numberTextPaint.setTextSize(25);
-        numberTextPaint.setColor(numberFontColor);
 
         // Update TextPaint and text measurements from attributes
         invalidateTextPaintAndMeasurements();
@@ -106,30 +95,350 @@ public class TileView extends View {
         int contentWidth = getWidth() - paddingLeft - paddingRight;
         int contentHeight = getHeight() - paddingTop - paddingBottom;
 
+        if (number != null) {
+            setNumberTextPaintSizeFont(baseSizeFont);
+            drawNumberCenter(canvas, number, contentWidth, contentHeight, paddingLeft, paddingTop);
+        } else {
+            switch (numberList.getList().size()) {
+                case 1:
+                    setNumberTextPaintSizeFont(baseSizeFont);
+                    drawNumberCenter(canvas, numberList.getList().get(0), contentWidth,
+                            contentHeight, paddingLeft, paddingTop);
+                    break;
+
+                case 2:
+                    setNumberTextPaintSizeFont(baseSizeFont / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth / 2f,
+                            contentHeight,
+                            paddingLeft,
+                            paddingTop);
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 2f,
+                            contentHeight,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop);
+                    break;
+
+                case 3:
+                    setNumberTextPaintSizeFont(baseSizeFont / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(2),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop + contentHeight / 2f);
+                    break;
+
+                case 4:
+                    setNumberTextPaintSizeFont(baseSizeFont / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(2),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(3),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop + contentHeight / 2f);
+                    break;
+
+                case 5:
+                    setNumberTextPaintSizeFont(baseSizeFont / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 2f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(2),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(3),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop + contentHeight / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(4),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop + contentHeight / 2f);
+                    break;
+
+                case 6:
+                    setNumberTextPaintSizeFont(baseSizeFont / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(2),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(3),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(4),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop + contentHeight / 2f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(5),
+                            contentWidth / 3f,
+                            contentHeight / 2f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop + contentHeight / 2f);
+                    break;
+
+                case 7:
+                    setNumberTextPaintSizeFont(baseSizeFont / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth / 2f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 2f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(2),
+                            contentWidth / 2f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(3),
+                            contentWidth / 2f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(4),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 3f * 2);
+
+                    drawNumberCenter(canvas, numberList.getList().get(5),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop + contentHeight / 3f * 2);
+
+                    drawNumberCenter(canvas, numberList.getList().get(6),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop + contentHeight / 3f * 2);
+                    break;
+
+                case 8:
+                    setNumberTextPaintSizeFont(baseSizeFont / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth / 2f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 2f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 2f,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(2),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(3),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(4),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(5),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 3f * 2);
+
+                    drawNumberCenter(canvas, numberList.getList().get(6),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop + contentHeight / 3f * 2);
+
+                    drawNumberCenter(canvas, numberList.getList().get(7),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop + contentHeight / 3f * 2);
+                    break;
+
+                case 9:
+                    setNumberTextPaintSizeFont(baseSizeFont / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(0),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(1),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(2),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop);
+
+                    drawNumberCenter(canvas, numberList.getList().get(3),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(4),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(5),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop + contentHeight / 3f);
+
+                    drawNumberCenter(canvas, numberList.getList().get(6),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft,
+                            paddingTop + contentHeight / 3f * 2);
+
+                    drawNumberCenter(canvas, numberList.getList().get(7),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f,
+                            paddingTop + contentHeight / 3f * 2);
+
+                    drawNumberCenter(canvas, numberList.getList().get(8),
+                            contentWidth / 3f,
+                            contentHeight / 3f,
+                            paddingLeft + contentWidth / 3f * 2,
+                            paddingTop + contentHeight / 3f * 2);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         // Draw the text.
+
+    }
+
+    private void drawNumberCenter(Canvas canvas, SudokuNumbersEnum number, float width, float height,
+                                  float xOffset, float yOffset) {
+
         canvas.drawText(number.getTextNumber(),
-                paddingLeft + (contentWidth) / 2f,
-                paddingTop + (contentHeight) / 2f -
+                xOffset + width / 2f,
+                yOffset + height / 2f -
                         (numberTextPaintMetrics.ascent + numberTextPaintMetrics.descent) / 2f,
                 numberTextPaint);
     }
 
+    private void setNumberTextPaintSizeFont(float sizeFont) {
+        numberTextPaint.setTextSize(sizeFont);
+        invalidateTextPaintAndMeasurements();
+    }
+
     public void setNumber(SudokuNumbersEnum number) {
         this.number = number;
-        invalidateTextPaintAndMeasurements();
+        this.numberList = null;
         invalidate();
     }
 
-    public void setNumberFontColor(int numberFontColor) {
-        this.numberFontColor = numberFontColor;
-        numberTextPaint.setColor(numberFontColor);
-        invalidateTextPaintAndMeasurements();
+    public void setNumber(SudokuNumberList number) {
+        this.number = null;
+        this.numberList = number;
         invalidate();
     }
 
-    public void setSizeFont(float sizeFont) {
-        this.sizeFont = sizeFont;
-        numberTextPaint.setTextSize(sizeFont);
+    public void setBaseSizeFont(float baseSizeFont) {
+        this.baseSizeFont = baseSizeFont;
         invalidateTextPaintAndMeasurements();
         invalidate();
     }
@@ -142,34 +451,43 @@ public class TileView extends View {
         }
     }
 
-    public void setConflict(int type, boolean value) {
-        boolean previousConflict = isInConflict();
-        inConflict[type] = value;
+    public void setConflict(boolean value) {
+        if (conflict != value) {
+            conflict = value;
 
-        if (previousConflict != isInConflict()) {
             if (isInConflict())
-                numberTextPaint.setColor(getResources().getColor(userModifiable ?
+                numberTextPaint.setColor(getResources().getColor(this.type.isModifiable() ?
                         R.color.user_conflict_color : R.color.conflict_color));
             else
-                numberTextPaint.setColor(numberFontColor);
+                numberTextPaint.setColor(getCurrentColor());
             invalidate();
         }
     }
 
+    private int getCurrentColor() {
+        switch (type) {
+            case Number:
+                return getResources().getColor(R.color.number);
+
+            case UserInput:
+                return getResources().getColor(R.color.user_number_color);
+
+            case Hint:
+                return getResources().getColor(R.color.text_hint);
+
+            case Win:
+                return getResources().getColor(R.color.text_win);
+
+            case Lose:
+                return getResources().getColor(R.color.text_lose);
+
+            default:
+                return Color.BLACK;
+        }
+    }
+
     public boolean isInConflict() {
-        return inConflict[0] || inConflict[1] || inConflict[2];
-    }
-
-    public boolean getInConflict(int type) {
-        if (0 <= type && type < 3)
-            return inConflict[type];
-        else
-            Log.e("TileView", "Invalid type 0, 1 or 3; no " + type);
-        return false;
-    }
-
-    public void setUserModifiable(boolean userModifiable) {
-        this.userModifiable = userModifiable;
+        return conflict;
     }
 
     private Drawable getBackgroundNumber() {
@@ -183,9 +501,15 @@ public class TileView extends View {
         }
     }
 
+    public void setType(NumberTypeEnum type) {
+        this.type = type;
+        numberTextPaint.setColor(getCurrentColor());
+        invalidate();
+    }
+
     @Override
     public void setBackgroundColor(int backgroundColor) {
-        if( this.backgroundColor != backgroundColor) {
+        if (this.backgroundColor != backgroundColor) {
             this.backgroundColor = backgroundColor;
             setBackground(getBackgroundNumber());
             invalidate();
