@@ -106,6 +106,16 @@
             android:src="@drawable/ic_action_restart" />
 
         <ImageView
+            android:id="@+id/buttonActionSettings"
+            style="?android:attr/selectableItemBackground"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/settings"
+            android:src="@drawable/ic_settings" />
+
+        <ImageView
             android:id="@+id/buttonActionMainMenu"
             style="?android:attr/selectableItemBackground"
             android:layout_width="0dp"
@@ -113,7 +123,8 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/main_menu"
-            android:src="@drawable/ic_action_main_menu" />
+            android:src="@drawable/ic_action_main_menu"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

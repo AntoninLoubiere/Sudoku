@@ -1,33 +1,25 @@
 package fr.pyjacpp.sudoku;
 
+import android.support.annotation.NonNull;
+
 public enum SudokuNumbersEnum {
 
-    Blank("", 0),
+    Blank,
 
-    One("1", 1),
-    Two("2", 2),
-    Three("3", 3),
-    Four("4", 4),
-    Five("5", 5),
-    Six("6", 6),
-    Seven("7", 7),
-    Eight("8", 8),
-    Nine("9", 9),
-
-    Square("■", 10),
-    Round("●", 11),
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
 
 
-    NotModifiable("", -1),
-    Hint("", -1);
-
-    private String textNumber;
-    private int number;
-
-    SudokuNumbersEnum(String textNumber, int number) {
-        this.textNumber = textNumber;
-        this.number = number;
-    }
+    NotModifiable,
+    Hint,
+    MultiNumbers;
 
     public static SudokuNumbersEnum get(int number) {
         switch (number) {
@@ -49,10 +41,6 @@ public enum SudokuNumbersEnum {
                 return Eight;
             case 9:
                 return Nine;
-            case 10:
-                return Square;
-            case 11:
-                return Round;
 
             default:
                 return Blank;
@@ -60,24 +48,82 @@ public enum SudokuNumbersEnum {
     }
 
     public String getTextNumber() {
-        return textNumber;
+        switch (this) {
+            case One:
+                return "1";
+
+            case Two:
+                return "2";
+
+            case Three:
+                return "3";
+
+            case Four:
+                return "4";
+
+            case Five:
+                return "5";
+
+            case Six:
+                return "6";
+
+            case Seven:
+                return "7";
+
+            case Eight:
+                return "8";
+
+            case Nine:
+                return "9";
+            default:
+                return "";
+        }
     }
 
     public int getNumber() {
-        return number;
+        switch (this) {
+            case One:
+                return 1;
+
+            case Two:
+                return 2;
+
+            case Three:
+                return 3;
+
+            case Four:
+                return 4;
+
+            case Five:
+                return 5;
+
+            case Six:
+                return 6;
+
+            case Seven:
+                return 7;
+
+            case Eight:
+                return 8;
+
+            case Nine:
+                return 9;
+            default:
+                return -1;
+        }
     }
 
     public boolean isNumber() {
-        switch (number) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
+        switch (this) {
+            case One:
+            case Two:
+            case Three:
+            case Four:
+            case Five:
+            case Six:
+            case Seven:
+            case Eight:
+            case Nine:
                 return true;
 
             default:
@@ -86,6 +132,37 @@ public enum SudokuNumbersEnum {
     }
 
     public boolean isModifiable() {
-        return number != -1;
+        switch (this) {
+            case NotModifiable:
+            case Hint:
+                return false;
+
+            default:
+                return true;
+        }
+    }
+
+    public boolean canBeConflict() {
+        switch (this) {
+            case One:
+            case Two:
+            case Three:
+            case Four:
+            case Five:
+            case Six:
+            case Seven:
+            case Eight:
+            case Nine:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getTextNumber();
     }
 }

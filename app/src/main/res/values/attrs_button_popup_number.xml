@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="ButtonPopupNumber">
+        <attr name="text" format="string" />
+        <attr name="image" format="color|reference" />
+        <attr name="sizeFont" format="float" />
+        <attr name="selectable" format="boolean" />
+    </declare-styleable>
+</resources>
