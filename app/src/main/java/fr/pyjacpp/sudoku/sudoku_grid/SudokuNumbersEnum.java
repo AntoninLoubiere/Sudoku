@@ -1,4 +1,4 @@
-package fr.pyjacpp.sudoku;
+package fr.pyjacpp.sudoku.sudoku_grid;
 
 import android.support.annotation.NonNull;
 

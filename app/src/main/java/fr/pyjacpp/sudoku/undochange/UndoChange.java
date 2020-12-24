@@ -5,8 +5,8 @@ import android.os.Handler;
 import java.util.ArrayList;
 
 import fr.pyjacpp.sudoku.SudokuActivity;
-import fr.pyjacpp.sudoku.SudokuGrid;
-import fr.pyjacpp.sudoku.SudokuNumberList;
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuGrid;
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuNumberList;
 
 public class UndoChange {
 

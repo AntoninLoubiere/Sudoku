@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sudoku</string>
     <string name="by_author">By Antonin Loubière</string>
-    <string name="number_tile_to_remove">Number of squares to remove</string>
+    <string name="difficulty">Difficulty</string>
     <string name="number_tile_to_remove_hint">Nb to remove</string>
     <string name="tile_to_remove_default">40</string>
 
@@ -27,8 +27,8 @@
     <string name="play_button">New game</string>
     <string name="continue_play_button">Continue the game</string>
     <string name="tutorial_and_rules">Tutorial &amp; Rules</string>
-    <string name="version">v3.0</string>
-    <string name="main_menu_bottom_line">Version: 3.0 - Sudoku © 2019 Antonin Loubière - License: GPL-3</string>
+    <string name="version">v4.0</string>
+    <string name="main_menu_bottom_line">Version: 4.0 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
 
     <string name="game_result_win">You have won</string>
     <string name="game_result_abort">You have aborted</string>
@@ -115,7 +115,7 @@
     <string name="swap_color_confirm_click_ask">Click again to confirm</string>
     <string name="seed_edit_text">Grid id</string>
     <string name="seed_text">Grid: %1$s</string>
-    <string name="seedEditTextDefault">40-</string>
+    <string name="seedEditTextDefault" translatable="false">1-</string>
     <string name="id_grid_copy">Grid id copied</string>
 
     <string name="time_spent_now">now</string>
