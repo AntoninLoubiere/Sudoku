@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sudoku</string>
     <string name="by_author">By Antonin Loubière</string>
-    <string name="difficulty">Difficulty</string>
+    <string name="difficulty">Difficulty: </string>
     <string name="number_tile_to_remove_hint">Nb to remove</string>
     <string name="tile_to_remove_default">40</string>
 
@@ -115,7 +115,7 @@
     <string name="swap_color_confirm_click_ask">Click again to confirm</string>
     <string name="seed_edit_text">Grid id</string>
     <string name="seed_text">Grid: %1$s</string>
-    <string name="seedEditTextDefault" translatable="false">1-</string>
+    <string name="seedEditTextDefault" translatable="false" />
     <string name="id_grid_copy">Grid id copied</string>
 
     <string name="time_spent_now">now</string>
@@ -140,4 +140,6 @@
     <string name="settings">Settings</string>
     <string name="cancel_button">Cancel</string>
     <string name="tutorial_icons_settings">Go to settings of the current grid.</string>
+    <string name="play_pause">Play/Pause</string>
+    <string name="timer">Timer:</string>
 </resources>

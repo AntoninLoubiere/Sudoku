@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,6 +28,8 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
 
     private boolean showConflictIsChecked = true; // default value
     private Spinner difficultySpinner;
+    private Spinner timerSpinner;
+    private SudokuApplication applicationSudoku;
 
 
     @Override
@@ -41,20 +42,24 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        applicationSudoku = getApplicationSudoku();
+
         difficultySpinner = findViewById(R.id.difficultySpinner);
+        timerSpinner = findViewById(R.id.timerSpinner);
         editTextSeed = findViewById(R.id.seedEditText);
         validButton = findViewById(R.id.validButton);
         Switch showConflictSwitch = findViewById(R.id.switchShowConflict);
 
-        final int difficulty = getApplicationSudoku().getLasDifficulty();
+        final int difficulty = applicationSudoku.getLastDifficulty();
         difficultySpinner.setSelection(difficulty);
-        updateSeedEntry(difficulty);
 
-        showConflictSwitch.setChecked(getApplicationSudoku().getLastConflict());
-        showConflictIsChecked = getApplicationSudoku().getLastConflict();
+        timerSpinner.setSelection(applicationSudoku.getLastTimer());
+
+        showConflictSwitch.setChecked(applicationSudoku.getLastConflict());
+        showConflictIsChecked = applicationSudoku.getLastConflict();
 
         ((RadioGroup) findViewById(R.id.sortNotesGroup)).check(
-                getApplicationSudoku().getLastSortUsed() ? R.id.sortNotesSort : R.id.sortNotesAdd
+                applicationSudoku.getLastSortUsed() ? R.id.sortNotesSort : R.id.sortNotesAdd
         );
 
         final NumberFormat numberFormat = NumberFormat.getInstance(getResources().getConfiguration()
@@ -82,7 +87,8 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editTextSeed.getText().replace(0, 1, String.valueOf(position));
+                if (editTextSeed.getText().length() > 0)
+                    editTextSeed.getText().replace(0, 1, String.valueOf(position));
             }
 
             @Override
@@ -93,6 +99,7 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
 
         editTextSeed.addTextChangedListener(new TextWatcher() {
             boolean notLock = true;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -147,10 +154,6 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
         });
     }
 
-    private void updateSeedEntry(int number) {
-        editTextSeed.getText().replace(0, 2, number + "-");
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -162,34 +165,36 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
     }
 
     private void saveLastOption() {
-        getApplicationSudoku().setDifficulty(
+        applicationSudoku.setDifficulty(
                 difficultySpinner.getSelectedItemPosition()
         );
 
-        getApplicationSudoku().setLastConflict(showConflictIsChecked);
+        applicationSudoku.setLastConflict(showConflictIsChecked);
 
-        getApplicationSudoku().setLastSortUsed(
+        applicationSudoku.setLastSortUsed(
                 ((RadioButton) findViewById(R.id.sortNotesSort)).isChecked()
         );
-        getApplicationSudoku().saveLastOptions();
+        applicationSudoku.saveLastOptions();
     }
 
     @Override
     public void run() {
         Intent sudokuIntent = new Intent(getApplicationContext(), SudokuActivity.class);
 
-        int difficulty = difficultySpinner.getSelectedItemPosition();
-        boolean sortNotes = ((RadioButton) findViewById(R.id.sortNotesSort)).isChecked();
+        final int difficulty = difficultySpinner.getSelectedItemPosition();
+        final boolean sortNotes = ((RadioButton) findViewById(R.id.sortNotesSort)).isChecked();
 
         sudokuIntent.putExtra("showConflictSwitch", showConflictIsChecked);
-
+        final int timerSettings = timerSpinner.getSelectedItemPosition();
+        applicationSudoku.setLastTimer(timerSettings);
 
         long seed;
+        boolean randomGrid = true;
         if (editTextSeed.length() > 2) {
             try {
                 seed = Long.parseLong(editTextSeed.getText()
                         .toString().substring(2).replace(" ", ""));
-                Log.i("Seed", String.valueOf(seed));
+                randomGrid = false;
             } catch (NumberFormatException ignored) {
                 seed = SudokuGrid.generateRandomSeed();
             }
@@ -198,7 +203,7 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
         }
 
         ((SudokuApplication) getApplicationContext()).setCurrentSudokuGrid(
-                new SudokuGrid(difficulty, seed, sortNotes)
+                new SudokuGrid(difficulty, timerSettings, seed, sortNotes, randomGrid)
         );
 
         startActivity(sudokuIntent);

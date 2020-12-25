@@ -151,6 +151,7 @@
                 android:text="@string/statistics_number_hint_max" />
 
             <Button
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/resetButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

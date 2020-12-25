@@ -29,6 +29,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="@dimen/default_gap"
         app:layout_constraintBottom_toTopOf="@id/progressBar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -40,21 +41,50 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_gap"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/difficultyTextView"
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_gap"
+                    android:layout_marginRight="@dimen/default_gap"
+                    android:gravity="center_horizontal"
+                    android:text="@string/difficulty"
+                    android:textAlignment="center" />
+
+                <Spinner
+                    android:id="@+id/difficultySpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/difficulty" />
+
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/textView"
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/seed_edit_text" />
+
+            <EditText
+                android:id="@+id/seedEditText"
                 style="@style/Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/difficulty"
-                android:textAlignment="center"
-                android:gravity="center_horizontal" />
-
-            <Spinner
-                android:id="@+id/difficultySpinner"
-                android:entries="@array/difficulty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
+                android:layout_marginBottom="@dimen/default_gap"
+                android:digits="0123456789- "
+                android:hint="@string/seed_edit_text"
+                android:inputType="numberSigned"
+                android:maxLength="26"
+                android:maxLines="1"
+                android:text="@string/seedEditTextDefault" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,8 +95,9 @@
                     style="@style/Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/default_gap"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="@string/show_conflicts" />
 
                 <Switch
@@ -85,26 +116,7 @@
                 style="@style/Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/seed_edit_text"/>
-
-
-            <EditText
-                style="@style/Text"
-                android:id="@+id/seedEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="0123456789- "
-                android:hint="@string/seed_edit_text"
-                android:inputType="numberSigned"
-                android:maxLines="1"
-                android:maxLength="30"
-                android:text="@string/seedEditTextDefault"/>
-
-            <TextView
-                style="@style/Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sort_notes"/>
+                android:text="@string/sort_notes" />
 
             <RadioGroup
                 android:id="@+id/sortNotesGroup"
@@ -113,15 +125,15 @@
                 android:orientation="vertical">
 
                 <RadioButton
-                    style="@style/Text"
                     android:id="@+id/sortNotesAdd"
+                    style="@style/Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/sort_notes_add" />
 
                 <RadioButton
-                    style="@style/Text"
                     android:id="@+id/sortNotesSort"
+                    style="@style/Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/sort_notes_sort" />
@@ -132,15 +144,16 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:visibility="invisible"
-        android:indeterminate="true"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/validButton"/>
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/validButton" />
 
     <Button
         android:id="@+id/validButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

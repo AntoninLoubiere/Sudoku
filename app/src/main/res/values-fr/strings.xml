@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sudoku</string>
     <string name="by_author">Par Antonin Loubière</string>
-    <string name="difficulty">Difficulté</string>
+    <string name="difficulty">Difficulté: </string>
     <string name="number_tile_to_remove_hint">Nb a enlever</string>
     <string name="tile_to_remove_default">40</string>
 
@@ -132,7 +132,7 @@
     <string name="swap_color_choose_color">Choisissez la couleur finale</string>
     <string name="swap_color_choose_number">Cliquez sur la case à changer</string>
     <string name="swap_color_confirm_click_ask">Veuillez recliquer pour confirmer</string>
-    <string name="seed_edit_text">Identifiant de la grille</string>
+    <string name="seed_edit_text">Identifiant de la grille (optionnel)</string>
     <string name="seed_text">Grille: %1$s</string>
     <string name="id_grid_copy">Identifiant de la grille copié</string>
 
@@ -159,4 +159,6 @@
     <string name="settings">Preferences</string>
     <string name="cancel_button">Annuler</string>
     <string name="tutorial_icons_settings">Aller aux parametres de la grille courante.</string>
+    <string name="play_pause">Jouer/Pause</string>
+    <string name="timer">Chronomètre:</string>
 </resources>

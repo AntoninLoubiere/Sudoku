@@ -7,4 +7,9 @@
         <item>Expert</item>
         <item>Expert++ (peut prendre du temps)</item>
     </string-array>
+    <string-array name="timer">
+        <item>Afficher</item>
+        <item>Afficher seulement à la fin</item>
+        <item>Cacher</item>
+    </string-array>
 </resources>

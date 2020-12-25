@@ -22,6 +22,9 @@ public class SudokuApplication extends Application {
     private final static String SUDOKU_PREFERENCES_LAST_SORT_USED  = "SudokuLastSortUsed";
     private final static String SUDOKU_PREFERENCES_LAST_CONFLICT  = "SudokuLastConflict";
 
+    public final static int TIMER_SHOW = 0;
+    public final static int TIMER_SHOW_END = 1;
+    public final static int TIMER_HIDE = 2;
 
     private final static int CURRENT_VERSION_ID = 3;
 
@@ -35,6 +38,7 @@ public class SudokuApplication extends Application {
     private SharedPreferences preferences;
 
     private Runnable versionEndRunnable = null;
+    private int timer = 0;
 
     @Override
     public void onCreate() {
@@ -215,7 +219,7 @@ public class SudokuApplication extends Application {
         return preferencesLoaded;
     }
 
-    public int getLasDifficulty() {
+    public int getLastDifficulty() {
         return difficulty;
     }
 
@@ -237,6 +241,14 @@ public class SudokuApplication extends Application {
 
     public void setLastConflict(boolean lastConflict) {
         this.lastConflict = lastConflict;
+    }
+
+    public int getLastTimer() {
+        return timer;
+    }
+
+    public void setLastTimer(int timer) {
+        this.timer = timer;
     }
 
     public void saveLastOptions() {

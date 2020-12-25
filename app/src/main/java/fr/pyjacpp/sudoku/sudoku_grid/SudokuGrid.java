@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 import java.util.Stack;
 
@@ -75,15 +76,22 @@ public class SudokuGrid {
     private final Stack<UndoChange> redoList = new Stack<>();
     private final long seed;
     private final int difficulty;
+    private Date lastCheckpointResolveDate;
+    private long resolveTime;
     private int numberTileRemaining;
     private boolean gameFinish = false;
     private boolean gameWin = false;
     private boolean gameStatisticsCount = false;
     private boolean sortNotes;
     private int colorChooseSelected = 8;
+    private boolean randomGrid;
+    private boolean paused = false;
+    private int timerSettings = 0;
 
-    public SudokuGrid(int difficulty, long seed, boolean sortNotes) {
+    public SudokuGrid(int difficulty, int timerSettings, long seed, boolean sortNotes,
+                      boolean randomGrid) {
         this.difficulty = difficulty;
+        this.randomGrid = randomGrid;
 
         random.setSeed(seed);
         this.seed = seed;
@@ -471,6 +479,7 @@ public class SudokuGrid {
 
     public void setHint(int x, int y) {
         userModify[x][y].setUniqueValue(SudokuNumbersEnum.Hint);
+        randomGrid = false;
     }
 
     public void setUserModify(int x, int y, ArrayList<SudokuNumbersEnum> buttonPopupSelectedNumbers) {
@@ -503,13 +512,18 @@ public class SudokuGrid {
         return gameFinish;
     }
 
-    public void finishGame() {
+    private void finishGame() {
         numberTileRemaining = 0;
         gameFinish = true;
     }
 
     public void resetGrid() {
+        randomGrid = false;
         numberTileRemaining = 0;
+        lastCheckpointResolveDate = new Date();
+        resolveTime = 0;
+        paused = false;
+
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 if (userModify[x][y].getUniqueNumber().isModifiable()) {
@@ -612,5 +626,57 @@ public class SudokuGrid {
 
     public int getDifficulty() {
         return difficulty;
+    }
+
+    public boolean isRandomGrid() {
+        return randomGrid;
+    }
+
+    public void stopGrid() {
+        long time = new Date().getTime();
+        if (lastCheckpointResolveDate != null) {
+            resolveTime += time - lastCheckpointResolveDate.getTime();
+            lastCheckpointResolveDate = null;
+        }
+        finishGame();
+    }
+
+    public void pauseGrid() {
+        resolveTime += new Date().getTime() - lastCheckpointResolveDate.getTime();
+        lastCheckpointResolveDate = null;
+    }
+
+    public void checkPointResolveTime() {
+        if (lastCheckpointResolveDate != null) {
+            resolveTime += new Date().getTime() - lastCheckpointResolveDate.getTime();
+            lastCheckpointResolveDate = new Date();
+        }
+    }
+
+    public void resumeGrid() {
+        lastCheckpointResolveDate = new Date();
+    }
+
+    public long getResolveTime() {
+        return resolveTime;
+    }
+
+    public long getResolveTimeAndCheckpoint() {
+        if (lastCheckpointResolveDate == null)
+            return resolveTime;
+        else
+        return resolveTime +  new Date().getTime() - lastCheckpointResolveDate.getTime();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public int getTimerSettings() {
+        return timerSettings;
     }
 }
