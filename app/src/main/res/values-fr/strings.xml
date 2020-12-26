@@ -27,8 +27,8 @@
     <string name="play_button">Nouvelle partie</string>
     <string name="continue_play_button">Continuer la partie</string>
     <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
-    <string name="version">v4.0</string>
-    <string name="main_menu_bottom_line">Version: 4.0 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
+    <string name="version">v4.0.1</string>
+    <string name="main_menu_bottom_line">Version: 4.0;1 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
@@ -166,4 +166,8 @@
     <string name="no_data">Pas de donnée</string>
     <string name="time">Temps</string>
     <string name="grid_id">Identifiant</string>
+    <string name="dialog_override_title">Grille en cours</string>
+    <string name="dialog_override_message">Vous avez une grille que vous n\'avez pas fini, voulez vous la supprimer ?</string>
+    <string name="erase">Supprimer</string>
+    <string name="warning_difficulty">Cette difficulté peut prendre du temps pour générer une grill</string>
 </resources>
