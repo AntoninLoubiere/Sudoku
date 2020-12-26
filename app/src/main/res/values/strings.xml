@@ -27,8 +27,8 @@
     <string name="play_button">New game</string>
     <string name="continue_play_button">Continue the game</string>
     <string name="tutorial_and_rules">Tutorial &amp; Rules</string>
-    <string name="version">v4.0</string>
-    <string name="main_menu_bottom_line">Version: 4.0 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
+    <string name="version">v4.0.1</string>
+    <string name="main_menu_bottom_line">Version: 4.0.1 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
 
     <string name="game_result_win">You have won</string>
     <string name="game_result_abort">You have aborted</string>
@@ -148,8 +148,8 @@
     <string name="no_data">No data</string>
     <string name="time">Time</string>
     <string name="grid_id">Grid id</string>
-    <string name="dialog_override_title">Grid not finished</string>
-    <string name="dialog_override_message">You have a grid in progress that you haven\'t finish, do you want to erase it ?</string>
+    <string name="dialog_override_title">Grid in progress</string>
+    <string name="dialog_override_message">You have a grid that you haven\'t finish, do you want to erase it ?</string>
     <string name="erase">Erase</string>
     <string name="warning_difficulty">This difficulty could take some time to generate a grid.</string>
 </resources>
