@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="difficulty">
+        <item>Facile</item>
+        <item>Moyen</item>
+        <item>Difficile</item>
+        <item>Expert</item>
+        <item>Expert++</item>
+    </string-array>
+    <string-array name="timer">
+        <item>Afficher</item>
+        <item>Afficher seulement à la fin</item>
+        <item>Cacher</item>
+    </string-array>
+</resources>

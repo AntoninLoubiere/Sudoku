@@ -1,11 +1,15 @@
-package fr.pyjacpp.sudoku;
+package fr.pyjacpp.sudoku.statistics;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuGrid;
+
 import static java.lang.Float.NaN;
 
-class SudokuStatistics {
+public class SudokuStatistics {
     private int numberGameDid = 0;
     private int numberGameWin = 0;
     private int numberNumberCompleted = 0;
@@ -14,9 +18,12 @@ class SudokuStatistics {
     private int numberHintAsk = 0;
     private int maxHintAsk = 0;
 
+    private BestGrid[] bestGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
+    private BestGrid[] bestRandomGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
+
     private Date resetDate = Calendar.getInstance().getTime();
 
-    void reset() {
+    public void reset() {
         numberGameDid = 0;
         numberGameWin = 0;
         numberNumberCompleted = 0;
@@ -24,99 +31,101 @@ class SudokuStatistics {
         maxNumberCompletedJust = 0;
         numberHintAsk = 0;
         maxHintAsk = 0;
+        bestGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
+        bestRandomGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
 
         resetDate = Calendar.getInstance().getTime();
     }
 
-    int getNumberGameDid() {
+    public int getNumberGameDid() {
         return numberGameDid;
     }
 
-    int getNumberGameWin() {
+    public int getNumberGameWin() {
         return numberGameWin;
     }
 
-    float getPercentGameWin() {
+    public float getPercentGameWin() {
         if (numberGameDid == 0) {
             return NaN;
         }
         return numberGameWin / (float) numberGameDid * 100;
     }
 
-    int getNumberGameAbort() {
+    public int getNumberGameAbort() {
         return numberGameDid - numberGameWin;
     }
 
-    float getPercentGameAbort() {
+    public float getPercentGameAbort() {
         if (numberGameDid == 0) {
             return NaN;
         }
         return getNumberGameAbort() / (float) numberGameDid * 100;
     }
 
-    int getNumberNumberCompleted() {
+    public int getNumberNumberCompleted() {
         return numberNumberCompleted;
     }
 
-    float getAverageNumberCompleted() {
+    public float getAverageNumberCompleted() {
         if (numberGameDid == 0) {
             return NaN;
         }
         return numberNumberCompleted / (float) numberGameDid;
     }
 
-    int getNumberNumberCompletedJust() {
+    public int getNumberNumberCompletedJust() {
         return numberNumberCompletedJust;
     }
 
-    int getNumberNumberCompletedWrong() {
+    public int getNumberNumberCompletedWrong() {
         return numberNumberCompleted - numberNumberCompletedJust;
     }
 
-    float getPercentNumberCompletedWrong() {
+    public float getPercentNumberCompletedWrong() {
         if (numberNumberCompleted == 0) {
             return NaN;
         }
         return getNumberNumberCompletedWrong() / (float) numberNumberCompleted * 100;
     }
 
-    int getMaxNumberCompletedJust() {
+    public int getMaxNumberCompletedJust() {
         return maxNumberCompletedJust;
     }
 
-    float getPercentNumberCompletedJust() {
+    public float getPercentNumberCompletedJust() {
         if (numberNumberCompleted == 0) {
             return NaN;
         }
         return numberNumberCompletedJust / (float) numberNumberCompleted * 100;
     }
 
-    int getNumberHintAsk() {
+    public int getNumberHintAsk() {
         return numberHintAsk;
     }
 
-    int getMaxHintAsk() {
+    public int getMaxHintAsk() {
         return maxHintAsk;
     }
 
-    float getAverageHintAsk() {
+    public float getAverageHintAsk() {
         if (numberGameDid == 0) {
             return NaN;
         }
         return numberHintAsk / (float) numberGameDid;
     }
 
-    Date getResetDate() {
+    public Date getResetDate() {
         return resetDate;
     }
 
-    void addGame(boolean win) {
+    public void addGame(boolean win) {
         numberGameDid++;
         if (win)
             numberGameWin++;
     }
 
-    void addNumberCompleted(int numberNumberCompleted, int numberNumberCompletedJust) {
+    public void addNumberCompleted(int numberNumberCompleted, int numberNumberCompletedJust) {
         this.numberNumberCompleted += numberNumberCompleted;
         this.numberNumberCompletedJust += numberNumberCompletedJust;
 
@@ -124,9 +133,25 @@ class SudokuStatistics {
             maxNumberCompletedJust = numberNumberCompletedJust;
     }
 
-    void addNumberHintAsk(int hintAsk) {
+    public void addNumberHintAsk(int hintAsk) {
         numberHintAsk += hintAsk;
         if (hintAsk > maxHintAsk)
             maxHintAsk = hintAsk;
+    }
+
+    public BestGrid[] getBestGrids() {
+        return bestGrids;
+    }
+
+    public BestGrid[] getBestRandomGrids() {
+        return bestRandomGrids;
+    }
+
+    public void setBestRandomGrid(int difficulty, long resolveTime, long seed) {
+        bestRandomGrids[difficulty] = new BestGrid(seed, resolveTime);
+    }
+
+    public void setBestGrid(int difficulty, long resolveTime, long seed) {
+        bestGrids[difficulty] = new BestGrid(seed, resolveTime);
     }
 }

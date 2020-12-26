@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sudoku</string>
     <string name="by_author">By Antonin Loubière</string>
-    <string name="number_tile_to_remove">Number of squares to remove</string>
+    <string name="difficulty">Difficulty</string>
     <string name="number_tile_to_remove_hint">Nb to remove</string>
     <string name="tile_to_remove_default">40</string>
 
@@ -27,8 +27,8 @@
     <string name="play_button">New game</string>
     <string name="continue_play_button">Continue the game</string>
     <string name="tutorial_and_rules">Tutorial &amp; Rules</string>
-    <string name="version">v3.0</string>
-    <string name="main_menu_bottom_line">Version: 3.0 - Sudoku © 2019 Antonin Loubière - License: GPL-3</string>
+    <string name="version">v4.0</string>
+    <string name="main_menu_bottom_line">Version: 4.0 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
 
     <string name="game_result_win">You have won</string>
     <string name="game_result_abort">You have aborted</string>
@@ -115,7 +115,7 @@
     <string name="swap_color_confirm_click_ask">Click again to confirm</string>
     <string name="seed_edit_text">Grid id</string>
     <string name="seed_text">Grid: %1$s</string>
-    <string name="seedEditTextDefault">40-</string>
+    <string name="seedEditTextDefault" translatable="false" />
     <string name="id_grid_copy">Grid id copied</string>
 
     <string name="time_spent_now">now</string>
@@ -140,4 +140,16 @@
     <string name="settings">Settings</string>
     <string name="cancel_button">Cancel</string>
     <string name="tutorial_icons_settings">Go to settings of the current grid.</string>
+    <string name="play_pause">Play/Pause</string>
+    <string name="timer">Timer:</string>
+    <string name="bestTimeGrid">Best solve time (without hint):</string>
+    <string name="bestRandomTimeGrid">Best random grid solve time (without hint):</string>
+    <string name="seed_format" translatable="false">%d-%s</string>
+    <string name="no_data">No data</string>
+    <string name="time">Time</string>
+    <string name="grid_id">Grid id</string>
+    <string name="dialog_override_title">Grid not finished</string>
+    <string name="dialog_override_message">You have a grid in progress that you haven\'t finish, do you want to erase it ?</string>
+    <string name="erase">Erase</string>
+    <string name="warning_difficulty">This difficulty could take some time to generate a grid.</string>
 </resources>

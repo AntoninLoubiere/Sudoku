@@ -29,7 +29,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/validButton"
+        android:layout_margin="@dimen/default_gap"
+        app:layout_constraintBottom_toTopOf="@id/progressBar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/separatorTitle">
@@ -40,43 +41,59 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
-                style="@style/Text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/number_tile_to_remove"
-                android:textAlignment="center" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <SeekBar
-                    android:id="@+id/seekBarNumberTileToRemove"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:foregroundGravity="center"
-                    android:max="50"
-                    android:progress="20" />
+                <TextView
+                    android:id="@+id/difficultyTextView"
+                    style="@style/Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_gap"
+                    android:layout_marginRight="@dimen/default_gap"
+                    android:gravity="center_horizontal"
+                    android:text="@string/difficulty"
+                    android:textAlignment="center" />
 
-                <EditText
-                    android:id="@+id/editTextNumberTileToRemove"
-                    android:layout_width="100dp"
+                <Spinner
+                    android:id="@+id/difficultySpinner"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="@string/number_tile_to_remove_hint"
-                    android:inputType="numberSigned"
-                    android:maxLength="2"
-                    android:selectAllOnFocus="true"
-                    android:singleLine="true"
-                    android:text="@string/tile_to_remove_default" />
+                    android:entries="@array/difficulty" />
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/warningDifficultyTextView"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/warning_difficulty"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
+
+            <TextView
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_gap"
+                android:text="@string/seed_edit_text" />
+
+            <EditText
+                android:id="@+id/seedEditText"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_gap"
+                android:digits="0123456789- "
+                android:hint="@string/seed_edit_text"
+                android:inputType="numberSigned"
+                android:maxLength="26"
+                android:maxLines="1"
+                android:text="@string/seedEditTextDefault" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,8 +104,9 @@
                     style="@style/Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/default_gap"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="@string/show_conflicts" />
 
                 <Switch
@@ -107,26 +125,7 @@
                 style="@style/Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/seed_edit_text"/>
-
-
-            <EditText
-                style="@style/Text"
-                android:id="@+id/seedEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="0123456789- "
-                android:hint="@string/seed_edit_text"
-                android:inputType="numberSigned"
-                android:maxLines="1"
-                android:maxLength="26"
-                android:text="@string/seedEditTextDefault"/>
-
-            <TextView
-                style="@style/Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sort_notes"/>
+                android:text="@string/sort_notes" />
 
             <RadioGroup
                 android:id="@+id/sortNotesGroup"
@@ -135,15 +134,15 @@
                 android:orientation="vertical">
 
                 <RadioButton
-                    style="@style/Text"
                     android:id="@+id/sortNotesAdd"
+                    style="@style/Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/sort_notes_add" />
 
                 <RadioButton
-                    style="@style/Text"
                     android:id="@+id/sortNotesSort"
+                    style="@style/Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/sort_notes_sort" />
@@ -152,8 +151,18 @@
         </LinearLayout>
     </ScrollView>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/validButton" />
+
     <Button
         android:id="@+id/validButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

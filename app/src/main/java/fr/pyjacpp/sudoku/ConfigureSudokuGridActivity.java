@@ -1,32 +1,39 @@
 package fr.pyjacpp.sudoku;
 
-import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.text.NumberFormat;
 
-public class ConfigureSudokuGridActivity extends AppCompatActivity {
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuGrid;
 
-    SeekBar seekBarNumberTileToRemove;
-    EditText editTextNumberTileToRemove;
-    EditText editTextSeed;
-    Button validButton;
-    Switch showConflictSwitch;
+public class ConfigureSudokuGridActivity extends AppCompatActivity implements Runnable {
 
-    boolean showConflictIsChecked = true; // default value
+    private EditText editTextSeed;
+    private Button validButton;
+
+    private boolean showConflictIsChecked = true; // default value
+    private Spinner difficultySpinner;
+    private Spinner timerSpinner;
+    private SudokuApplication applicationSudoku;
+    private TextView warningDifficultyTextView;
 
 
     @Override
@@ -39,141 +46,30 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        seekBarNumberTileToRemove = findViewById(R.id.seekBarNumberTileToRemove);
-        editTextNumberTileToRemove = findViewById(R.id.editTextNumberTileToRemove);
+        applicationSudoku = getApplicationSudoku();
+
+        difficultySpinner = findViewById(R.id.difficultySpinner);
+        timerSpinner = findViewById(R.id.timerSpinner);
         editTextSeed = findViewById(R.id.seedEditText);
         validButton = findViewById(R.id.validButton);
-        showConflictSwitch = findViewById(R.id.switchShowConflict);
+        warningDifficultyTextView = findViewById(R.id.warningDifficultyTextView);
+        Switch showConflictSwitch = findViewById(R.id.switchShowConflict);
 
-        updateNumberToRemove(getApplicationSudoku().getLastNumberTileUse());
-        editTextNumberTileToRemove.setText(String.valueOf(
-                getApplicationSudoku().getLastNumberTileUse()
-        ));
+        final int difficulty = applicationSudoku.getLastDifficulty();
+        updateDifficulty(difficulty);
 
-        showConflictSwitch.setChecked(getApplicationSudoku().getLastConflict());
-        showConflictIsChecked = getApplicationSudoku().getLastConflict();
+        timerSpinner.setSelection(applicationSudoku.getLastTimer());
+
+        showConflictSwitch.setChecked(applicationSudoku.getLastConflict());
+        showConflictIsChecked = applicationSudoku.getLastConflict();
 
         ((RadioGroup) findViewById(R.id.sortNotesGroup)).check(
-                getApplicationSudoku().getLastSortUsed() ? R.id.sortNotesSort : R.id.sortNotesAdd
+                applicationSudoku.getLastSortUsed() ? R.id.sortNotesSort : R.id.sortNotesAdd
         );
-
-        seekBarNumberTileToRemove.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    editTextNumberTileToRemove.setText(String.valueOf(progress + 20));
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-
-        editTextNumberTileToRemove.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    int input = Integer.parseInt(String.valueOf(s));
-
-                    updateNumberToRemove(input, false);
-                } catch (NumberFormatException ignored) {
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
 
         final NumberFormat numberFormat = NumberFormat.getInstance(getResources().getConfiguration()
                 .locale);
         numberFormat.setGroupingUsed(true);
-
-        editTextSeed.addTextChangedListener(new TextWatcher() {
-            int cursorPosition;
-            StringBuilder text;
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                cursorPosition = editTextSeed.getSelectionEnd();
-                text = new StringBuilder(charSequence);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                editTextSeed.removeTextChangedListener(this);
-                if (text.length() >= 1 && text.charAt(0) == '-') {
-                    text.deleteCharAt(0);
-                    cursorPosition = 0;
-                }
-                if (text.length() >= 2 && text.charAt(1) == '-') {
-                    text.insert(0, '0');
-                    cursorPosition++;
-                }
-                if (text.length() >= 4 && text.charAt(3) == '-') {
-                    text.deleteCharAt(2);
-                    if (cursorPosition >= 4)
-                        cursorPosition--;
-                } else if (text.length() >= 3 && text.charAt(2) != '-') {
-                    if (cursorPosition >= 3)
-                        cursorPosition++;
-                    text.insert(2, '-');
-                }
-                if (text.length() >= 4) {
-                    int i = 3;
-                    while (i < text.length()) {
-                        if (text.charAt(i) == '-' || text.charAt(i) == ' ') {
-                            text.deleteCharAt(i);
-                            if (cursorPosition > i)
-                                cursorPosition--;
-                            continue;
-                        }
-                        i++;
-                    }
-
-                    i = text.length() - 1;
-
-                    int numberSeparatorCount = 0;
-                    while (i > 3) {
-                        numberSeparatorCount++;
-                        if (numberSeparatorCount >= 3) {
-                            text.insert(i, ' ');
-                            numberSeparatorCount = 0;
-                            if (cursorPosition > i)
-                                cursorPosition++;
-                        }
-                        i--;
-                    }
-                }
-
-                if (text.length() >= 2) {
-                    try {
-                        updateNumberToRemove(Integer.parseInt(text.substring(0, 2)));
-                    } catch (NumberFormatException ignored) {
-                    }
-                }
-
-                editTextSeed.setText(text.toString());
-                if (cursorPosition > text.length()) {
-                    cursorPosition = text.length();
-                }
-                editTextSeed.setSelection(cursorPosition);
-                editTextSeed.addTextChangedListener(this);
-            }
-        });
 
         showConflictSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -185,74 +81,122 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
         validButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveLastOption();
-
-                Intent sudokuIntent = new Intent(getApplicationContext(), SudokuActivity.class);
-
-                sudokuIntent.putExtra("numberTilesToRemove",
-                        Integer.parseInt(editTextNumberTileToRemove.getText().toString()));
-                sudokuIntent.putExtra("showConflictSwitch", showConflictIsChecked);
-                sudokuIntent.putExtra("getSortNotes", (
-                        (RadioButton) findViewById(R.id.sortNotesSort)).isChecked()
-                );
-
-                if (editTextSeed.length() > 3) {
-                    try {
-                        sudokuIntent.putExtra("seed", Long.parseLong(editTextSeed.getText()
-                                .toString().substring(3).replace(" ", "")));
-                    } catch (NumberFormatException ignored) {
-                    }
+                SudokuGrid grid = applicationSudoku.getCurrentSudokuGrid();
+                if (grid == null || grid.isGameFinish()) {
+                    onValid();
+                } else {
+                    new AlertDialog.Builder(ConfigureSudokuGridActivity.this)
+                            .setTitle(R.string.dialog_override_title)
+                            .setMessage(R.string.dialog_override_message)
+                            .setCancelable(true)
+                            .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setPositiveButton(R.string.erase, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onValid();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create().show();
                 }
+            }
+        });
 
-                ((SudokuApplication) getApplicationContext()).setCurrentSudokuGrid(null);
+        difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (editTextSeed.getText().length() > 0)
+                    editTextSeed.getText().replace(0, 1, String.valueOf(position));
+                if (position < 4) {
+                    warningDifficultyTextView.setVisibility(View.GONE);
+                } else {
+                    warningDifficultyTextView.setVisibility(View.VISIBLE);
+                }
+            }
 
-                startActivity(sudokuIntent);
-                finish();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        editTextSeed.addTextChangedListener(new TextWatcher() {
+            boolean notLock = true;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (notLock) {
+                    notLock = false;
+                    int i = 0;
+                    while (i < s.length()) {
+                        if (s.charAt(i) == '-' || s.charAt(i) == ' ') {
+                            s.delete(i, i + 1);
+                        } else {
+                            i++;
+                        }
+                    }
+
+                    if (s.length() > SudokuGrid.MAX_LENGTH_SEED + 1) {
+                        s.delete(SudokuGrid.MAX_LENGTH_SEED + 1, s.length());
+                    }
+
+                    if (s.length() > 0) {
+                        char c = s.charAt(0);
+                        if ('0' <= c && c <= '4') {
+                            updateDifficulty(c - '0');
+                        } else {
+                            s.insert(0, String.valueOf(difficultySpinner.getSelectedItemPosition()));
+                        }
+                        if (s.length() > 1) {
+                            s.insert(1, "-");
+                            if (s.length() > 3) {
+                                int count = 0;
+                                i = s.length() - 1;
+                                while (i > 2) {
+                                    count++;
+                                    if (count >= 3) {
+                                        count = 0;
+                                        s.insert(i, " ");
+                                    }
+                                    i--;
+                                }
+                            }
+                        }
+                    }
+                    notLock = true;
+                }
             }
         });
     }
 
-    private void updateNumberToRemove(int value) {
-        updateNumberToRemove(value, true);
+    private void updateDifficulty(int difficulty) {
+        difficultySpinner.setSelection(difficulty);
+        if (difficulty < 4) {
+            warningDifficultyTextView.setVisibility(View.GONE);
+        } else {
+            warningDifficultyTextView.setVisibility(View.VISIBLE);
+        }
     }
 
-    @SuppressLint("SetTextI18n")
-    private void updateNumberToRemove(int value, boolean updateEntry) {
-        if (updateEntry) {
-            int cursorPosition = editTextNumberTileToRemove.getSelectionEnd();
-            editTextNumberTileToRemove.setText(String.valueOf(value));
-            if (cursorPosition > editTextNumberTileToRemove.length()) {
-                cursorPosition = editTextNumberTileToRemove.length();
-            }
-            editTextNumberTileToRemove.setSelection(cursorPosition);
-        } else if (editTextSeed.getText().length() <= 2) {
-            editTextSeed.setText(String.valueOf(value) + '-');
-        }
-
-        if (editTextSeed.getText().length() >= 2) {
-            int cursorPosition = editTextSeed.getSelectionEnd();
-            editTextSeed.setText(String.valueOf(value) +
-                    editTextSeed.getText().subSequence(2, editTextSeed.length()));
-            if (cursorPosition > editTextNumberTileToRemove.length()) {
-                cursorPosition = editTextNumberTileToRemove.length();
-            }
-            editTextSeed.setSelection(cursorPosition);
-        }
-
-        if (value >= 20 && value <= 70) {
-            seekBarNumberTileToRemove.setProgress(value - 20);
-
-            editTextNumberTileToRemove.setTextColor(Color.BLACK);
-            editTextSeed.setTextColor(Color.BLACK);
-            editTextSeed.setError(null);
-
-            validButton.setEnabled(true);
-        } else {
-            editTextNumberTileToRemove.setTextColor(Color.RED);
-            editTextSeed.setTextColor(Color.RED);
-            editTextSeed.setError(getString(R.string.error_label_configure_sudoku_size_error));
-            validButton.setEnabled(false);
-        }
+    private void onValid() {
+        new Thread(ConfigureSudokuGridActivity.this).start();
+        validButton.setEnabled(false);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        saveLastOption();
     }
 
     @Override
@@ -266,15 +210,53 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity {
     }
 
     private void saveLastOption() {
-        getApplicationSudoku().setLastNumberTileUse(
-                Integer.parseInt(editTextNumberTileToRemove.getText().toString())
+        applicationSudoku.setDifficulty(
+                difficultySpinner.getSelectedItemPosition()
         );
 
-        getApplicationSudoku().setLastConflict(showConflictIsChecked);
+        applicationSudoku.setLastConflict(showConflictIsChecked);
 
-        getApplicationSudoku().setLastSortUsed(
+        applicationSudoku.setLastSortUsed(
                 ((RadioButton) findViewById(R.id.sortNotesSort)).isChecked()
         );
-        getApplicationSudoku().saveLastOptions();
+        applicationSudoku.saveLastOptions();
     }
+
+    @Override
+    public void run() {
+        Intent sudokuIntent = new Intent(getApplicationContext(), SudokuActivity.class);
+
+        final int difficulty = difficultySpinner.getSelectedItemPosition();
+        final boolean sortNotes = ((RadioButton) findViewById(R.id.sortNotesSort)).isChecked();
+        final int timerSettings = timerSpinner.getSelectedItemPosition();
+        applicationSudoku.setLastTimer(timerSettings);
+
+        long seed;
+        boolean randomGrid = true;
+        if (editTextSeed.length() > 2) {
+            try {
+                seed = Long.parseLong(editTextSeed.getText()
+                        .toString().substring(2).replace(" ", ""));
+                randomGrid = false;
+            } catch (NumberFormatException ignored) {
+                seed = SudokuGrid.generateRandomSeed();
+            }
+        } else {
+            seed = SudokuGrid.generateRandomSeed();
+        }
+
+        ((SudokuApplication) getApplicationContext()).setCurrentSudokuGrid(
+                new SudokuGrid(difficulty, timerSettings, seed, sortNotes, randomGrid,
+                        showConflictIsChecked)
+        );
+
+        startActivity(sudokuIntent);
+        new Handler(getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        });
+    }
+
 }

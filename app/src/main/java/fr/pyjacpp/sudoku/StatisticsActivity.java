@@ -1,18 +1,36 @@
 package fr.pyjacpp.sudoku;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import fr.pyjacpp.sudoku.statistics.BestGrid;
+import fr.pyjacpp.sudoku.statistics.SudokuStatistics;
+
 public class StatisticsActivity extends AppCompatActivity {
+
+    public final LinearLayout.LayoutParams CHILD_PARAMS = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+    public final LinearLayout.LayoutParams LINE_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    public StatisticsActivity() {
+        CHILD_PARAMS.weight = 1;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +163,10 @@ public class StatisticsActivity extends AppCompatActivity {
                 findViewById(R.id.numberGameWinTextView);
         TextView gameAbortTextView =
                 findViewById(R.id.numberGameAbortTextView);
+        LinearLayout bestTimeLayout =
+                findViewById(R.id.bestGridLayout);
+        LinearLayout bestRandomTimeLayout =
+                findViewById(R.id.bestRandomGridLayout);
         TextView numberCompletedTextView =
                 findViewById(R.id.numberNumbersCompletedTextView);
         TextView numberCompletedAverageTextView =
@@ -163,55 +185,152 @@ public class StatisticsActivity extends AppCompatActivity {
                 findViewById(R.id.numberHintMaxTextView);
 
 
+        SudokuStatistics globalStatistics = getGlobalStatistics();
+        Resources resources = getResources();
         gameDidTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_game),
-                        getGlobalStatistics().getNumberGameDid()));
+                        globalStatistics.getNumberGameDid()));
         gameWinTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_game_win),
-                        getGlobalStatistics().getNumberGameWin(),
-                        getGlobalStatistics().getPercentGameWin()));
+                        globalStatistics.getNumberGameWin(),
+                        globalStatistics.getPercentGameWin()));
         gameAbortTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_game_abort),
-                        getGlobalStatistics().getNumberGameAbort(),
-                        getGlobalStatistics().getPercentGameAbort()));
+                        globalStatistics.getNumberGameAbort(),
+                        globalStatistics.getPercentGameAbort()));
         numberCompletedTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_numbers_completed),
-                        getGlobalStatistics().getNumberNumberCompleted()));
+                        globalStatistics.getNumberNumberCompleted()));
         numberCompletedAverageTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_numbers_completed_average),
-                        getGlobalStatistics().getAverageNumberCompleted()));
+                        globalStatistics.getAverageNumberCompleted()));
         numberCompletedMaxTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_numbers_completed_max),
-                        getGlobalStatistics().getMaxNumberCompletedJust()));
+                        globalStatistics.getMaxNumberCompletedJust()));
         numberCompletedJustTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_numbers_completed_just),
-                        getGlobalStatistics().getNumberNumberCompletedJust(),
-                        getGlobalStatistics().getPercentNumberCompletedJust()));
+                        globalStatistics.getNumberNumberCompletedJust(),
+                        globalStatistics.getPercentNumberCompletedJust()));
         numberCompletedWrongTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_numbers_completed_wrong),
-                        getGlobalStatistics().getNumberNumberCompletedWrong(),
-                        getGlobalStatistics().getPercentNumberCompletedWrong()));
+                        globalStatistics.getNumberNumberCompletedWrong(),
+                        globalStatistics.getPercentNumberCompletedWrong()));
         hintTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_hint),
-                        getGlobalStatistics().getNumberHintAsk()));
+                        globalStatistics.getNumberHintAsk()));
         hintAverageTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_hint_average),
-                        getGlobalStatistics().getAverageHintAsk()));
+                        globalStatistics.getAverageHintAsk()));
         hintMaxTextView.setText(
-                String.format(getResources().getString(
+                String.format(resources.getString(
                         R.string.statistics_number_hint_max),
-                        getGlobalStatistics().getMaxHintAsk()));
+                        globalStatistics.getMaxHintAsk()));
 
+        bestTimeLayout.removeAllViews();
+        bestRandomTimeLayout.removeAllViews();
+
+        BestGrid[] bestGrids = globalStatistics.getBestGrids();
+        BestGrid[] bestRandomGrids = globalStatistics.getBestRandomGrids();
+        String[] difficulty = resources.getStringArray(R.array.difficulty);
+
+        String time;
+        String seed;
+
+        bestTimeLayout.addView(getTimeLine(
+                getString(R.string.difficulty),
+                getString(R.string.time),
+                getString(R.string.grid_id),
+                false), LINE_PARAMS);
+
+        bestRandomTimeLayout.addView(getTimeLine(
+                getString(R.string.difficulty),
+                getString(R.string.time),
+                getString(R.string.grid_id),
+                false), LINE_PARAMS);
+
+        NumberFormat numberFormat = NumberFormat.getInstance(getResources().getConfiguration()
+                .locale);
+        numberFormat.setGroupingUsed(true);
+
+        for (int i = 0; i < bestGrids.length; i++) {
+            if (bestGrids[i] != null) {
+                time = Utils.getStringFromResolveTime(bestGrids[i].time, true);
+                seed = getString(R.string.seed_format, i, numberFormat.format(bestGrids[i].seed));
+            } else {
+                time = getString(R.string.no_data);
+                seed = "";
+            }
+
+            LinearLayout timeLine = getTimeLine(
+                    difficulty[i],
+                    time,
+                    seed,
+                    bestGrids[i] != null);
+            bestTimeLayout.addView(timeLine, LINE_PARAMS);
+
+            if (bestRandomGrids[i] != null) {
+                time = Utils.getStringFromResolveTime(bestRandomGrids[i].time, true);
+                seed = getString(R.string.seed_format, i, numberFormat.format(bestRandomGrids[i].seed));
+            } else {
+                time = getString(R.string.no_data);
+                seed = "";
+            }
+            
+            bestRandomTimeLayout.addView(getTimeLine(
+                    difficulty[i],
+                    time,
+                    seed,
+                    bestRandomGrids[i] != null), LINE_PARAMS);
+        }
+
+    }
+
+    @NonNull
+    private LinearLayout getTimeLine(String s1, String s2, final String s3, boolean copyLastSeed) {
+        LinearLayout line;
+        TextView t;
+        line = new LinearLayout(this);
+
+        t = new TextView(this);
+        t.setTextAppearance(this, R.style.Text_Statistics);
+        t.setText(s1);
+        line.addView(t, CHILD_PARAMS);
+
+        t = new TextView(this);
+        t.setTextAppearance(this, R.style.Text_Statistics);
+        t.setText(s2);
+        line.addView(t, CHILD_PARAMS);
+
+        t = new TextView(this);
+        t.setTextAppearance(this, R.style.Text_Statistics);
+        t.setText(s3);
+
+        if (copyLastSeed)
+            t.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClipboardManager clipboardManager = (ClipboardManager)
+                            getSystemService(CLIPBOARD_SERVICE);
+                    ClipData data = ClipData.newPlainText("gridId", s3);
+                    clipboardManager.setPrimaryClip(data);
+
+                    Toast.makeText(StatisticsActivity.this, getString(R.string.id_grid_copy),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+
+        line.addView(t, CHILD_PARAMS);
+        return line;
     }
 
     @Override

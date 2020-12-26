@@ -11,21 +11,27 @@ import com.google.gson.JsonSyntaxException;
 
 import java.util.Map;
 
+import fr.pyjacpp.sudoku.statistics.SudokuStatistics;
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuGrid;
+
 public class SudokuApplication extends Application {
     private final static String SUDOKU_PREFERENCES = "SudokuPreferences";
     private final static String SUDOKU_PREFERENCES_GRID = "SudokuGrid";
     private final static String SUDOKU_PREFERENCES_STATISTICS_GLOBAL = "SudokuStatisticsGlobal";
     private final static String SUDOKU_PREFERENCES_VERSION_ID = "SudokuVersionId";
-    private final static String SUDOKU_PREFERENCES_LAST_NUMBER_TILE_USED = "SudokuLastTileUsed";
+    private final static String SUDOKU_PREFERENCES_LAST_DIFFICULTY = "SudokuLastDifficulty";
     private final static String SUDOKU_PREFERENCES_LAST_SORT_USED  = "SudokuLastSortUsed";
     private final static String SUDOKU_PREFERENCES_LAST_CONFLICT  = "SudokuLastConflict";
 
+    public final static int TIMER_SHOW = 0;
+    public final static int TIMER_SHOW_END = 1;
+    public final static int TIMER_HIDE = 2;
 
     private final static int CURRENT_VERSION_ID = 3;
 
     private SudokuGrid currentSudokuGrid = null;
     private SudokuStatistics sudokuGlobalStatistics = null;
-    private int lastNumberTileUse = 40;
+    private int difficulty = 1;
     private boolean lastSortUsed = false; // this boolean if is need to sort
     private boolean lastConflict = true;
     private boolean preferencesLoaded = false;
@@ -33,6 +39,7 @@ public class SudokuApplication extends Application {
     private SharedPreferences preferences;
 
     private Runnable versionEndRunnable = null;
+    private int timer = 0;
 
     @Override
     public void onCreate() {
@@ -69,8 +76,8 @@ public class SudokuApplication extends Application {
                         importVersionId((Integer) params.getValue());
                         break;
 
-                    case SUDOKU_PREFERENCES_LAST_NUMBER_TILE_USED:
-                        lastNumberTileUse = (Integer) params.getValue();
+                    case SUDOKU_PREFERENCES_LAST_DIFFICULTY:
+                        difficulty = (Integer) params.getValue();
                         break;
 
                     case SUDOKU_PREFERENCES_LAST_SORT_USED:
@@ -193,7 +200,7 @@ public class SudokuApplication extends Application {
     public void setCurrentSudokuGrid(SudokuGrid currentSudokuGrid) {
         if (this.currentSudokuGrid != null) {
             final SudokuGrid finalGrid = this.currentSudokuGrid;
-            new Handler().post(new Runnable() {
+            new Handler(getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     finalGrid.setStatistics(sudokuGlobalStatistics);
@@ -213,12 +220,12 @@ public class SudokuApplication extends Application {
         return preferencesLoaded;
     }
 
-    public int getLastNumberTileUse() {
-        return lastNumberTileUse;
+    public int getLastDifficulty() {
+        return difficulty;
     }
 
-    public void setLastNumberTileUse(int lastNumberTileUse) {
-        this.lastNumberTileUse = lastNumberTileUse;
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     public boolean getLastSortUsed() {
@@ -237,10 +244,18 @@ public class SudokuApplication extends Application {
         this.lastConflict = lastConflict;
     }
 
+    public int getLastTimer() {
+        return timer;
+    }
+
+    public void setLastTimer(int timer) {
+        this.timer = timer;
+    }
+
     public void saveLastOptions() {
         SharedPreferences.Editor prefEditor = preferences.edit();
-        prefEditor.putInt(SUDOKU_PREFERENCES_LAST_NUMBER_TILE_USED,
-                lastNumberTileUse);
+        prefEditor.putInt(SUDOKU_PREFERENCES_LAST_DIFFICULTY,
+                difficulty);
         prefEditor.putBoolean(SUDOKU_PREFERENCES_LAST_CONFLICT,
                 lastConflict);
         prefEditor.putBoolean(SUDOKU_PREFERENCES_LAST_SORT_USED,

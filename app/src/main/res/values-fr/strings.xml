@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sudoku</string>
     <string name="by_author">Par Antonin Loubière</string>
-    <string name="number_tile_to_remove">Nombre de cases a enlever</string>
+    <string name="difficulty">Difficulté</string>
     <string name="number_tile_to_remove_hint">Nb a enlever</string>
     <string name="tile_to_remove_default">40</string>
 
@@ -27,8 +27,8 @@
     <string name="play_button">Nouvelle partie</string>
     <string name="continue_play_button">Continuer la partie</string>
     <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
-    <string name="version">v3.0</string>
-    <string name="main_menu_bottom_line">Version: 3.0 - Sudoku © 2019 Antonin Loubière - License: GPL-3</string>
+    <string name="version">v4.0</string>
+    <string name="main_menu_bottom_line">Version: 4.0 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
@@ -132,9 +132,8 @@
     <string name="swap_color_choose_color">Choisissez la couleur finale</string>
     <string name="swap_color_choose_number">Cliquez sur la case à changer</string>
     <string name="swap_color_confirm_click_ask">Veuillez recliquer pour confirmer</string>
-    <string name="seed_edit_text">Identifiant de la grille</string>
+    <string name="seed_edit_text">Identifiant de la grille (optionnel)</string>
     <string name="seed_text">Grille: %1$s</string>
-    <string name="seedEditTextDefault">40-</string>
     <string name="id_grid_copy">Identifiant de la grille copié</string>
 
     <string name="time_spent_now">maintenant</string>
@@ -160,4 +159,11 @@
     <string name="settings">Preferences</string>
     <string name="cancel_button">Annuler</string>
     <string name="tutorial_icons_settings">Aller aux parametres de la grille courante.</string>
+    <string name="play_pause">Jouer/Pause</string>
+    <string name="timer">Chronomètre:</string>
+    <string name="bestTimeGrid">Meilleur temps (sans indice)</string>
+    <string name="bestRandomTimeGrid">Meilleur temps, grille aléatoire (sans indeice)</string>
+    <string name="no_data">Pas de donnée</string>
+    <string name="time">Temps</string>
+    <string name="grid_id">Identifiant</string>
 </resources>

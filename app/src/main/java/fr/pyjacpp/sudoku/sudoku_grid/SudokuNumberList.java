@@ -1,4 +1,4 @@
-package fr.pyjacpp.sudoku;
+package fr.pyjacpp.sudoku.sudoku_grid;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,15 +9,15 @@ public class SudokuNumberList {
     private SudokuNumbersEnum uniqueNumber;
 
 
-    SudokuNumberList() {
+    public SudokuNumberList() {
         sudokuNumbersEnumList = new ArrayList<>();
     }
 
-    SudokuNumberList(SudokuNumbersEnum number) {
+    public SudokuNumberList(SudokuNumbersEnum number) {
         uniqueNumber = number;
     }
 
-    SudokuNumberList(SudokuNumbersEnum[] list) {
+    public SudokuNumberList(SudokuNumbersEnum[] list) {
         sudokuNumbersEnumList = new ArrayList<>();
 
         sudokuNumbersEnumList.addAll(Arrays.asList(list));
@@ -45,7 +45,7 @@ public class SudokuNumberList {
         return SudokuNumbersEnum.MultiNumbers;
     }
 
-    SudokuNumbersEnum[] getMultipleNumber() {
+    public SudokuNumbersEnum[] getMultipleNumber() {
         SudokuNumbersEnum[] list;
 
         if (uniqueNumber != null) {
@@ -66,15 +66,15 @@ public class SudokuNumberList {
         return list;
     }
 
-    void setUniqueValue(SudokuNumbersEnum sudokuNumbersEnum) {
+    public void setUniqueValue(SudokuNumbersEnum sudokuNumbersEnum) {
         uniqueNumber = sudokuNumbersEnum;
     }
 
-    ArrayList<SudokuNumbersEnum> getList() {
+    public ArrayList<SudokuNumbersEnum> getList() {
         return sudokuNumbersEnumList;
     }
 
-    boolean isUnique() {
+    public boolean isUnique() {
         return uniqueNumber != null;
     }
 

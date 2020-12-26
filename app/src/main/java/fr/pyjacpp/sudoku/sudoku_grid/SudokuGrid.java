@@ -1,14 +1,16 @@
-package fr.pyjacpp.sudoku;
+package fr.pyjacpp.sudoku.sudoku_grid;
 
 import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 import java.util.Stack;
 
+import fr.pyjacpp.sudoku.statistics.BestGrid;
+import fr.pyjacpp.sudoku.statistics.SudokuStatistics;
 import fr.pyjacpp.sudoku.undochange.UndoChange;
 
 /*
@@ -59,44 +61,60 @@ import fr.pyjacpp.sudoku.undochange.UndoChange;
  */
 
 public class SudokuGrid {
-    private static final int MAX_LENGTH_SEED = 18;
-
-    private SudokuNumbersEnum[][] sudokuGrid = new SudokuNumbersEnum[9][9];
-    private SudokuNumberList[][] userModify = new SudokuNumberList[9][9];
-    private int[][] colorGrid = new int[9][9];
-    private int numberTileToRemove;
-    private int numberTileRemaining = 0;
-
-    private Random random = new Random();
-
-    private Stack<UndoChange> undoList = new Stack<>();
-    private Stack<UndoChange> redoList = new Stack<>();
+    public static final int MAX_LENGTH_SEED = 18;
+    public static final int[][] DIFFICULTY_SET = {
+            {37, 43}, // Easy
+            {46, 52}, // Medium
+            {53, 57}, // Hard
+            {58, 81}, // Expert
+            {60, 81}, // Expert++
+    };
+    private final SudokuNumbersEnum[][] sudokuGrid = new SudokuNumbersEnum[9][9];
+    private final SudokuNumberList[][] userModify = new SudokuNumberList[9][9];
+    private final int[][] colorGrid = new int[9][9];
+    private final Random random = new Random();
+    private final Stack<UndoChange> undoList = new Stack<>();
+    private final Stack<UndoChange> redoList = new Stack<>();
+    private final long seed;
+    private final int difficulty;
+    private Date lastCheckpointResolveDate;
+    private long resolveTime;
+    private int numberTileRemaining;
     private boolean gameFinish = false;
     private boolean gameWin = false;
     private boolean gameStatisticsCount = false;
-    private boolean sortNotes = false;
-
+    private boolean sortNotes;
     private int colorChooseSelected = 8;
+    private boolean randomGrid;
+    private boolean paused = false;
+    private int timerSettings = 0;
+    private final boolean showConflict;
 
-    private long seed;
-
-    SudokuGrid(int numberTileToRemove, long seed, boolean sortNotes) {
-        this.numberTileToRemove = numberTileToRemove;
-
-        initGrid();
+    public SudokuGrid(int difficulty, int timerSettings, long seed, boolean sortNotes,
+                      boolean randomGrid, boolean showConflict) {
+        this.difficulty = difficulty;
+        this.randomGrid = randomGrid;
+        this.timerSettings = timerSettings;
+        this.showConflict = showConflict;
 
         random.setSeed(seed);
         this.seed = seed;
         this.sortNotes = sortNotes;
 
-        removeSomeTiles();
+        for (int i = 0; i < DIFFICULTY_SET[difficulty][1]; i++) {
+            random.nextBoolean(); // shuffle random depending on number tile to remove
+        }
 
         do {
+            numberTileRemaining = 0;
+            initGrid();
 
-            if (generateGrid())
-                break;
+            //noinspection StatementWithEmptyBody because it is used
+            while (!generateGrid()) ;
 
-        } while (true);
+            removeSomeTiles();
+        } while (numberTileRemaining < DIFFICULTY_SET[difficulty][0]);
+
 
     }
 
@@ -156,28 +174,14 @@ public class SudokuGrid {
         return true;
     }
 
-    static long generateRandomSeed() {
+    public static long generateRandomSeed() {
         Random random = new Random();
         long seed = Math.abs(random.nextLong());
         if (String.valueOf(seed).length() > MAX_LENGTH_SEED)
-            return generateRandomSeed();  // to long
+            return generateRandomSeed();  // too long
         else
             return seed;
     }
-
-    /*
-     *Prints a visual representation of a 9x9 Sudoku grid
-     *@param grid an array with length 81 to be printed
-     */
-    /*public static void printGrid(int[] grid)
-    {
-        if(grid.length != 81) throw new IllegalArgumentException("The grid must be a single-dimension grid of length 81");
-        for(int i = 0; i < 81; i++)
-        {
-            Log.i("SudokuGrid", "["+grid[i]+"] "+(i%9 == 8?"\n":""));
-            Log.i("SudokuGrid", (i%9 == 8?"LINE":""));
-        }
-    }*/
 
     /**
      * Init the grid
@@ -185,7 +189,7 @@ public class SudokuGrid {
     private void initGrid() {
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                sudokuGrid[x][y] = SudokuNumbersEnum.One;
+                sudokuGrid[x][y] = SudokuNumbersEnum.Blank;
                 userModify[x][y] = new SudokuNumberList(SudokuNumbersEnum.NotModifiable); // -1 -> not modifiable number
                 colorGrid[x][y] = Color.WHITE;
             }
@@ -341,27 +345,32 @@ public class SudokuGrid {
     }
 
     private void removeSomeTiles() {
-        int numberDisable = 0;
-        while (numberDisable < numberTileToRemove / 2) {
-            int x = random.nextInt(9);
-            int y = random.nextInt(9);
-            if (userModify[x][y].getUniqueNumber() == SudokuNumbersEnum.NotModifiable) {
-                int reverseX = x * -1 + 8;
-                int reverseY = y * -1 + 8;
-                userModify[x][y] = new SudokuNumberList();
-                userModify[reverseX][reverseY] = new SudokuNumberList();
+        ArrayList<Integer[]> possibilities = new ArrayList<>();
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                possibilities.add(new Integer[]{x, y});
+            }
+        }
 
-                if (x == reverseX && reverseY == y) // same tile
-                    numberTileRemaining += 1;
-                else
-                    numberTileRemaining += 2;
-
-                numberDisable++;
+        Collections.shuffle(possibilities, random);
+        SudokuNumberList snl;
+        UniqueTest uniqueTest;
+        for (Integer[] i : possibilities) {
+            snl = userModify[i[0]][i[1]];
+            userModify[i[0]][i[1]] = new SudokuNumberList();
+            uniqueTest = new UniqueTest(sudokuGrid, userModify);
+            boolean b = uniqueTest.hasUniqueSolution();
+            if (b) {
+                numberTileRemaining++;
+                if (numberTileRemaining >= DIFFICULTY_SET[difficulty][1])
+                    break;
+            } else {
+                userModify[i[0]][i[1]] = snl;
             }
         }
     }
 
-    boolean verifyGrid() {
+    public boolean verifyGrid() {
         // test lines
         for (int y = 0; y < 9; y++) {
 
@@ -460,7 +469,7 @@ public class SudokuGrid {
         return true;
     }
 
-    SudokuNumbersEnum get(int x, int y) {
+    public SudokuNumbersEnum get(int x, int y) {
         return sudokuGrid[x][y];
     }
 
@@ -472,56 +481,53 @@ public class SudokuGrid {
         userModify[x][y] = value;
     }
 
-    void setUserModify(int x, int y, SudokuNumbersEnum value) {
-        userModify[x][y].setUniqueValue(value);
+    public void setHint(int x, int y) {
+        userModify[x][y].setUniqueValue(SudokuNumbersEnum.Hint);
+        randomGrid = false;
     }
 
-    public void setUserModify(int x, int y, SudokuNumbersEnum[] value) {
-        userModify[x][y].getList().clear();
-        userModify[x][y].getList().addAll(Arrays.asList(value));
-    }
-
-    void setUserModify(int x, int y, ArrayList<SudokuNumbersEnum> buttonPopupSelectedNumbers) {
+    public void setUserModify(int x, int y, ArrayList<SudokuNumbersEnum> buttonPopupSelectedNumbers) {
         userModify[x][y].getList().clear();
         if (buttonPopupSelectedNumbers.size() >= 1)
             userModify[x][y].getList().addAll(buttonPopupSelectedNumbers);
     }
 
-    int getNumberTileRemaining() {
+    public int getNumberTileRemaining() {
         return numberTileRemaining;
     }
 
-    void addNumberTileRemaining() {
+    public void addNumberTileRemaining() {
         numberTileRemaining++;
     }
 
-    void removeNumberTileRemaining() {
+    public void removeNumberTileRemaining() {
         numberTileRemaining--;
     }
 
-    int getNumberTileToRemove() {
-        return numberTileToRemove;
-    }
-
-    Stack<UndoChange> getUndoList() {
+    public Stack<UndoChange> getUndoList() {
         return undoList;
     }
 
-    Stack<UndoChange> getRedoList() {
+    public Stack<UndoChange> getRedoList() {
         return redoList;
     }
 
-    boolean isGameFinish() {
+    public boolean isGameFinish() {
         return gameFinish;
     }
 
-    void finishGame() {
+    private void finishGame() {
         numberTileRemaining = 0;
         gameFinish = true;
     }
 
-    void resetGrid() {
+    public void resetGrid() {
+        randomGrid = false;
         numberTileRemaining = 0;
+        lastCheckpointResolveDate = new Date();
+        resolveTime = 0;
+        paused = false;
+
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 if (userModify[x][y].getUniqueNumber().isModifiable()) {
@@ -537,19 +543,19 @@ public class SudokuGrid {
         }
     }
 
-    boolean isGameWin() {
+    public boolean isGameWin() {
         return gameWin;
     }
 
-    void setGameWin(boolean gameWin) {
+    public void setGameWin(boolean gameWin) {
         this.gameWin = gameWin;
     }
 
-    void setStatistics(SudokuStatistics globalStatistics) {
+    public void setStatistics(SudokuStatistics globalStatistics) {
         if (!gameStatisticsCount) {
             gameStatisticsCount = true;
 
-            if ((float) numberTileToRemove * 0.8 >= (float) numberTileRemaining) {
+            if ((float) DIFFICULTY_SET[difficulty][1] * 0.8 >= (float) numberTileRemaining) {
                 // count only if more than 20% are completed
 
                 int numberHint = 0;
@@ -579,15 +585,28 @@ public class SudokuGrid {
                 globalStatistics.addNumberCompleted(numberNumberCompleted,
                         numberNumberCompletedJust);
                 globalStatistics.addNumberHintAsk(numberHint);
+
+                if (numberHint <= 0) {
+                    if (randomGrid) {
+                        BestGrid bestRandomGrid = globalStatistics.getBestRandomGrids()[difficulty];
+                        if (bestRandomGrid == null || bestRandomGrid.time > resolveTime) {
+                            globalStatistics.setBestRandomGrid(difficulty, resolveTime, seed);
+                        }
+                    }
+                    BestGrid bestGrid = globalStatistics.getBestGrids()[difficulty];
+                    if (bestGrid == null || bestGrid.time > resolveTime) {
+                        globalStatistics.setBestGrid(difficulty, resolveTime, seed);
+                    }
+                }
             }
         }
     }
 
-    int getColorChooseSelected() {
+    public int getColorChooseSelected() {
         return colorChooseSelected;
     }
 
-    void setColorChooseSelected(int colorChooseSelected) {
+    public void setColorChooseSelected(int colorChooseSelected) {
         this.colorChooseSelected = colorChooseSelected;
     }
 
@@ -599,7 +618,7 @@ public class SudokuGrid {
         colorGrid[x][y] = color;
     }
 
-    void reCalculateNumberNumberRemaining() {
+    public void reCalculateNumberNumberRemaining() {
         numberTileRemaining = 0;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
@@ -610,15 +629,67 @@ public class SudokuGrid {
         }
     }
 
-    long getSeed() {
+    public long getSeed() {
         return seed;
     }
 
-    boolean getSortNotes() {
+    public boolean getSortNotes() {
         return sortNotes;
     }
 
-    void setSortNotes(boolean value) {
+    public void setSortNotes(boolean value) {
         sortNotes = value;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void stopGrid() {
+        long time = new Date().getTime();
+        if (lastCheckpointResolveDate != null) {
+            resolveTime += time - lastCheckpointResolveDate.getTime();
+            lastCheckpointResolveDate = null;
+        }
+        finishGame();
+    }
+
+    public void pauseGrid() {
+        resolveTime += new Date().getTime() - lastCheckpointResolveDate.getTime();
+        lastCheckpointResolveDate = null;
+    }
+
+    public void checkPointResolveTime() {
+        if (lastCheckpointResolveDate != null) {
+            resolveTime += new Date().getTime() - lastCheckpointResolveDate.getTime();
+            lastCheckpointResolveDate = new Date();
+        }
+    }
+
+    public void resumeGrid() {
+        lastCheckpointResolveDate = new Date();
+    }
+
+    public long getResolveTimeAndCheckpoint() {
+        if (lastCheckpointResolveDate == null)
+            return resolveTime;
+        else
+        return resolveTime +  new Date().getTime() - lastCheckpointResolveDate.getTime();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public int getTimerSettings() {
+        return timerSettings;
+    }
+
+    public boolean isShowConflict() {
+        return showConflict;
     }
 }

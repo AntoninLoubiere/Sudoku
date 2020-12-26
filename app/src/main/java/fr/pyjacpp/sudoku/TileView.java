@@ -11,6 +11,9 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuNumberList;
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuNumbersEnum;
+
 /**
  * A tile view to show a number
  */
