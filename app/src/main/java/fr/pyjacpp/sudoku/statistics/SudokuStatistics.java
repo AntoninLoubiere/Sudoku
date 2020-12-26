@@ -1,7 +1,11 @@
-package fr.pyjacpp.sudoku;
+package fr.pyjacpp.sudoku.statistics;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import fr.pyjacpp.sudoku.sudoku_grid.SudokuGrid;
 
 import static java.lang.Float.NaN;
 
@@ -14,6 +18,9 @@ public class SudokuStatistics {
     private int numberHintAsk = 0;
     private int maxHintAsk = 0;
 
+    private BestGrid[] bestGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
+    private BestGrid[] bestRandomGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
+
     private Date resetDate = Calendar.getInstance().getTime();
 
     public void reset() {
@@ -24,6 +31,8 @@ public class SudokuStatistics {
         maxNumberCompletedJust = 0;
         numberHintAsk = 0;
         maxHintAsk = 0;
+        bestGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
+        bestRandomGrids = new BestGrid[SudokuGrid.DIFFICULTY_SET.length];
 
         resetDate = Calendar.getInstance().getTime();
     }
@@ -128,5 +137,21 @@ public class SudokuStatistics {
         numberHintAsk += hintAsk;
         if (hintAsk > maxHintAsk)
             maxHintAsk = hintAsk;
+    }
+
+    public BestGrid[] getBestGrids() {
+        return bestGrids;
+    }
+
+    public BestGrid[] getBestRandomGrids() {
+        return bestRandomGrids;
+    }
+
+    public void setBestRandomGrid(int difficulty, long resolveTime, long seed) {
+        bestRandomGrids[difficulty] = new BestGrid(seed, resolveTime);
+    }
+
+    public void setBestGrid(int difficulty, long resolveTime, long seed) {
+        bestGrids[difficulty] = new BestGrid(seed, resolveTime);
     }
 }

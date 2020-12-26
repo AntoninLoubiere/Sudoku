@@ -5,7 +5,7 @@
         <item>Medium</item>
         <item>Hard</item>
         <item>Expert</item>
-        <item>Expert++ (could take some time)</item>
+        <item>Expert++</item>
     </string-array>
     <string-array name="timer">
         <item>Show</item>

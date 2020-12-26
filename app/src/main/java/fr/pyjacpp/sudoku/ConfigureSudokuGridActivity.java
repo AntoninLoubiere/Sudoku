@@ -183,8 +183,6 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
 
         final int difficulty = difficultySpinner.getSelectedItemPosition();
         final boolean sortNotes = ((RadioButton) findViewById(R.id.sortNotesSort)).isChecked();
-
-        sudokuIntent.putExtra("showConflictSwitch", showConflictIsChecked);
         final int timerSettings = timerSpinner.getSelectedItemPosition();
         applicationSudoku.setLastTimer(timerSettings);
 
@@ -203,7 +201,8 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
         }
 
         ((SudokuApplication) getApplicationContext()).setCurrentSudokuGrid(
-                new SudokuGrid(difficulty, timerSettings, seed, sortNotes, randomGrid)
+                new SudokuGrid(difficulty, timerSettings, seed, sortNotes, randomGrid,
+                        showConflictIsChecked)
         );
 
         startActivity(sudokuIntent);

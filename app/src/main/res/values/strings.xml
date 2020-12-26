@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Sudoku</string>
     <string name="by_author">By Antonin Loubière</string>
-    <string name="difficulty">Difficulty: </string>
+    <string name="difficulty">Difficulty</string>
     <string name="number_tile_to_remove_hint">Nb to remove</string>
     <string name="tile_to_remove_default">40</string>
 
@@ -142,4 +142,10 @@
     <string name="tutorial_icons_settings">Go to settings of the current grid.</string>
     <string name="play_pause">Play/Pause</string>
     <string name="timer">Timer:</string>
+    <string name="bestTimeGrid">Best solve time (without hint):</string>
+    <string name="bestRandomTimeGrid">Best random grid solve time (without hint):</string>
+    <string name="seed_format" translatable="false">%d-%s</string>
+    <string name="no_data">No data</string>
+    <string name="time">Time</string>
+    <string name="grid_id">Grid id</string>
 </resources>

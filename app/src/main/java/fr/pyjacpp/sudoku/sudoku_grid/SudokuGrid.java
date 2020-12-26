@@ -9,7 +9,8 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Stack;
 
-import fr.pyjacpp.sudoku.SudokuStatistics;
+import fr.pyjacpp.sudoku.statistics.BestGrid;
+import fr.pyjacpp.sudoku.statistics.SudokuStatistics;
 import fr.pyjacpp.sudoku.undochange.UndoChange;
 
 /*
@@ -61,7 +62,7 @@ import fr.pyjacpp.sudoku.undochange.UndoChange;
 
 public class SudokuGrid {
     public static final int MAX_LENGTH_SEED = 18;
-    private static final int[][] DIFFICULTY_SET = {
+    public static final int[][] DIFFICULTY_SET = {
             {37, 43}, // Easy
             {46, 52}, // Medium
             {53, 57}, // Hard
@@ -87,11 +88,14 @@ public class SudokuGrid {
     private boolean randomGrid;
     private boolean paused = false;
     private int timerSettings = 0;
+    private final boolean showConflict;
 
     public SudokuGrid(int difficulty, int timerSettings, long seed, boolean sortNotes,
-                      boolean randomGrid) {
+                      boolean randomGrid, boolean showConflict) {
         this.difficulty = difficulty;
         this.randomGrid = randomGrid;
+        this.timerSettings = timerSettings;
+        this.showConflict = showConflict;
 
         random.setSeed(seed);
         this.seed = seed;
@@ -581,6 +585,19 @@ public class SudokuGrid {
                 globalStatistics.addNumberCompleted(numberNumberCompleted,
                         numberNumberCompletedJust);
                 globalStatistics.addNumberHintAsk(numberHint);
+
+                if (numberHint <= 0) {
+                    if (randomGrid) {
+                        BestGrid bestRandomGrid = globalStatistics.getBestRandomGrids()[difficulty];
+                        if (bestRandomGrid == null || bestRandomGrid.time > resolveTime) {
+                            globalStatistics.setBestRandomGrid(difficulty, resolveTime, seed);
+                        }
+                    }
+                    BestGrid bestGrid = globalStatistics.getBestGrids()[difficulty];
+                    if (bestGrid == null || bestGrid.time > resolveTime) {
+                        globalStatistics.setBestGrid(difficulty, resolveTime, seed);
+                    }
+                }
             }
         }
     }
@@ -628,10 +645,6 @@ public class SudokuGrid {
         return difficulty;
     }
 
-    public boolean isRandomGrid() {
-        return randomGrid;
-    }
-
     public void stopGrid() {
         long time = new Date().getTime();
         if (lastCheckpointResolveDate != null) {
@@ -657,10 +670,6 @@ public class SudokuGrid {
         lastCheckpointResolveDate = new Date();
     }
 
-    public long getResolveTime() {
-        return resolveTime;
-    }
-
     public long getResolveTimeAndCheckpoint() {
         if (lastCheckpointResolveDate == null)
             return resolveTime;
@@ -678,5 +687,9 @@ public class SudokuGrid {
 
     public int getTimerSettings() {
         return timerSettings;
+    }
+
+    public boolean isShowConflict() {
+        return showConflict;
     }
 }

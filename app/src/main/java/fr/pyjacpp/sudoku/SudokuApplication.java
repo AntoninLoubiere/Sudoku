@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 
 import java.util.Map;
 
+import fr.pyjacpp.sudoku.statistics.SudokuStatistics;
 import fr.pyjacpp.sudoku.sudoku_grid.SudokuGrid;
 
 public class SudokuApplication extends Application {
