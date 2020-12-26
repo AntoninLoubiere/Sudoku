@@ -1,5 +1,7 @@
 package fr.pyjacpp.sudoku;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.text.NumberFormat;
 
@@ -30,6 +33,7 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
     private Spinner difficultySpinner;
     private Spinner timerSpinner;
     private SudokuApplication applicationSudoku;
+    private TextView warningDifficultyTextView;
 
 
     @Override
@@ -48,10 +52,11 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
         timerSpinner = findViewById(R.id.timerSpinner);
         editTextSeed = findViewById(R.id.seedEditText);
         validButton = findViewById(R.id.validButton);
+        warningDifficultyTextView = findViewById(R.id.warningDifficultyTextView);
         Switch showConflictSwitch = findViewById(R.id.switchShowConflict);
 
         final int difficulty = applicationSudoku.getLastDifficulty();
-        difficultySpinner.setSelection(difficulty);
+        updateDifficulty(difficulty);
 
         timerSpinner.setSelection(applicationSudoku.getLastTimer());
 
@@ -76,11 +81,29 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
         validButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(ConfigureSudokuGridActivity.this).start();
-                validButton.setEnabled(false);
-                ProgressBar progressBar = findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.VISIBLE);
-                saveLastOption();
+                SudokuGrid grid = applicationSudoku.getCurrentSudokuGrid();
+                if (grid == null || grid.isGameFinish()) {
+                    onValid();
+                } else {
+                    new AlertDialog.Builder(ConfigureSudokuGridActivity.this)
+                            .setTitle(R.string.dialog_override_title)
+                            .setMessage(R.string.dialog_override_message)
+                            .setCancelable(true)
+                            .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setPositiveButton(R.string.erase, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    onValid();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create().show();
+                }
             }
         });
 
@@ -89,6 +112,11 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (editTextSeed.getText().length() > 0)
                     editTextSeed.getText().replace(0, 1, String.valueOf(position));
+                if (position < 4) {
+                    warningDifficultyTextView.setVisibility(View.GONE);
+                } else {
+                    warningDifficultyTextView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -128,7 +156,7 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
                     if (s.length() > 0) {
                         char c = s.charAt(0);
                         if ('0' <= c && c <= '4') {
-                            difficultySpinner.setSelection(c - '0');
+                            updateDifficulty(c - '0');
                         } else {
                             s.insert(0, String.valueOf(difficultySpinner.getSelectedItemPosition()));
                         }
@@ -152,6 +180,23 @@ public class ConfigureSudokuGridActivity extends AppCompatActivity implements Ru
                 }
             }
         });
+    }
+
+    private void updateDifficulty(int difficulty) {
+        difficultySpinner.setSelection(difficulty);
+        if (difficulty < 4) {
+            warningDifficultyTextView.setVisibility(View.GONE);
+        } else {
+            warningDifficultyTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void onValid() {
+        new Thread(ConfigureSudokuGridActivity.this).start();
+        validButton.setEnabled(false);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        saveLastOption();
     }
 
     @Override

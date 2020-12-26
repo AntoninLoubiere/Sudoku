@@ -44,7 +44,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/default_gap"
                 android:orientation="horizontal">
 
                 <TextView
@@ -67,11 +66,20 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/warningDifficultyTextView"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/warning_difficulty"
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
 
             <TextView
                 style="@style/Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_gap"
                 android:text="@string/seed_edit_text" />
 
 

@@ -148,4 +148,8 @@
     <string name="no_data">No data</string>
     <string name="time">Time</string>
     <string name="grid_id">Grid id</string>
+    <string name="dialog_override_title">Grid not finished</string>
+    <string name="dialog_override_message">You have a grid in progress that you haven\'t finish, do you want to erase it ?</string>
+    <string name="erase">Erase</string>
+    <string name="warning_difficulty">This difficulty could take some time to generate a grid.</string>
 </resources>
