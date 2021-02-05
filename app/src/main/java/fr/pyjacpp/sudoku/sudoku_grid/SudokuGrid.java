@@ -585,8 +585,7 @@ public class SudokuGrid {
                 globalStatistics.addNumberCompleted(numberNumberCompleted,
                         numberNumberCompletedJust);
                 globalStatistics.addNumberHintAsk(numberHint);
-
-                if (numberHint <= 0) {
+                if (gameWin && numberHint <= 0) {
                     if (randomGrid) {
                         BestGrid bestRandomGrid = globalStatistics.getBestRandomGrids()[difficulty];
                         if (bestRandomGrid == null || bestRandomGrid.time > resolveTime) {
