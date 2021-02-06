@@ -21,14 +21,14 @@
     <string name="square">■</string>
     <string name="round">●</string>
 
-    <string name="show_conflicts">Afficher les erreurs possibles:</string>
+    <string name="show_conflicts">Afficher les érreurs possibles:</string>
 
     <string name="sudoku_logo_content_description">Sudoku logo</string>
     <string name="play_button">Nouvelle partie</string>
     <string name="continue_play_button">Continuer la partie</string>
     <string name="tutorial_and_rules">Tutoriel &amp; Régles</string>
-    <string name="version">v4.0.1</string>
-    <string name="main_menu_bottom_line">Version: 4.0;1 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
+    <string name="version">v4.0.2</string>
+    <string name="main_menu_bottom_line">Version: 4.0.2 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
 
     <string name="game_result_win">Vous avez gagné !</string>
     <string name="game_result_abort">Vous avez abandonné !</string>
@@ -45,8 +45,7 @@
     <string name="dialog_abort">Abandonner</string>
 
     <string name="dialog_main_menu_title">Retour au menu principal?</string>
-    <string name="dialog_main_menu_message">Êtes-vous sûr de vouloir arrêter et revenir au menu
-        principal?</string>
+    <string name="dialog_main_menu_message">Êtes-vous sûr de vouloir arrêter et revenir au menu principal?</string>
     <string name="dialog_main_menu_yes">Menu principal</string>
     <string name="dialog_main_menu_no">Annuler</string>
 
@@ -56,8 +55,7 @@
     <string name="dialog_restart_game_start">Vous voulez:</string>
     <string name="dialog_valid">Valider</string>
 
-    <string name="dialog_abort_message">Êtes-vous sûr de vouloir abandonner la partie? La solution
-        sera révélée.</string>
+    <string name="dialog_abort_message">Êtes-vous sûr de vouloir abandonner la partie? La solution sera révélée.</string>
 
     <string name="dialog_quit_title">Quitter l\'application?</string>
     <string name="dialog_quit_message">Êtes-vous sûr de vouloir quitter l\'application?</string>
@@ -65,8 +63,7 @@
     <string name="dialog_quit_no">Annuler</string>
 
     <string name="dialog_reset_statistics_title">Réinitialiser ?</string>
-    <string name="dialog_reset_statistics_message">Voulez vous vraimment remettre à zéro toutes les
-        statistiques (cette action est irréversible) ?</string>
+    <string name="dialog_reset_statistics_message">Voulez vous vraimment remettre à zéro toutes les statistiques (cette action est irréversible) ?</string>
 
 
     <string name="hint">Indice</string>
@@ -74,7 +71,7 @@
     <string name="hint_new_click_ask">Veuillez recliquer pour confirmer</string>
 
 
-    <string name="credits">Credits</string>
+    <string name="credits">Crédits</string>
     <string name="credits_code_title">Code</string>
     <string name="credits_code_content">
         - Code principal: Antonin Loubière (github.com/AntoninLoubière)\n\n
@@ -169,5 +166,5 @@
     <string name="dialog_override_title">Grille en cours</string>
     <string name="dialog_override_message">Vous avez une grille que vous n\'avez pas fini, voulez vous la supprimer ?</string>
     <string name="erase">Supprimer</string>
-    <string name="warning_difficulty">Cette difficulté peut prendre du temps pour générer une grill</string>
+    <string name="warning_difficulty">Cette difficulté peut prendre du temps pour générer une grille.</string>
 </resources>
