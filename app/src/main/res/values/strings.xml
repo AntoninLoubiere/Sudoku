@@ -27,8 +27,8 @@
     <string name="play_button">New game</string>
     <string name="continue_play_button">Continue the game</string>
     <string name="tutorial_and_rules">Tutorial &amp; Rules</string>
-    <string name="version">v4.0.1</string>
-    <string name="main_menu_bottom_line">Version: 4.0.1 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
+    <string name="version">v4.0.2</string>
+    <string name="main_menu_bottom_line">Version: 4.0.2 - Sudoku © 2021 Antonin Loubière - License: GPL-3</string>
 
     <string name="game_result_win">You have won</string>
     <string name="game_result_abort">You have aborted</string>
